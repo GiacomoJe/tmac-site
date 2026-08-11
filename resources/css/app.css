@@ -1,0 +1,1968 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────── BASE ─────────────────────────── */
+@layer base {
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+        @apply bg-bg text-ink antialiased;
+        font-family: theme('fontFamily.sans');
+        text-rendering: optimizeLegibility;
+        letter-spacing: -0.005em;
+    }
+    h1, h2, h3, h4 {
+        font-family: theme('fontFamily.display');
+        @apply font-extrabold tracking-tightish;
+        text-wrap: balance;
+    }
+    h1 { @apply text-3xl md:text-5xl leading-[1.05]; letter-spacing: -0.03em; }
+    h2 { @apply text-2xl md:text-3xl leading-[1.08]; letter-spacing: -0.025em; }
+    h3 { @apply text-lg md:text-xl; }
+
+    img { @apply max-w-full h-auto; }
+
+    /* Native form reset overrides for our look */
+    input, select, textarea, button { font-family: inherit; }
+}
+
+/* ─────────────────────────── COMPONENTS ─────────────────────────── */
+@layer components {
+    /* ── Container ── */
+    .container-tmac { @apply mx-auto w-full max-w-screen-lg px-4 sm:px-6; }
+
+    /* ── Eyebrow (rótulo de seção monoespaçado) ── */
+    .eyebrow {
+        @apply flex items-center gap-2 font-mono text-[11px] uppercase text-ink-faint tracking-[0.08em];
+    }
+    .eyebrow__num { @apply text-ink; }
+    .eyebrow__more {
+        @apply ml-auto text-accent normal-case font-mono text-[11px] tracking-[0.06em] uppercase;
+    }
+
+    /* ── Section title (combina com eyebrow) ── */
+    .section-title {
+        font-family: theme('fontFamily.display');
+        @apply font-extrabold text-[26px] md:text-[32px] leading-[1.05] tracking-tighter text-ink;
+        text-wrap: pretty;
+    }
+    .section-sub {
+        @apply mt-2 text-ink-soft text-sm md:text-[15px] leading-relaxed max-w-[36ch];
+    }
+
+    /* ── Buttons ── */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 h-[52px] px-5 rounded-[10px] font-semibold text-[15px]
+               transition active:translate-y-px focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+        letter-spacing: -0.005em;
+    }
+    .btn-sm { @apply h-10 px-3.5 text-[13px]; }
+    .btn-primary { @apply btn bg-accent text-white hover:bg-accent/90 focus-visible:ring-accent; }
+    .btn-dark    { @apply btn bg-ink text-white hover:bg-ink/90 focus-visible:ring-ink; }
+    .btn-signal  { @apply btn bg-signal text-white hover:bg-signal-dark focus-visible:ring-signal; }
+    .btn-ghost   { @apply btn bg-transparent text-ink border border-line hover:bg-bg-elev focus-visible:ring-ink/30; }
+    .btn-whatsapp{ @apply btn bg-whatsapp text-white hover:bg-whatsapp/90 focus-visible:ring-whatsapp/50; }
+    /* Botão temado — cor via inline style (usado nas páginas do Universo TMAC) */
+    .btn-brand   { @apply btn; transition: background-color .2s ease, transform .15s ease; }
+    .btn-brand:hover { transform: translateY(-1px); }
+    .btn-block   { @apply w-full; }
+
+    /* ── CTA "Seja distribuidor" — destaque azul institucional ── */
+    .btn-distributor {
+        @apply relative inline-flex items-center justify-center gap-2 h-10 px-4 rounded-lg
+               text-[13px] font-bold uppercase tracking-[0.03em] whitespace-nowrap
+               bg-signal text-white border border-signal
+               transition-all duration-200
+               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/40;
+        letter-spacing: 0.02em;
+        box-shadow: 0 4px 14px -6px rgba(0, 79, 159, 0.55);
+    }
+    .btn-distributor:hover {
+        @apply bg-signal-dark border-signal-dark;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 22px -8px rgba(0, 79, 159, 0.65);
+    }
+    /* Brilho sutil que percorre o botão (chama atenção sem ser intrusivo) */
+    .btn-distributor::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,0.22) 50%, transparent 75%);
+        background-size: 220% 100%;
+        animation: tmac-distributor-shine 4.5s ease-in-out infinite;
+        pointer-events: none;
+    }
+    @keyframes tmac-distributor-shine {
+        0%, 65%  { background-position: 220% 0; }
+        100%     { background-position: -120% 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .btn-distributor::after { animation: none; }
+    }
+
+    /* ── Form fields ── */
+    .field { @apply block; }
+    .field-label {
+        @apply block font-mono text-[11px] uppercase tracking-[0.06em] text-ink-soft mb-1.5;
+    }
+    .field-input, .field-select, .field-textarea {
+        @apply w-full h-12 rounded-[10px] border border-line bg-bg-elev px-3.5 text-[15px] text-ink
+               focus:border-ink focus:outline-none focus:ring-0;
+        letter-spacing: -0.005em;
+    }
+    .field-textarea { @apply h-auto py-3 min-h-[96px] resize-none; }
+    .field-hint { @apply mt-1 text-[11px] font-mono text-ink-faint; }
+
+    /* ── Search bar ── */
+    .search-bar {
+        @apply flex items-center gap-2.5 h-12 px-3.5 rounded-[10px] bg-bg-sunken border border-line;
+    }
+    .search-bar input {
+        @apply flex-1 bg-transparent border-0 outline-none text-[15px] text-ink
+               placeholder:text-ink-faint;
+    }
+
+    /* ── Card ── */
+    .card { @apply bg-bg-elev border border-line rounded-xl overflow-hidden; }
+
+    /* ── Product card ── */
+    .p-card { @apply card flex flex-col h-full overflow-hidden; }
+    .p-card__img {
+        /* Altura FIXA — não estica com o grid nem varia com o tamanho do título */
+        @apply relative flex items-center justify-center text-ink-faint font-mono text-[10px] uppercase tracking-[0.06em] border-b border-line;
+        height: 180px;
+        flex: 0 0 180px;          /* não cresce, não encolhe */
+        background:
+            repeating-linear-gradient(135deg,
+                #ECEAE3, #ECEAE3 6px,
+                #E4E2DB 6px, #E4E2DB 12px);
+    }
+    @media (min-width: 768px) {
+        .p-card__img { height: 210px; flex-basis: 210px; }
+    }
+    @media (min-width: 1280px) {
+        .p-card__img { height: 230px; flex-basis: 230px; }
+    }
+    /* Imagem sempre contida na área, centralizada, sem distorcer */
+    .p-card__img img {
+        @apply w-full h-full object-contain;
+        padding: 14px;
+        mix-blend-mode: multiply;  /* funde o fundo branco do JPG com a textura do card */
+    }
+    .p-card__sku {
+        @apply absolute top-2 left-2 font-mono text-[10px] bg-bg text-ink-soft px-1.5 py-0.5 rounded border border-line tracking-[0.02em];
+    }
+    .p-card__body  { @apply p-3 flex flex-col gap-1.5 flex-1; }
+    .p-card__brand { @apply font-mono text-[10px] uppercase tracking-[0.08em] text-ink-faint; }
+    .p-card__title {
+        @apply text-[14px] font-semibold leading-snug line-clamp-2;
+        letter-spacing: -0.005em;
+        min-height: 2.6em;   /* reserva espaço de 2 linhas — alinha os cards do grid */
+    }
+    .p-card__meta  { @apply mt-auto pt-2 border-t border-line-soft flex items-center justify-between; }
+    .p-card__ref   { @apply font-mono text-[11px] text-ink-soft; }
+    .p-card__add   {
+        @apply w-8 h-8 rounded bg-ink text-white flex items-center justify-center hover:bg-ink/90 transition;
+    }
+
+    /* ── Chip (filtros / categorias) ── */
+    .chip {
+        @apply inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-bg-elev border border-line text-[13px] font-medium text-ink whitespace-nowrap;
+    }
+    .chip--active { @apply bg-ink text-white border-ink; }
+    .chip__count { @apply font-mono text-[10px] text-ink-faint; }
+    .chip--active .chip__count { @apply text-white/65; }
+
+    /* ── Chip de filtro ativo (com X pra remover) ── */
+    .filter-chip {
+        @apply inline-flex items-center gap-1.5 h-7 pl-2.5 pr-2 rounded-md border text-[12px] font-medium transition cursor-pointer;
+    }
+    .filter-chip--cat   { @apply bg-signal-soft border-signal/30 text-signal hover:bg-signal hover:text-white hover:border-signal; }
+    .filter-chip--brand { @apply bg-accent-soft border-accent/30 text-accent hover:bg-accent hover:text-white hover:border-accent; }
+    .filter-chip--moto  { @apply bg-ink border-ink text-white hover:bg-ink/85 font-semibold; }
+
+    /* ── Category tile v2 (imagem contida, sem estourar) ── */
+    .cat-tile-v2 {
+        @apply relative flex flex-col rounded-lg overflow-hidden border border-white/10
+               bg-white/[0.04] transition-all duration-300;
+    }
+    .cat-tile-v2:hover {
+        @apply border-accent/60 bg-white/[0.07];
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px -14px rgba(0,0,0,0.6);
+    }
+
+    /* Área da imagem: fundo claro + produto contido com respiro */
+    .cat-tile-v2__media {
+        @apply relative flex items-center justify-center overflow-hidden;
+        height: 132px;
+        flex: 0 0 132px;
+        background: linear-gradient(160deg, #FFFFFF 0%, #F2F1EC 100%);
+    }
+    .cat-tile-v2__media img {
+        @apply max-w-full max-h-full object-contain transition-transform duration-500;
+        padding: 16px;
+        width: 100%;
+        height: 100%;
+    }
+    .cat-tile-v2:hover .cat-tile-v2__media img {
+        transform: scale(1.05);
+    }
+
+    @media (min-width: 768px) {
+        .cat-tile-v2__media { height: 148px; flex-basis: 148px; }
+    }
+    @media (min-width: 1280px) {
+        .cat-tile-v2__media { height: 164px; flex-basis: 164px; }
+    }
+
+    /* Faixa inferior com o nome */
+    .cat-tile-v2__label {
+        @apply flex items-center justify-between gap-2 px-3.5 py-3
+               font-display font-bold text-[13px] md:text-[14px] tracking-tightish
+               text-white leading-tight;
+        min-height: 52px;
+    }
+    .cat-tile-v2:hover .cat-tile-v2__label { @apply text-accent; }
+
+    /* ── Category tile (legado) ── */
+    .cat-tile {
+        @apply card p-3.5 flex flex-col gap-6 min-h-[128px] text-left transition hover:border-ink/40;
+    }
+    .cat-tile__num   { @apply font-mono text-[11px] text-ink-faint tracking-[0.05em]; }
+    .cat-tile__name  {
+        font-family: theme('fontFamily.display');
+        @apply font-bold text-[17px] leading-tight text-ink;
+        letter-spacing: -0.015em;
+        text-wrap: balance;
+    }
+    .cat-tile__count { @apply mt-auto font-mono text-[11px] text-ink-soft; }
+    .cat-tile--feature { @apply col-span-2 bg-ink text-white border-ink; }
+    .cat-tile--feature .cat-tile__num,
+    .cat-tile--feature .cat-tile__count { @apply text-white/50; }
+    .cat-tile--feature .cat-tile__name  { @apply text-white text-[22px]; }
+    .cat-tile--accent  { @apply bg-accent text-white border-accent; }
+    .cat-tile--accent .cat-tile__num,
+    .cat-tile--accent .cat-tile__count  { @apply text-white/70; }
+    .cat-tile--accent .cat-tile__name   { @apply text-white; }
+
+    /* ── Brand tile ── */
+    .brand-tile {
+        @apply card aspect-[1.2/1] flex items-center justify-center p-2.5 text-center font-display font-extrabold text-[14px] text-ink leading-none;
+        letter-spacing: -0.01em;
+    }
+
+    /* ── Quote bar (CTA-flash quando há itens) ── */
+    .quote-bar {
+        @apply mt-4 mx-4 sm:mx-0 bg-ink text-white rounded-xl px-4 py-3 flex items-center gap-3;
+    }
+    .quote-bar__count {
+        font-family: theme('fontFamily.display');
+        @apply font-extrabold text-[26px]; letter-spacing: -0.02em;
+    }
+    .quote-bar__label { @apply text-xs text-white/70 leading-tight; }
+    .quote-bar__cta   {
+        @apply ml-auto bg-accent text-white rounded-lg px-3.5 py-2.5 text-[13px] font-semibold flex items-center gap-1.5;
+    }
+
+    /* ── Step indicator (cotação) ── */
+    .steps { @apply flex gap-2; }
+    .step  { @apply flex-1 h-1 rounded-sm bg-line; }
+    .step--done    { @apply bg-accent; }
+    .step--current { @apply bg-ink; }
+
+    /* ── Crumb (breadcrumb) ── */
+    .crumb {
+        @apply flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.04em] text-ink-faint flex-wrap;
+    }
+    .crumb__sep { @apply opacity-50; }
+    .crumb__current { @apply text-ink; }
+    .crumb a { @apply text-inherit no-underline hover:text-ink; }
+
+    /* ── Status dot ── */
+    /* ── Big hero number (banners) ── */
+    .hero-big {
+        font-family: theme('fontFamily.display');
+        @apply pointer-events-none absolute font-black leading-[0.85];
+        font-weight: 900;
+        font-size: 92px;
+        letter-spacing: -0.05em;
+        color: rgba(255,255,255,0.13);
+    }
+
+    /* ── Icon button ── */
+    .icon-btn {
+        @apply relative w-10 h-10 rounded-lg border border-line bg-transparent flex items-center justify-center text-ink transition duration-200
+               hover:bg-bg-elev hover:border-ink/30 hover:-translate-y-px hover:shadow-sm;
+    }
+    .icon-btn__badge {
+        @apply absolute -top-1.5 -right-1.5 bg-accent text-white font-mono text-[10px] font-semibold h-[18px] min-w-[18px] px-1 rounded-full flex items-center justify-center border-2 border-bg;
+    }
+
+    /* ── Nav link (menu desktop) — wipe underline em azul + color shift ── */
+    .nav-link {
+        @apply relative inline-flex items-center py-2 text-[14px] font-medium text-ink transition-colors duration-200;
+        letter-spacing: -0.005em;
+    }
+    /* Wipe underline — desliza da esquerda na entrada, direita na saída */
+    .nav-link::after {
+        content: '';
+        @apply absolute left-0 right-0 -bottom-0.5 h-[2px] bg-signal rounded-[1px];
+        transform-origin: right center;
+        transform: scaleX(0);
+        transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+    .nav-link:hover { @apply text-signal; }
+    .nav-link:hover::after {
+        transform-origin: left center;
+        transform: scaleX(1);
+    }
+    /* Estado ativo: underline azul fixa + dot indicador */
+    .nav-link--active { @apply text-ink; }
+    .nav-link--active::after {
+        transform-origin: left center;
+        transform: scaleX(1);
+        @apply bg-signal;
+    }
+    .nav-link--active::before {
+        content: '';
+        @apply absolute left-1/2 -top-1 w-1 h-1 rounded-full bg-signal;
+        transform: translateX(-50%);
+    }
+    /* Destaque para o item especial (Universo TMAC) */
+    .nav-link--highlight { @apply font-semibold text-ink; }
+    .nav-link--highlight:hover { @apply text-accent; }
+    .nav-link--highlight::after { @apply bg-accent; }
+    .nav-link--highlight.nav-link--active { @apply text-accent; }
+    .nav-link--highlight.nav-link--active::after { @apply bg-accent; }
+    .nav-link--highlight.nav-link--active::before { @apply bg-accent; }
+
+    /* ── Nav pill (CTA destacada no menu) ── */
+    .nav-pill {
+        @apply relative inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-[13px] font-semibold
+               bg-accent text-white transition-all duration-200
+               hover:bg-accent/90 hover:shadow-[0_8px_20px_-8px_rgba(225,29,42,0.55)] hover:-translate-y-px
+               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40;
+        letter-spacing: -0.005em;
+    }
+    .nav-pill__dot {
+        @apply w-1.5 h-1.5 rounded-full bg-white/90;
+        animation: tmac-pulse 1.8s ease-in-out infinite;
+    }
+
+    /* ── Logo wrapper (com micro-animação no hover) ── */
+    .logo-mark {
+        @apply inline-flex items-center gap-2.5 transition-transform duration-300;
+    }
+    .logo-mark:hover { transform: translateY(-1px); }
+    .logo-mark__tick {
+        @apply hidden md:inline-block w-px h-6 bg-line;
+    }
+    .logo-mark__sub {
+        font-family: theme('fontFamily.mono');
+        @apply hidden md:inline-flex flex-col leading-none text-[9px] uppercase tracking-[0.12em] text-ink-faint gap-0.5;
+    }
+    .logo-mark__sub-val {
+        @apply text-signal font-bold tracking-[0.06em];
+    }
+
+    /* ── Header refinements ── */
+    .header-divider {
+        @apply hidden md:inline-block w-px h-6 bg-line mx-1;
+    }
+
+    /* ── Footer ── */
+    .footer-link {
+        @apply inline-block text-[13.5px] text-white/65 hover:text-white transition-colors duration-200 relative;
+        letter-spacing: -0.005em;
+    }
+    .footer-link::after {
+        content: '';
+        @apply absolute left-0 -bottom-0.5 h-[1.5px] w-0 bg-signal rounded-full;
+        transition: width 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+    .footer-link:hover::after { @apply w-full; }
+
+    .footer-iconwrap {
+        @apply inline-flex items-center justify-center w-7 h-7 rounded-lg border border-white/10 bg-white/[0.03] text-white/70 flex-shrink-0;
+    }
+
+    /* ── Social button (no footer, fundo escuro) ── */
+    .social-btn-dark {
+        @apply relative inline-flex items-center justify-center w-9 h-9 rounded-lg
+               border border-white/10 bg-white/[0.04] text-white/75
+               transition-all duration-200
+               hover:bg-signal hover:text-white hover:border-signal hover:-translate-y-0.5
+               hover:shadow-[0_8px_18px_-6px_rgba(0,77,255,0.55)]
+               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/40;
+    }
+
+    /* ── Social rail (sidebar lateral fixa) ── */
+    .social-rail {
+        @apply fixed right-3 z-30 hidden md:flex flex-col items-center gap-2 px-1.5 py-2.5
+               rounded-full bg-ink/85 backdrop-blur-md border border-white/10
+               shadow-[0_8px_28px_-12px_rgba(0,0,0,0.5)];
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .social-rail.is-visible {
+        opacity: 1;
+    }
+    .social-rail__btn {
+        @apply relative inline-flex items-center justify-center w-9 h-9 rounded-full
+               text-white/70 transition-all duration-200
+               hover:text-white hover:bg-signal hover:scale-110
+               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50;
+    }
+    .social-rail__btn:hover { color: #fff; }
+    /* Tooltip que aparece à esquerda ao passar o mouse */
+    .social-rail__btn::after {
+        content: attr(data-label);
+        @apply absolute right-full mr-2.5 px-2.5 py-1.5 rounded-md
+               bg-ink text-white text-[11px] font-mono uppercase tracking-[0.08em]
+               whitespace-nowrap pointer-events-none opacity-0 -translate-x-2
+               transition-all duration-200 shadow-lg;
+    }
+    .social-rail__btn:hover::after {
+        @apply opacity-100 translate-x-0;
+    }
+    /* Setinha do tooltip */
+    .social-rail__btn::before {
+        content: '';
+        @apply absolute right-full mr-1 w-1.5 h-1.5 bg-ink rotate-45 pointer-events-none opacity-0;
+        top: 50%; transform: translateY(-50%) rotate(45deg) translateX(2px);
+        transition: opacity 0.2s;
+    }
+    .social-rail__btn:hover::before { @apply opacity-100; }
+
+    /* Linha decorativa entre os botões */
+    .social-rail__sep {
+        @apply w-4 h-px bg-white/15;
+    }
+
+    /* WhatsApp em destaque dentro do rail */
+    .social-rail__btn--whatsapp {
+        @apply bg-whatsapp text-white;
+    }
+    .social-rail__btn--whatsapp:hover {
+        @apply bg-whatsapp text-white;
+        filter: brightness(1.08);
+    }
+
+    /* ── Quote cart (botão de cotação no header — destaque) ── */
+    .quote-cart {
+        @apply relative inline-flex items-center gap-2.5 h-11 pl-2.5 pr-3.5 rounded-lg
+               bg-ink text-white transition-all duration-200
+               hover:bg-signal hover:shadow-[0_8px_24px_-10px_rgba(0,77,255,0.55)] hover:-translate-y-px
+               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/40 focus-visible:ring-offset-1;
+    }
+    .quote-cart__icon {
+        @apply inline-flex w-7 h-7 items-center justify-center rounded-md bg-white/10;
+        transition: background 0.2s;
+    }
+    .quote-cart:hover .quote-cart__icon { @apply bg-white/15; }
+    .quote-cart__label {
+        @apply hidden sm:flex flex-col items-start leading-none;
+    }
+    .quote-cart__label-top {
+        font-family: theme('fontFamily.mono');
+        @apply text-[9px] uppercase tracking-[0.10em] text-white/60;
+    }
+    .quote-cart__label-bot {
+        @apply text-[12px] font-semibold mt-0.5 text-white;
+        letter-spacing: -0.005em;
+    }
+    .quote-cart__badge {
+        @apply absolute -top-1.5 -right-1.5 inline-flex items-center justify-center
+               h-[20px] min-w-[20px] px-1 rounded-full
+               bg-accent text-white font-mono text-[10px] font-bold
+               border-2 border-bg shadow-[0_2px_6px_-1px_rgba(225,29,42,0.5)];
+    }
+    .quote-cart--has-items {
+        @apply bg-accent;
+    }
+    .quote-cart--has-items:hover {
+        @apply bg-accent/90 shadow-[0_8px_24px_-10px_rgba(225,29,42,0.6)];
+    }
+    .quote-cart--has-items .quote-cart__badge {
+        @apply bg-white text-accent border-bg;
+    }
+    /* Pulsa quando tem itens (chama atenção) */
+    .quote-cart--has-items::before {
+        content: '';
+        @apply absolute inset-0 rounded-lg pointer-events-none;
+        animation: tmac-cart-glow 2.4s ease-in-out infinite;
+    }
+    @keyframes tmac-cart-glow {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(225,29,42,0); }
+        50%      { box-shadow: 0 0 0 6px rgba(225,29,42,0.18); }
+    }
+
+    /* ── Ícones: alterna carrinho ↔ check ── */
+    .quote-cart__icon { position: relative; }
+    .quote-cart__icon-cart,
+    .quote-cart__icon-check {
+        transition: opacity .28s ease, transform .28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .quote-cart__icon-check {
+        position: absolute;
+        opacity: 0;
+        transform: scale(0.5) rotate(-15deg);
+    }
+    .quote-cart--ready .quote-cart__icon-cart {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    .quote-cart--ready .quote-cart__icon-check {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+
+    /* ── Estado LIBERADO: verde ── */
+    .quote-cart--ready {
+        @apply bg-whatsapp;
+        animation: tmac-cart-unlock 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .quote-cart--ready:hover {
+        @apply bg-whatsapp/90;
+        box-shadow: 0 8px 24px -10px rgba(37, 211, 102, 0.65);
+    }
+    .quote-cart--ready .quote-cart__badge {
+        @apply bg-white text-whatsapp;
+    }
+    .quote-cart--ready .quote-cart__icon { @apply bg-white/20; }
+
+    /* Glow verde substituindo o vermelho */
+    .quote-cart--ready::before {
+        animation: tmac-cart-glow-ready 2.2s ease-in-out infinite;
+    }
+    @keyframes tmac-cart-glow-ready {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+        50%      { box-shadow: 0 0 0 7px rgba(37,211,102,0.22); }
+    }
+
+    /* Animação de "destravou" ao atingir o mínimo */
+    @keyframes tmac-cart-unlock {
+        0%   { transform: scale(1); }
+        35%  { transform: scale(1.09); }
+        60%  { transform: scale(0.97); }
+        100% { transform: scale(1); }
+    }
+
+    /* Troca do texto: "· 87%" some, "· liberado" aparece */
+    .quote-cart__ready-tag {
+        @apply ml-1 font-bold;
+        display: none;
+    }
+    .quote-cart--ready .quote-cart__ready-tag { display: inline; }
+    .quote-cart--ready [data-cart-pct-wrap] { display: none; }
+
+    /* ── Float mobile: mesma lógica de cor ── */
+    .quote-float { @apply bg-ink; }
+    .quote-float:hover { @apply bg-ink/90; }
+    .quote-float--ready { @apply bg-whatsapp; }
+    .quote-float--ready:hover { @apply bg-whatsapp/90; }
+    .quote-float--ready .quote-cart__icon-cart { opacity: 0; transform: scale(0.5); }
+    .quote-float--ready .quote-cart__icon-check { opacity: 1; transform: scale(1) rotate(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+        .quote-cart--ready,
+        .quote-cart--ready::before,
+        .quote-cart--has-items::before { animation: none; }
+    }
+    /* Mini barra de progresso no carrinho do header */
+    .quote-cart__progress {
+        @apply absolute left-1.5 right-1.5 bottom-1 h-[3px] rounded-full bg-white/15 overflow-hidden pointer-events-none;
+    }
+    .quote-cart__progress-fill {
+        @apply absolute inset-y-0 left-0 bg-signal rounded-full;
+        transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+    .quote-cart__progress-fill.is-met {
+        @apply bg-whatsapp;
+    }
+    /* Live dot — pequena luz piscando indicando "site online" */
+    .live-dot {
+        @apply inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.10em] text-ink-faint;
+    }
+    .live-dot__pulse {
+        @apply relative inline-flex w-1.5 h-1.5 rounded-full bg-signal;
+    }
+    .live-dot__pulse::after {
+        content: '';
+        @apply absolute inset-0 rounded-full bg-signal;
+        animation: tmac-pulse-ring 2s ease-out infinite;
+    }
+
+    /* ── Banner (info / CTA mid-page) ── */
+    .info-banner {
+        @apply card px-4 py-3.5 flex items-center gap-3;
+    }
+    .info-banner__num {
+        font-family: theme('fontFamily.display');
+        @apply font-black text-[28px] text-accent leading-none;
+        letter-spacing: -0.02em;
+    }
+
+    /* ═══════════════════════════════════════════════════════ */
+    /*  SPEED ELEMENTS — visual identity de velocidade (azul)   */
+    /* ═══════════════════════════════════════════════════════ */
+
+    /* ── Speed lines: trilha de movimento em listras diagonais ── */
+    /* Uso decorativo de fundo: containers grandes, cards de destaque, separadores */
+    .speed-lines {
+        background-image: repeating-linear-gradient(
+            115deg,
+            transparent,
+            transparent 38px,
+            rgba(0, 77, 255, 0.10) 38px,
+            rgba(0, 77, 255, 0.10) 40px
+        );
+    }
+    .speed-lines--faint {
+        background-image: repeating-linear-gradient(
+            115deg,
+            transparent,
+            transparent 42px,
+            rgba(0, 77, 255, 0.06) 42px,
+            rgba(0, 77, 255, 0.06) 44px
+        );
+    }
+    .speed-lines--strong {
+        background-image: repeating-linear-gradient(
+            115deg,
+            transparent,
+            transparent 30px,
+            rgba(0, 77, 255, 0.18) 30px,
+            rgba(0, 77, 255, 0.18) 32px
+        );
+    }
+    /* Versão "dark" para fundos escuros (sobre ink) */
+    .speed-lines--on-dark {
+        background-image: repeating-linear-gradient(
+            115deg,
+            transparent,
+            transparent 36px,
+            rgba(0, 77, 255, 0.20) 36px,
+            rgba(0, 77, 255, 0.20) 38px
+        );
+    }
+
+    /* ── Speed divider: faixa decorativa entre seções ── */
+    /* Coloca entre <section>s para criar respiro visual com movimento */
+    .speed-divider {
+        @apply relative h-8 bg-bg overflow-hidden;
+        background-image: repeating-linear-gradient(
+            115deg,
+            transparent,
+            transparent 26px,
+            rgba(0, 77, 255, 0.12) 26px,
+            rgba(0, 77, 255, 0.12) 28px,
+            transparent 28px,
+            transparent 32px,
+            rgba(0, 77, 255, 0.06) 32px,
+            rgba(0, 77, 255, 0.06) 33px
+        );
+    }
+    .speed-divider--dark {
+        @apply bg-ink h-10;
+        background-image: repeating-linear-gradient(
+            115deg,
+            transparent,
+            transparent 28px,
+            rgba(0, 77, 255, 0.28) 28px,
+            rgba(0, 77, 255, 0.28) 30px,
+            transparent 30px,
+            transparent 34px,
+            rgba(0, 77, 255, 0.12) 34px,
+            rgba(0, 77, 255, 0.12) 35px
+        );
+    }
+
+    /* ── Section marker: tag tipo painel de instrumentos ── */
+    /* Substitui o eyebrow comum quando quiser destacar uma seção como "ponto de corrida" */
+    .section-marker {
+        @apply inline-flex items-center gap-2.5;
+    }
+    .section-marker__num {
+        font-family: theme('fontFamily.mono');
+        @apply inline-flex items-center justify-center h-6 px-2 min-w-[30px]
+               bg-signal text-white text-[11px] font-bold tracking-[0.04em] rounded-[3px]
+               relative;
+    }
+    .section-marker__num::after {
+        content: '';
+        @apply absolute -right-2 top-1/2 -translate-y-1/2 w-2 h-[2px] bg-signal;
+    }
+    .section-marker__label {
+        font-family: theme('fontFamily.mono');
+        @apply text-[11px] uppercase tracking-[0.08em] text-ink-faint pl-2;
+    }
+    /* Versão grande — para usar acima de headlines de seção principais */
+    .section-marker--lg .section-marker__num {
+        @apply h-7 px-2.5 text-[12px] min-w-[36px];
+    }
+    .section-marker--lg .section-marker__label {
+        @apply text-[12px] tracking-[0.12em] text-ink-soft;
+    }
+    /* Variante invertida para uso em fundo escuro */
+    .section-marker--on-dark .section-marker__label { @apply text-white/60; }
+
+    /* ── Mega num: número gigante decorativo no fundo (estilo painel) ── */
+    .mega-num {
+        font-family: theme('fontFamily.display');
+        @apply font-black leading-none tracking-tightest pointer-events-none select-none;
+        font-size: clamp(96px, 18vw, 200px);
+        letter-spacing: -0.05em;
+    }
+    .mega-num--blue { color: rgba(0, 77, 255, 0.10); }
+    .mega-num--blue-strong { color: rgba(0, 77, 255, 0.22); }
+    .mega-num--on-dark { color: rgba(255,255,255,0.06); }
+
+    /* ── Speed badge: chip diagonal em azul (tipo etiqueta de corrida) ── */
+    .speed-badge {
+        @apply inline-flex items-center gap-1.5 px-3 py-1.5 bg-signal text-white font-mono text-[10px] font-bold uppercase tracking-[0.10em];
+        clip-path: polygon(6% 0, 100% 0, 94% 100%, 0 100%);
+    }
+    .speed-badge__dot {
+        @apply w-1.5 h-1.5 bg-white rounded-full;
+        animation: tmac-pulse 1.8s ease-in-out infinite;
+    }
+
+    /* ── Tick row: trilha de ticks tipo velocímetro ── */
+    .tick-row {
+        @apply inline-flex items-end gap-[3px];
+    }
+    .tick-row__tick {
+        @apply w-[2px] h-2 bg-signal/25 rounded-[1px];
+    }
+    .tick-row__tick--on {
+        @apply bg-signal h-3;
+    }
+    .tick-row__tick--peak {
+        @apply bg-signal h-4;
+    }
+    .tick-row--on-dark .tick-row__tick { @apply bg-white/20; }
+    .tick-row--on-dark .tick-row__tick--on { @apply bg-signal; }
+    .tick-row--on-dark .tick-row__tick--peak { @apply bg-signal; }
+
+    /* ── Speed blade: barra azul vertical no lado esquerdo (tipo "blade" de moto) ── */
+    .speed-blade {
+        @apply relative pl-4 md:pl-5;
+    }
+    .speed-blade::before {
+        content: '';
+        @apply absolute left-0 top-1 bottom-1 w-[3px] bg-signal rounded-full;
+    }
+    .speed-blade--accent::before { @apply bg-accent; }
+
+    /* ── Spec strip: barra de specs estilo painel digital ── */
+    .spec-strip {
+        @apply inline-flex items-center h-7 px-3 bg-ink text-white font-mono text-[10px] uppercase tracking-[0.10em] rounded-[4px] border border-signal/40 gap-3;
+    }
+    .spec-strip__sep { @apply w-px h-3 bg-signal/40; }
+    .spec-strip__val { @apply text-signal font-bold tracking-[0.04em]; }
+
+    /* ── Corner cut: bisel diagonal no canto (estilo industrial) ── */
+    .corner-cut-tr { clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%); }
+    .corner-cut-bl { clip-path: polygon(0 0, 100% 0, 100% 100%, 22px 100%, 0 calc(100% - 22px)); }
+
+    /* ── Stat com tick underline (estilo painel) ── */
+    .stat-line {
+        @apply relative;
+    }
+    .stat-line::after {
+        content: '';
+        @apply absolute bottom-[-6px] left-0 w-8 h-[3px] bg-signal rounded-sm;
+    }
+
+    /* ── Eyebrow com motion accent (variante "speed") ── */
+    /* Barra azul curta antes do conteúdo, simulando "trail" / leadeing line */
+    .eyebrow--speed::before {
+        content: '';
+        @apply inline-block w-6 h-[2px] bg-signal mr-2 rounded-sm;
+        transform: skewX(-25deg);
+    }
+    /* Versão maior para destaque (hero / seções grandes) */
+    .eyebrow--speed-lg::before {
+        content: '';
+        @apply inline-block w-9 h-[3px] bg-signal mr-2.5 rounded-sm;
+        transform: skewX(-25deg);
+    }
+
+    /* ── Hover trail nos botões primários ── */
+    /* Adiciona um halo azul sutil ao passar o mouse — sensação de "acelerar" */
+    .btn-primary {
+        position: relative;
+    }
+    .btn-primary::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: linear-gradient(90deg, transparent 0%, rgba(0,77,255,0.35) 50%, transparent 100%);
+        opacity: 0;
+        transform: translateX(-20%);
+        transition: opacity 0.4s ease, transform 0.5s ease;
+        pointer-events: none;
+        z-index: -1;
+        filter: blur(8px);
+    }
+    .btn-primary:hover::after {
+        opacity: 1;
+        transform: translateX(20%);
+    }
+
+    /* ── Hero stack (carrossel: empilha slides no mesmo espaço) ── */
+    /* Todos os filhos ocupam a mesma célula do grid → altura = item mais alto, sem layout shift */
+    .hero-stack {
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: start;
+        justify-items: start;
+    }
+    .hero-stack > .hero-stack__item {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    /* ── Bike selector (encontre por moto) — painel de instrumentos ── */
+    .bike-selector {
+        @apply relative bg-bg-elev border border-line rounded-xl p-5 md:p-7 overflow-hidden;
+        box-shadow: 0 1px 0 #FFF inset, 0 12px 32px -16px rgba(0, 77, 255, 0.18);
+    }
+    /* Borda azul superior fina (tipo cluster de moto) */
+    .bike-selector::before {
+        content: '';
+        @apply absolute top-0 left-0 right-0 h-[3px];
+        background: linear-gradient(90deg, transparent 0%, #004DFF 15%, #004DFF 85%, transparent 100%);
+    }
+    /* Glow azul radial no canto direito */
+    .bike-selector::after {
+        content: '';
+        @apply absolute top-0 right-0 w-48 h-48 pointer-events-none opacity-60;
+        background: radial-gradient(circle at top right, rgba(0,77,255,0.18), transparent 65%);
+    }
+    .bike-selector__head { @apply max-w-[480px] relative z-10; }
+    .bike-selector__field {
+        @apply flex flex-col gap-1.5 relative z-10;
+    }
+    .bike-selector__label {
+        font-family: theme('fontFamily.mono');
+        @apply text-[10px] uppercase tracking-[0.10em] text-ink-faint flex items-center gap-1.5;
+    }
+    .bike-selector__label::before {
+        content: '';
+        @apply w-1 h-1 bg-signal rounded-full inline-block;
+    }
+    .bike-selector__select {
+        @apply h-12 bg-bg border border-line rounded-lg px-3.5 text-[14px] font-medium text-ink
+               focus:outline-none focus:ring-2 focus:ring-signal/20 focus:border-signal
+               disabled:opacity-50 disabled:cursor-not-allowed transition;
+        background-image: linear-gradient(45deg, transparent 50%, #8A8B91 50%), linear-gradient(135deg, #8A8B91 50%, transparent 50%);
+        background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+        background-size: 5px 5px, 5px 5px;
+        background-repeat: no-repeat;
+        -webkit-appearance: none;
+        appearance: none;
+        padding-right: 30px;
+    }
+    .bike-selector__select:focus {
+        background-image: linear-gradient(45deg, transparent 50%, #004DFF 50%), linear-gradient(135deg, #004DFF 50%, transparent 50%);
+    }
+
+    /* ── Fitment chip (na página do produto) ── */
+    .fitment-chip {
+        @apply inline-flex items-center gap-1.5 bg-bg-sunken border border-line rounded-full
+               px-3 py-1.5 text-[12px] text-ink;
+    }
+    .fitment-chip__make {
+        font-family: theme('fontFamily.mono');
+        @apply text-[10px] uppercase tracking-[0.08em] text-ink-faint;
+    }
+    .fitment-chip__year {
+        @apply ml-1 text-ink-soft text-[11px];
+    }
+
+    /* ── Skeleton shimmer ── */
+    .sk {
+        @apply rounded-md;
+        background: linear-gradient(90deg, #ECEAE3 0%, #F4F2EC 50%, #ECEAE3 100%);
+        background-size: 200px 100%;
+        background-repeat: no-repeat;
+        animation: tmac-shimmer 1.4s linear infinite;
+    }
+}
+
+@keyframes tmac-shimmer {
+    0%   { background-position: -200px 0; }
+    100% { background-position: calc(200px + 100%) 0; }
+}
+
+@keyframes tmac-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.4; transform: scale(0.85); }
+}
+
+@keyframes tmac-trail {
+    0%   { transform: translateX(-100%); opacity: 0; }
+    20%  { opacity: 1; }
+    100% { transform: translateX(120%); opacity: 0; }
+}
+
+@keyframes tmac-pulse-ring {
+    0%   { transform: scale(1);   opacity: 0.6; }
+    100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* ── Progress bar shine (barra de cotação) ── */
+.quote-progress__shine {
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.45) 50%, transparent 100%);
+    animation: tmac-progress-shine 1.8s ease-in-out infinite;
+}
+@keyframes tmac-progress-shine {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(120%); }
+}
+
+/* Pista de luz andando — usado em barras horizontais finas para sensação de movimento */
+.speed-trail {
+    @apply relative overflow-hidden;
+}
+.speed-trail::before {
+    content: '';
+    @apply absolute top-0 left-0 h-full w-1/3;
+    background: linear-gradient(90deg, transparent, rgba(0,77,255,0.6), transparent);
+    animation: tmac-trail 3.5s linear infinite;
+}
+
+/* ── Scrollbar hidden utility (chip rows, thumbs) ── */
+.scrollbar-none { scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+
+/* ── Scrollbar fina (sidebar de filtros) ── */
+.scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.line.DEFAULT') transparent;
+}
+.scrollbar-thin::-webkit-scrollbar { width: 6px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb {
+    background: theme('colors.line.DEFAULT');
+    border-radius: 999px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.ink.faint');
+}
+
+/* ══════════════════════════════════════════════════════════════
+   UNIVERSO TMAC — página showcase editorial
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── HERO ───────────────────────────────────────────────────── */
+.uni-hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: clamp(560px, 82vh, 820px);
+    background: #0F1014;
+    color: #fff;
+    overflow: hidden;
+}
+
+/* Faixas verticais coloridas ao fundo */
+.uni-hero__stripes {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    pointer-events: none;
+}
+.uni-hero__stripe {
+    flex: 1;
+    background: var(--c);
+    opacity: 0.14;
+    transform: translateY(-100%);
+    animation: uni-stripe-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.uni-hero__stripe:nth-child(1) { animation-delay: 0.05s; }
+.uni-hero__stripe:nth-child(2) { animation-delay: 0.13s; }
+.uni-hero__stripe:nth-child(3) { animation-delay: 0.21s; }
+.uni-hero__stripe:nth-child(4) { animation-delay: 0.29s; }
+.uni-hero__stripe:nth-child(5) { animation-delay: 0.37s; }
+.uni-hero__stripe:nth-child(6) { animation-delay: 0.45s; }
+@keyframes uni-stripe-in {
+    to { transform: translateY(0); }
+}
+
+/* Máscara escura para leitura do texto */
+.uni-hero__stripes::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(15,16,20,0.72) 0%, rgba(15,16,20,0.88) 55%, #0F1014 100%);
+}
+
+/* Grid técnico */
+.uni-hero__grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 100%);
+}
+
+.uni-hero__title {
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.035em;
+    line-height: 0.88;
+    font-size: clamp(38px, 7.2vw, 92px);
+    max-width: 20ch;
+}
+.uni-hero__title-line {
+    display: block;
+    opacity: 0;
+    transform: translateY(24px);
+    animation: uni-line-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.uni-hero__title-line:nth-child(1) { animation-delay: 0.35s; }
+.uni-hero__title-line:nth-child(2) { animation-delay: 0.48s; }
+.uni-hero__title-line--accent { color: theme('colors.accent.DEFAULT'); }
+@keyframes uni-line-up {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.uni-badge {
+    @apply inline-flex items-center gap-2 px-3 py-1.5 rounded-full
+           font-mono text-[10px] uppercase tracking-[0.10em] font-semibold
+           bg-white/[0.08] border border-white/15 text-white backdrop-blur;
+}
+.uni-badge__dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: theme('colors.accent.DEFAULT');
+    box-shadow: 0 0 0 0 rgba(237,28,36,0.65);
+    animation: uni-pulse 2.4s ease-out infinite;
+}
+@keyframes uni-pulse {
+    70%  { box-shadow: 0 0 0 8px rgba(237,28,36,0); }
+    100% { box-shadow: 0 0 0 0 rgba(237,28,36,0); }
+}
+
+/* Links de salto rápido */
+.uni-jump {
+    @apply inline-flex items-center gap-2 pl-2 pr-3.5 py-2 rounded-lg
+           bg-white/[0.05] border border-white/10 transition-all duration-200;
+}
+.uni-jump:hover {
+    background: var(--c);
+    border-color: var(--c);
+    transform: translateY(-2px);
+}
+.uni-jump__num {
+    @apply font-mono text-[10px] px-1.5 py-0.5 rounded;
+    background: var(--c);
+    color: #fff;
+    transition: background .2s ease;
+}
+.uni-jump:hover .uni-jump__num { background: rgba(255,255,255,0.25); }
+.uni-jump__name {
+    @apply font-display font-bold text-[13px] tracking-tightish text-white uppercase;
+}
+
+.uni-hero__scroll {
+    @apply absolute bottom-6 right-6 hidden md:flex flex-col items-center gap-2 z-10;
+}
+.uni-hero__scroll-line {
+    width: 1px; height: 42px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.5), transparent);
+    animation: uni-scroll-hint 2s ease-in-out infinite;
+}
+@keyframes uni-scroll-hint {
+    0%, 100% { transform: scaleY(1); opacity: 0.5; transform-origin: top; }
+    50%      { transform: scaleY(0.5); opacity: 1; }
+}
+
+/* ── FAIXAS POR MARCA ───────────────────────────────────────── */
+.uni-band {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: clamp(440px, 62vh, 640px);
+    background: var(--c);
+    color: var(--fg);
+    overflow: hidden;
+    scroll-margin-top: 80px;
+}
+@media (min-width: 1024px) {
+    .uni-band { grid-template-columns: 1.05fr 1fr; }
+    .uni-band--reverse .uni-band__content { order: 2; }
+    .uni-band--reverse .uni-band__media   { order: 1; }
+}
+
+.uni-band__content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 3rem 1.25rem;
+    overflow: hidden;
+}
+@media (min-width: 768px) { .uni-band__content { padding: 4rem 2.5rem; } }
+@media (min-width: 1280px) { .uni-band__content { padding: 5rem 4rem; } }
+
+/* Número gigante decorativo */
+.uni-band__bignum {
+    position: absolute;
+    top: -0.18em;
+    right: -0.06em;
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    font-size: clamp(180px, 26vw, 380px);
+    line-height: 1;
+    letter-spacing: -0.06em;
+    color: var(--fg);
+    opacity: 0.08;
+    pointer-events: none;
+    user-select: none;
+}
+.uni-band--reverse .uni-band__bignum { right: auto; left: -0.06em; }
+
+.uni-band__inner { position: relative; z-index: 1; max-width: 46ch; }
+
+.uni-band__eyebrow {
+    @apply inline-flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.12em] font-semibold mb-5;
+    color: var(--fg);
+    opacity: 0.75;
+}
+.uni-band__eyebrow-num {
+    @apply px-1.5 py-0.5 rounded;
+    background: rgba(255,255,255,0.18);
+}
+
+.uni-band__brand { margin-bottom: 1.25rem; }
+.uni-band__logo {
+    height: clamp(38px, 5vw, 62px);
+    object-fit: contain;
+    object-position: left;
+}
+.uni-band__logo.is-light { filter: brightness(0) invert(1); }
+.uni-band__name {
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    font-size: clamp(36px, 5vw, 60px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    color: var(--fg);
+}
+
+.uni-band__tagline {
+    font-family: theme('fontFamily.display');
+    font-weight: 700;
+    font-size: clamp(17px, 2.1vw, 24px);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin-bottom: 1rem;
+}
+
+.uni-band__desc {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--fg);
+    opacity: 0.86;
+}
+@media (min-width: 768px) { .uni-band__desc { font-size: 15px; } }
+
+.uni-band__actions {
+    @apply flex flex-wrap gap-2.5 mt-8;
+}
+.uni-btn {
+    @apply inline-flex items-center gap-2 h-11 px-5 rounded-lg
+           font-semibold text-[13px] uppercase tracking-[0.03em] transition-all duration-200;
+}
+.uni-btn--solid {
+    background: var(--fg);
+    color: var(--c);
+}
+.uni-btn--solid:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(0,0,0,0.4); }
+.uni-btn--ghost {
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid currentColor;
+    opacity: 0.75;
+}
+.uni-btn--ghost:hover { opacity: 1; background: rgba(255,255,255,0.12); }
+
+/* Lado da imagem */
+.uni-band__media {
+    position: relative;
+    min-height: 260px;
+    overflow: hidden;
+    background: rgba(0,0,0,0.18);
+}
+@media (min-width: 1024px) { .uni-band__media { min-height: auto; } }
+
+.uni-band__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.uni-band:hover .uni-band__media img { transform: scale(1.04); }
+
+.uni-band__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        repeating-linear-gradient(135deg,
+            rgba(0,0,0,0.14), rgba(0,0,0,0.14) 10px,
+            rgba(0,0,0,0.20) 10px, rgba(0,0,0,0.20) 20px);
+}
+.uni-band__placeholder span {
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    font-size: clamp(28px, 5vw, 56px);
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    color: var(--fg);
+    opacity: 0.22;
+}
+
+/* Borda diagonal que funde imagem e cor (desktop) */
+.uni-band__media-edge { display: none; }
+@media (min-width: 1024px) {
+    .uni-band__media-edge {
+        display: block;
+        position: absolute;
+        top: 0; bottom: 0; left: -1px;
+        width: 90px;
+        background: linear-gradient(90deg, var(--c) 0%, transparent 100%);
+        pointer-events: none;
+        z-index: 2;
+    }
+    .uni-band--reverse .uni-band__media-edge {
+        left: auto; right: -1px;
+        background: linear-gradient(270deg, var(--c) 0%, transparent 100%);
+    }
+}
+
+/* Faixa multicolor do CTA final */
+.uni-rainbow {
+    display: flex;
+    height: 5px;
+    width: 100%;
+}
+.uni-rainbow span { flex: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+    .uni-hero__stripe,
+    .uni-hero__title-line,
+    .uni-badge__dot,
+    .uni-hero__scroll-line { animation: none; opacity: 1; transform: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PÁGINA INDIVIDUAL DA MARCA (Universo TMAC)
+   Cores herdadas de --c / --c-dark / --fg definidas no wrapper
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── HERO ───────────────────────────────────────────────────── */
+.brand-hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    /* Compacto — não rouba espaço dos produtos */
+    min-height: 380px;
+    background: var(--c);
+    color: var(--fg);
+    overflow: hidden;
+    text-align: center;
+}
+@media (min-width: 768px) { .brand-hero { min-height: 440px; } }
+@media (min-width: 1280px) { .brand-hero { min-height: 500px; } }
+/* Foto de fundo — dessaturada e fundida com a cor da marca.
+   luminosity mantém a TEXTURA da foto mas adota a cor do fundo. */
+.brand-hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    opacity: 0.42;
+    mix-blend-mode: luminosity;
+    filter: contrast(1.15) saturate(0.35);
+}
+/* Máscara radial: foto some no centro (onde fica o logo), aparece nas bordas */
+.brand-hero__bg {
+    mask-image: radial-gradient(ellipse 62% 72% at 50% 50%,
+        rgba(0,0,0,0.20) 0%,
+        rgba(0,0,0,0.55) 55%,
+        rgba(0,0,0,1) 100%);
+    -webkit-mask-image: radial-gradient(ellipse 62% 72% at 50% 50%,
+        rgba(0,0,0,0.20) 0%,
+        rgba(0,0,0,0.55) 55%,
+        rgba(0,0,0,1) 100%);
+}
+
+/* Lavagem: halo da cor no centro + vinheta escura nas bordas */
+.brand-hero__wash {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 58% 68% at 50% 50%, var(--c) 0%, transparent 72%),
+        radial-gradient(ellipse 120% 120% at 50% 50%, transparent 45%, rgba(0,0,0,0.30) 100%);
+}
+.brand-hero__texture {
+    position: absolute;
+    inset: 0;
+    opacity: 0.16;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+        115deg,
+        transparent, transparent 70px,
+        rgba(255,255,255,0.35) 70px, rgba(255,255,255,0.35) 71px
+    );
+}
+/* Nome da marca gigante como marca d'água */
+.brand-hero__watermark {
+    position: absolute;
+    right: -0.04em;
+    bottom: -0.24em;
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    font-size: clamp(110px, 17vw, 260px);
+    line-height: 1;
+    letter-spacing: -0.06em;
+    text-transform: uppercase;
+    color: var(--fg);
+    opacity: 0.07;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.brand-hero__badge {
+    @apply inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full
+           font-mono text-[10px] uppercase tracking-[0.12em] font-semibold mb-7
+           backdrop-blur border;
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.28);
+    color: var(--fg);
+}
+.brand-hero__badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--fg);
+    opacity: .9;
+}
+
+/* Logo centralizado e grande — protagonista absoluto do hero */
+.brand-hero__logo {
+    height: clamp(72px, 13vw, 168px);
+    max-width: min(88vw, 720px);
+    object-fit: contain;
+    filter:
+        drop-shadow(0 2px 0 rgba(0,0,0,0.12))
+        drop-shadow(0 14px 40px rgba(0,0,0,0.45));
+    animation: brand-logo-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.brand-hero__logo.is-light {
+    filter:
+        brightness(0) invert(1)
+        drop-shadow(0 2px 0 rgba(0,0,0,0.12))
+        drop-shadow(0 14px 40px rgba(0,0,0,0.45));
+}
+@keyframes brand-logo-in {
+    from { opacity: 0; transform: translateY(16px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.brand-hero__name {
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    font-size: clamp(52px, 11vw, 132px);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+    color: var(--fg);
+    text-shadow: 0 10px 34px rgba(0,0,0,0.38);
+    animation: brand-logo-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.brand-hero__tagline {
+    font-family: theme('fontFamily.display');
+    font-weight: 800;
+    font-size: clamp(17px, 2.4vw, 28px);
+    line-height: 1.18;
+    letter-spacing: -0.028em;
+    color: var(--fg);
+    max-width: 32ch;
+    margin: 1.5rem auto 0;
+    text-shadow: 0 4px 18px rgba(0,0,0,0.32);
+    animation: brand-logo-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+/* Barra de acento centralizada acima da tagline */
+.brand-hero__tagline::before {
+    content: '';
+    display: block;
+    width: 52px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--fg);
+    opacity: 0.85;
+    margin: 0 auto 1.125rem;
+}
+
+/* Contador de produtos — pílula centralizada abaixo */
+.brand-hero__count {
+    @apply inline-flex items-center gap-3 mt-8 pl-4 pr-5 py-2.5 rounded-full
+           backdrop-blur border transition-all duration-200;
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.25);
+    animation: brand-logo-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+}
+.brand-hero__count:hover {
+    background: var(--fg);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -12px rgba(0,0,0,0.5);
+}
+.brand-hero__count-num {
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    font-size: clamp(26px, 3.4vw, 38px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--fg);
+    transition: color .2s ease;
+}
+.brand-hero__count-label {
+    @apply font-mono text-[10px] uppercase tracking-[0.08em] inline-flex items-center gap-1.5;
+    color: var(--fg);
+    opacity: 0.78;
+    transition: color .2s ease, opacity .2s ease;
+}
+.brand-hero__count:hover .brand-hero__count-num,
+.brand-hero__count:hover .brand-hero__count-label {
+    color: var(--c);
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .brand-hero__logo,
+    .brand-hero__name,
+    .brand-hero__tagline,
+    .brand-hero__count { animation: none; }
+}
+
+/* ── Elementos internos temados ─────────────────────────────── */
+.brand-bignum {
+    position: absolute;
+    top: -0.16em;
+    right: -0.04em;
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    font-size: clamp(150px, 22vw, 330px);
+    line-height: 1;
+    letter-spacing: -0.06em;
+    color: var(--c);
+    opacity: 0.07;
+    pointer-events: none;
+    user-select: none;
+    display: none;
+}
+@media (min-width: 768px) { .brand-bignum { display: block; } }
+.brand-bignum--left { right: auto; left: -0.04em; }
+
+/* Título "Por que MARCA?" — protagonista da seção Sobre */
+.brand-why {
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    font-size: clamp(30px, 4.6vw, 52px);
+    line-height: 0.92;
+    letter-spacing: -0.042em;
+    text-transform: uppercase;
+    color: theme('colors.ink.DEFAULT');
+    margin-top: 1rem;
+}
+.brand-why__name {
+    position: relative;
+    display: inline-block;
+    color: var(--c);
+}
+/* Sublinhado grosso na cor da marca */
+.brand-why__name::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.06em;
+    height: 0.16em;
+    background: var(--c);
+    opacity: 0.22;
+    border-radius: 2px;
+    z-index: -1;
+}
+
+.brand-marker { @apply inline-flex items-center gap-2.5; }
+.brand-marker__num {
+    @apply inline-flex items-center justify-center w-9 h-9 rounded-md font-mono text-[12px] font-bold;
+    background: var(--c);
+    color: var(--fg);
+    box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--c) 65%, transparent);
+}
+.brand-marker__label {
+    @apply font-mono text-[10px] uppercase tracking-[0.12em] font-bold;
+    color: var(--c);
+}
+.brand-marker--dark .brand-marker__label { @apply text-white/60; }
+.brand-marker--dark .brand-marker__label { @apply text-white/50; }
+
+.brand-fact {
+    @apply inline-flex items-center gap-3 p-4 rounded-xl bg-bg-elev border mt-8;
+    border-color: color-mix(in srgb, var(--c) 30%, transparent);
+}
+.brand-fact__icon {
+    @apply w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0;
+    background: var(--c);
+    color: var(--fg);
+}
+
+.brand-dropcap {
+    float: left;
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    font-size: 68px;
+    line-height: 0.82;
+    letter-spacing: -0.04em;
+    color: var(--c);
+    margin: 6px 12px 0 0;
+}
+
+.brand-btn {
+    @apply inline-flex items-center gap-2 h-11 px-5 rounded-lg
+           font-semibold text-[13px] uppercase tracking-[0.03em] transition-all duration-200;
+}
+.brand-btn--solid {
+    background: var(--c);
+    color: var(--fg);
+}
+.brand-btn--solid:hover {
+    background: var(--c-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--c) 70%, transparent);
+}
+.brand-btn--outline {
+    background: transparent;
+    color: var(--c);
+    border: 1px solid var(--c);
+}
+.brand-btn--outline:hover { background: var(--c); color: var(--fg); }
+
+/* ── CTA de cotação abaixo do grid de produtos ──────────────── */
+.brand-quote-cta {
+    @apply flex flex-wrap items-center justify-between gap-4 mt-8 px-5 py-5 md:px-7 md:py-6 rounded-xl;
+    background: var(--c);
+    color: var(--fg);
+    position: relative;
+    overflow: hidden;
+}
+.brand-quote-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+        115deg, transparent, transparent 50px,
+        rgba(255,255,255,0.4) 50px, rgba(255,255,255,0.4) 51px
+    );
+}
+.brand-quote-cta > * { position: relative; z-index: 1; }
+.brand-quote-cta__btn {
+    @apply inline-flex items-center gap-2 h-11 px-5 rounded-lg shrink-0
+           font-bold text-[13px] uppercase tracking-[0.03em] transition-all duration-200;
+    background: var(--fg);
+    color: var(--c);
+}
+.brand-quote-cta__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -10px rgba(0,0,0,0.45);
+}
+
+/* ── OUTRAS MARCAS ──────────────────────────────────────────── */
+.brand-others {
+    @apply grid gap-2.5;
+    grid-template-columns: 1fr;
+}
+@media (min-width: 640px) { .brand-others { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .brand-others { grid-template-columns: repeat(4, 1fr); } }
+
+.brand-others__item {
+    @apply relative flex items-center gap-3 pl-5 pr-4 py-5 rounded-lg overflow-hidden
+           border border-white/10 bg-white/[0.04] transition-all duration-300;
+}
+.brand-others__item:hover {
+    background: var(--oc);
+    border-color: var(--oc);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px -14px rgba(0,0,0,0.55);
+}
+.brand-others__bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--oc);
+    transition: width .3s ease;
+}
+.brand-others__item:hover .brand-others__bar { width: 100%; opacity: 0; }
+.brand-others__body { @apply relative flex-1 min-w-0 flex flex-col gap-2; }
+.brand-others__logo {
+    height: 26px;
+    object-fit: contain;
+    object-position: left;
+}
+.brand-others__logo.is-light { filter: brightness(0) invert(1); }
+.brand-others__name {
+    @apply font-display font-black text-[18px] tracking-tightish uppercase text-white leading-none;
+}
+.brand-others__badge {
+    @apply font-mono text-[9px] uppercase tracking-[0.08em] text-white/50;
+}
+.brand-others__item:hover .brand-others__badge { color: var(--ofg); opacity: .75; }
+.brand-others__arrow {
+    @apply relative w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0
+           bg-white/10 text-white transition-all duration-300;
+}
+.brand-others__item:hover .brand-others__arrow {
+    background: var(--ofg);
+    color: var(--oc);
+    transform: translateX(3px);
+}
+
+/* ══════════════════════════════════════════════════════
+   TMAC BRAND CARDS (Universo TMAC — bloco sólido por marca)
+   Cada marca tem cor própria via --brand-bg/--brand-fg
+   ══════════════════════════════════════════════════════ */
+.tmac-brand-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 3 / 4;
+    padding: 1.5rem 1.5rem 1.25rem;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--brand-bg, #1A1B1F);
+    color: var(--brand-fg, #FFFFFF);
+    text-decoration: none;
+    isolation: isolate;
+    transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1),
+                box-shadow 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+    box-shadow: 0 4px 14px -8px rgba(0,0,0,0.25);
+}
+.tmac-brand-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px -16px rgba(0,0,0,0.45);
+}
+
+/* Foto opcional de fundo, em multiply pra integrar com a cor */
+.tmac-brand-card__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.18;
+    mix-blend-mode: multiply;
+    z-index: -1;
+    transition: opacity 0.5s ease;
+}
+.tmac-brand-card:hover .tmac-brand-card__bg { opacity: 0.28; }
+
+/* Textura diagonal sutil (linhas em alto contraste com a cor) */
+.tmac-brand-card__texture {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+        135deg,
+        transparent,
+        transparent 60px,
+        rgba(255,255,255,0.04) 60px,
+        rgba(255,255,255,0.04) 61px
+    );
+    z-index: -1;
+}
+
+/* Cabeçalho com logo/nome */
+.tmac-brand-card__head {
+    margin-bottom: 1rem;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+}
+.tmac-brand-card__name {
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    font-size: 26px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    color: var(--brand-fg);
+}
+
+/* Descrição */
+.tmac-brand-card__desc {
+    flex: 1;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--brand-fg);
+    opacity: 0.92;
+    margin: 0;
+}
+@media (min-width: 768px) {
+    .tmac-brand-card__desc { font-size: 14px; }
+}
+
+/* Footer com badge + arrow */
+.tmac-brand-card__foot {
+    margin-top: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+.tmac-brand-card__badge {
+    font-family: theme('fontFamily.mono');
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    color: var(--brand-fg);
+    opacity: 0.65;
+    padding: 4px 8px;
+    border: 1px solid currentColor;
+    border-radius: 3px;
+}
+.tmac-brand-card__arrow {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.15);
+    color: var(--brand-fg);
+    transition: transform 0.3s cubic-bezier(0.65, 0, 0.35, 1),
+                background 0.25s ease;
+}
+.tmac-brand-card:hover .tmac-brand-card__arrow {
+    background: var(--brand-fg);
+    color: var(--brand-bg);
+    transform: translateX(4px) rotate(-2deg);
+}
+
+/* Quando texto for escuro, ajustar o overlay do arrow pro contraste */
+.tmac-brand-card[style*="--brand-fg: #1A1B1F"] .tmac-brand-card__arrow {
+    background: rgba(0,0,0,0.10);
+}
+.tmac-brand-card[style*="--brand-fg: #1A1B1F"] .tmac-brand-card__texture {
+    background-image: repeating-linear-gradient(135deg, transparent, transparent 60px, rgba(0,0,0,0.04) 60px, rgba(0,0,0,0.04) 61px);
+}
+
+/* ══════════════════════════════════════════════════════
+   BARRA HORIZONTAL DE FILTROS (moto + Universo TMAC)
+   ══════════════════════════════════════════════════════ */
+.filters-bar {
+    @apply mt-4 flex flex-col gap-3 p-3 rounded-xl border border-line bg-bg-elev;
+}
+@media (min-width: 1024px) {
+    .filters-bar {
+        @apply flex-row items-center gap-5 px-4 py-3;
+    }
+}
+
+.filters-bar__label {
+    @apply inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.10em]
+           font-bold text-ink-faint shrink-0;
+}
+
+/* ── Seletor de moto ── */
+.filters-bar__moto {
+    @apply flex flex-wrap items-center gap-2;
+}
+@media (min-width: 1024px) {
+    .filters-bar__moto {
+        @apply flex-nowrap shrink-0 pr-5;
+        border-right: 1px solid theme('colors.line.DEFAULT');
+    }
+}
+.filters-bar__select {
+    @apply h-9 pl-3 pr-8 rounded-lg border border-line bg-bg text-[13px] text-ink
+           focus:outline-none focus:border-signal focus:ring-2 focus:ring-signal/15
+           disabled:opacity-45 disabled:cursor-not-allowed transition;
+    min-width: 130px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%238A8B91' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 13px;
+    appearance: none;
+}
+.filters-bar__select--sm { min-width: 88px; }
+
+.filters-bar__clear {
+    @apply inline-flex items-center justify-center w-8 h-8 rounded-lg shrink-0
+           text-ink-faint hover:text-white hover:bg-accent border border-line hover:border-accent transition;
+}
+
+/* ── Chips do Universo TMAC ── */
+.filters-bar__tmac {
+    @apply flex flex-wrap items-center gap-2.5 min-w-0;
+}
+.filters-bar__chips {
+    @apply flex flex-wrap items-center gap-1.5;
+}
+
+.tmac-chip {
+    @apply inline-flex items-center gap-1.5 h-8 pl-2.5 pr-3 rounded-full
+           border text-[12px] font-semibold transition-all duration-200;
+    border-color: theme('colors.line.DEFAULT');
+    background: theme('colors.bg.DEFAULT');
+    color: theme('colors.ink.soft');
+}
+.tmac-chip:hover {
+    border-color: var(--c);
+    color: var(--c);
+    transform: translateY(-1px);
+}
+.tmac-chip__dot {
+    width: 8px; height: 8px;
+    border-radius: 3px;
+    background: var(--c);
+    flex-shrink: 0;
+}
+.tmac-chip.is-on {
+    background: var(--c);
+    border-color: var(--c);
+    color: var(--fg);
+    box-shadow: 0 4px 12px -5px var(--c);
+}
+.tmac-chip.is-on .tmac-chip__dot {
+    background: var(--fg);
+    opacity: 0.85;
+}
+
+/* ══════════════════════════════════════════════════════
+   Indicador "Aplicando filtros…" — toast fixo no canto
+   ══════════════════════════════════════════════════════ */
+.filters-applying {
+    position: fixed;
+    bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 60;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    border-radius: 999px;
+    background: theme('colors.ink.DEFAULT');
+    color: #fff;
+    font-family: theme('fontFamily.mono');
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    box-shadow: 0 12px 28px -10px rgba(0,0,0,0.45);
+    pointer-events: none;
+    white-space: nowrap;
+}
+.filters-applying__spinner {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.25);
+    border-top-color: #fff;
+    animation: tmac-spin 0.6s linear infinite;
+}
+@keyframes tmac-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ── Chip rail (categorias com scroll horizontal + fade + arrows) ── */
+.chip-rail {
+    position: relative;
+}
+
+.chip-rail__track {
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+}
+
+.chip-rail__track > .chip {
+    scroll-snap-align: start;
+}
+
+/* Fades laterais — indicam que tem mais conteúdo */
+.chip-rail::before,
+.chip-rail::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 4px;
+    width: 32px;
+    pointer-events: none;
+    z-index: 1;
+}
+.chip-rail::before {
+    left: 0;
+    background: linear-gradient(to right, var(--c-bg, #F5F2EA) 20%, transparent);
+}
+.chip-rail::after {
+    right: 0;
+    background: linear-gradient(to left, var(--c-bg, #F5F2EA) 20%, transparent);
+}
+
+/* Setas de scroll (desktop) */
+.chip-rail__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: #FFFFFF;
+    color: theme('colors.ink.DEFAULT');
+    border: 1px solid theme('colors.line.DEFAULT');
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.15s ease, background 0.15s ease;
+    margin-bottom: 4px;
+}
+.chip-rail__arrow:hover {
+    transform: translateY(-50%) scale(1.06);
+    background: theme('colors.signal.DEFAULT');
+    color: #fff;
+    border-color: theme('colors.signal.DEFAULT');
+}
+.chip-rail__arrow--left  { left: 6px; }
+.chip-rail__arrow--right { right: 6px; }
+
+@media (min-width: 768px) {
+    .chip-rail__arrow { display: inline-flex; }
+}

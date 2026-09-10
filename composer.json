@@ -8,14 +8,15 @@
         "php": "^8.2",
         "filament/filament": "^3.2",
         "guzzlehttp/guzzle": "^7.8",
+        "intervention/image": "^3.5",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
+        "phpoffice/phpspreadsheet": "^5.9",
         "spatie/laravel-medialibrary": "^11.0",
         "spatie/laravel-sitemap": "^7.2",
-        "spatie/laravel-sluggable": "^3.5",
-        "intervention/image": "^3.5"
+        "spatie/laravel-sluggable": "^3.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

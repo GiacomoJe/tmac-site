@@ -37,3 +37,25 @@ Route::post('/cotacao/cart/update', [QuoteCartController::class, 'update'])->nam
 Route::post('/cotacao/cart/remove', [QuoteCartController::class, 'remove'])->name('site.cart.remove');
 
 Route::get('/p/{page:slug}', [PageController::class, 'show'])->name('site.page');
+
+// Upload da Tabela de Vendas (painel) — form comum, não é rota do Livewire/Filament.
+// Ver App\Http\Controllers\Admin\PublicarTabelaVendasController para o motivo
+// (arquivo grande: evita o upload assíncrono em duas etapas do componente
+// FileUpload do Livewire, que falhava sozinho antes mesmo de chegar à importação).
+Route::middleware(['web', 'auth'])
+    ->post('/admin/tabela-vendas/upload', [\App\Http\Controllers\Admin\PublicarTabelaVendasController::class, 'store'])
+    ->name('admin.tabela-vendas.upload');
+
+// ─── Área do Cliente / Tabela de Vendas ───────────────────────────────────
+Route::prefix('area-cliente')->name('cliente.')->group(function () {
+    Route::get('/entrar', [\App\Http\Controllers\Cliente\AuthController::class, 'showLogin'])
+        ->middleware('guest:cliente')->name('login');
+    Route::post('/entrar', [\App\Http\Controllers\Cliente\AuthController::class, 'login'])
+        ->middleware('guest:cliente')->name('login.submit');
+    Route::post('/sair', [\App\Http\Controllers\Cliente\AuthController::class, 'logout'])
+        ->middleware('auth:cliente')->name('logout');
+
+    Route::middleware('auth:cliente')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Cliente\TabelaVendasController::class, 'show'])->name('tabela');
+    });
+});

@@ -12,6 +12,7 @@
         ['route' => 'site.representatives', 'label' => 'Representantes'],
         ['route' => 'site.page', 'param' => 'quem-somos',  'label' => 'Quem somos'],
         ['route' => 'site.page', 'param' => 'contato',     'label' => 'Contato'],
+        ['route' => 'cliente.login', 'label' => 'Área do Cliente'],
     ];
 @endphp
 <header x-data="{ open: false, search: false, scrolled: false }"
@@ -149,6 +150,7 @@
                     ['site.tmac-brands', 'Universo TMAC'],
                     ['site.representatives', 'Representantes'],
                     ['site.quote', 'Solicitar cotação'],
+                    ['cliente.login', 'Área do Cliente'],
                 ] as [$route, $label])
                     <a href="{{ route($route) }}"
                        class="group flex items-center justify-between px-4 py-4 border-b border-line-soft font-display font-bold text-[18px] tracking-tightish text-ink hover:bg-bg-sunken hover:pl-5 transition-all duration-200">

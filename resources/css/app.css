@@ -1966,3 +1966,12 @@
 @media (min-width: 768px) {
     .chip-rail__arrow { display: inline-flex; }
 }
+
+/* ─── Área do Cliente / Tabela de Vendas ─── */
+@layer components {
+    .btn-chip {
+        @apply text-xs font-semibold uppercase tracking-mono-up rounded-full border border-line bg-bg-elev text-ink-soft px-3 py-1.5 transition-colors;
+    }
+    .btn-chip:hover { @apply border-signal text-signal; }
+    .btn-chip--on { @apply bg-signal border-signal text-white; }
+}

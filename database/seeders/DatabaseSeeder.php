@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Cliente;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -37,6 +38,23 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('tmac@admin'),
                 'role' => 'admin',
                 'email_verified_at' => now(),
+            ]
+        );
+
+        // Conta de TESTE da Área do Cliente (Tabela de Vendas). O autocadastro
+        // ainda não existe, então sem isso não tem nenhum jeito de logar em
+        // /area-cliente/entrar num ambiente novo. Em produção, troque/desative
+        // essa conta e cadastre os clientes reais pelo painel
+        // (Tabela de Vendas → Clientes → Novo).
+        Cliente::firstOrCreate(
+            ['email' => 'cliente@tmacimport.com.br'],
+            [
+                'name' => 'Cliente Teste',
+                'company' => 'Cliente Teste Ltda',
+                'uf' => 'SP',
+                'tabela_padrao' => 'SP',
+                'password' => Hash::make('tmac@cliente'),
+                'is_active' => true,
             ]
         );
     }

@@ -939,6 +939,60 @@
     animation: tmac-trail 3.5s linear infinite;
 }
 
+/* ══════════════════════════════════════════════════════
+   Mega-números decorativos de fundo — desativados
+   (aqueles "01", "02", "03" gigantes nos cantos das seções)
+   Para reativar, remova este bloco.
+   ══════════════════════════════════════════════════════ */
+.mega-num,
+.brand-bignum,
+.uni-band__bignum {
+    display: none !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   Section marker sem número — mantém só o acento colorido
+   O badge numerado vira uma barra vertical sólida.
+   ══════════════════════════════════════════════════════ */
+.section-marker__num,
+.brand-marker__num,
+.uni-band__eyebrow-num {
+    /* Esconde o texto sem remover o elemento */
+    font-size: 0 !important;
+    text-indent: -9999px;
+    overflow: hidden;
+
+    /* Vira uma barra vertical fina */
+    width: 4px !important;
+    min-width: 4px !important;
+    height: 18px !important;
+    padding: 0 !important;
+    border-radius: 2px !important;
+    box-shadow: none !important;
+}
+
+/* Versão grande — barra um pouco maior */
+.section-marker--lg .section-marker__num {
+    height: 22px !important;
+    width: 4px !important;
+    min-width: 4px !important;
+}
+
+/* Remove o tracinho horizontal que saía do badge */
+.section-marker__num::after { display: none !important; }
+
+/* Ajusta o espaçamento agora que a barra é estreita */
+.section-marker { gap: 0.625rem !important; }
+.section-marker__label { padding-left: 0 !important; }
+.brand-marker { gap: 0.625rem !important; }
+.uni-band__eyebrow { gap: 0.625rem !important; }
+
+/* Barra branca translúcida nas faixas coloridas do Universo */
+.uni-band__eyebrow-num {
+    background: var(--fg) !important;
+    opacity: 0.8;
+}
+
 /* ── Scrollbar hidden utility (chip rows, thumbs) ── */
 .scrollbar-none { scrollbar-width: none; }
 .scrollbar-none::-webkit-scrollbar { display: none; }
@@ -1024,9 +1078,9 @@
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: -0.035em;
-    line-height: 0.88;
-    font-size: clamp(38px, 7.2vw, 92px);
-    max-width: 20ch;
+    line-height: 0.90;
+    font-size: clamp(32px, 5.6vw, 74px);
+    max-width: 22ch;
 }
 .uni-hero__title-line {
     display: block;
@@ -1035,8 +1089,16 @@
     animation: uni-line-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 .uni-hero__title-line:nth-child(1) { animation-delay: 0.35s; }
-.uni-hero__title-line:nth-child(2) { animation-delay: 0.48s; }
+.uni-hero__title-line:nth-child(2) { animation-delay: 0.46s; }
+.uni-hero__title-line:nth-child(3) { animation-delay: 0.57s; }
 .uni-hero__title-line--accent { color: theme('colors.accent.DEFAULT'); }
+/* Linha mais longa — reduz um pouco para caber com elegância */
+.uni-hero__title-line--sm {
+    font-size: clamp(22px, 3.6vw, 46px);
+    letter-spacing: -0.028em;
+    margin-top: 0.12em;
+    max-width: 26ch;
+}
 @keyframes uni-line-up {
     to { opacity: 1; transform: translateY(0); }
 }

@@ -266,28 +266,31 @@
                     <span class="section-marker__num">01·B</span>
                     <span class="section-marker__label">Centro de distribuição próprio</span>
                 </div>
-                <h2 class="font-display font-black text-[36px] md:text-[56px] lg:text-[68px] leading-[0.92] tracking-tightest text-white mt-4 uppercase max-w-[14ch]">
-                    Estoque <span class="text-signal">imediato</span>,<br>envio nacional.
+                <h2 class="font-display font-black text-[34px] md:text-[52px] lg:text-[62px] leading-[0.92] tracking-tightest text-white mt-4 uppercase max-w-[16ch]">
+                    Um novo capítulo,<br>para a <span class="text-signal">sua entrega</span>.
                 </h2>
-                <p class="mt-5 text-white/75 text-[15px] md:text-[17px] leading-relaxed max-w-[52ch]">
-                    Operamos com CD próprio e mais de 12 mil SKUs em prateleira. Picking, separação e expedição no mesmo dia útil para pedidos aprovados até 14h.
+                <p class="mt-5 text-white/75 text-[15px] md:text-[17px] leading-relaxed max-w-[54ch]">
+                    Estamos estruturando o nosso próprio centro de distribuição. Uma operação 100% TMAC, pensada para trazer mais agilidade e controle a cada pedido do nosso parceiro.
                 </p>
             </div>
 
             <div class="lg:col-span-5">
                 <div class="grid grid-cols-3 gap-3">
-                    <div class="bg-white/[0.06] backdrop-blur border border-white/10 rounded-lg p-4 text-center">
-                        <div class="font-display font-black text-[28px] md:text-[34px] leading-none tracking-tighter text-white">12k</div>
-                        <div class="mt-2 font-mono text-[9px] uppercase tracking-[0.08em] text-white/55 leading-tight">SKUs em prateleira</div>
-                    </div>
-                    <div class="bg-signal/15 backdrop-blur border border-signal/30 rounded-lg p-4 text-center">
-                        <div class="font-display font-black text-[28px] md:text-[34px] leading-none tracking-tighter text-white">24h</div>
-                        <div class="mt-2 font-mono text-[9px] uppercase tracking-[0.08em] text-white/65 leading-tight">Para expedição</div>
-                    </div>
-                    <div class="bg-white/[0.06] backdrop-blur border border-white/10 rounded-lg p-4 text-center">
-                        <div class="font-display font-black text-[28px] md:text-[34px] leading-none tracking-tighter text-white">26</div>
-                        <div class="mt-2 font-mono text-[9px] uppercase tracking-[0.08em] text-white/55 leading-tight">Estados ativos</div>
-                    </div>
+                    @foreach([
+                        ['4 mil+', 'SKUs no catálogo'],
+                        ['100%',   'Operação própria'],
+                        ['26',     'Estados atendidos'],
+                    ] as $i => [$num, $label])
+                        <div class="{{ $i === 1 ? 'bg-signal/15 border-signal/30' : 'bg-white/[0.06] border-white/10' }} backdrop-blur border rounded-lg p-4 text-center">
+                            <div class="font-display font-black text-[24px] md:text-[32px] leading-none tracking-tighter text-white whitespace-nowrap">{{ $num }}</div>
+                            <div class="mt-2 font-mono text-[9px] uppercase tracking-[0.08em] {{ $i === 1 ? 'text-white/65' : 'text-white/55' }} leading-tight">{{ $label }}</div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.06] border border-white/12">
+                    <span class="w-1.5 h-1.5 rounded-full bg-signal animate-pulse"></span>
+                    <span class="font-mono text-[10px] uppercase tracking-[0.10em] text-white/70">Em estruturação</span>
                 </div>
             </div>
         </div>
@@ -318,12 +321,13 @@
                     <span class="section-marker__num">02·C</span>
                     <span class="section-marker__label">Universo TMAC · Linhas próprias</span>
                 </div>
-                <h2 class="font-display font-black text-[34px] md:text-[52px] leading-[0.95] tracking-tightest text-ink mt-4 uppercase">
-                    <span class="text-accent">Marcas próprias</span><br>
-                    desenvolvidas pela TMAC.
+                <h2 class="font-display font-black text-[30px] md:text-[46px] leading-[0.95] tracking-tightest text-ink mt-4 uppercase">
+                    Quatro marcas.<br>
+                    Quatro caminhos.<br>
+                    <span class="text-accent text-[22px] md:text-[32px] inline-block mt-1">Uma só paixão e um único universo.</span>
                 </h2>
-                <p class="mt-4 text-ink-soft text-[15px] md:text-[17px] leading-relaxed max-w-[58ch]">
-                    Linhas exclusivas pensadas pro mercado brasileiro. Importação direta, controle de qualidade próprio e identidade visual única — só na TMAC.
+                <p class="mt-4 text-ink-soft text-[15px] md:text-[17px] leading-relaxed max-w-[56ch]">
+                    Cada linha nasceu pra resolver uma necessidade de quem roda no Brasil. Importação direta, controle de qualidade próprio e peças pensadas pro dia a dia da estrada.
                 </p>
             </div>
             <div class="lg:col-span-5 lg:text-right">

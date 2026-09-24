@@ -42,12 +42,13 @@
         </div>
 
         <h1 class="uni-hero__title">
-            <span class="uni-hero__title-line">{{ $qtdTexto }} marcas.</span>
-            <span class="uni-hero__title-line uni-hero__title-line--accent">Um único universo.</span>
+            <span class="uni-hero__title-line">Quatro marcas.</span>
+            <span class="uni-hero__title-line">Quatro caminhos.</span>
+            <span class="uni-hero__title-line uni-hero__title-line--accent uni-hero__title-line--sm">Uma só paixão e um único universo.</span>
         </h1>
 
-        <p class="mt-6 text-white/65 text-[15px] md:text-[17px] leading-relaxed max-w-[64ch]">
-            O Universo TMAC reúne marcas especializadas para atender diferentes necessidades do mercado de motopeças. Da reposição ao desempenho, da tecnologia ao acabamento premium, cada marca possui sua própria identidade, mantendo o mesmo compromisso com qualidade, inovação e confiança que fazem da TMAC uma referência nacional no segmento de duas rodas.
+        <p class="mt-6 text-white/65 text-[15px] md:text-[17px] leading-relaxed max-w-[58ch]">
+            Cada linha nasceu pra resolver uma necessidade de quem roda no Brasil. Importação direta, controle de qualidade próprio e peças pensadas pro dia a dia da estrada.
         </p>
 
         {{-- Índice de navegação rápida --}}

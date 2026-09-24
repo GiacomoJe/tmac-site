@@ -993,6 +993,154 @@
     opacity: 0.8;
 }
 
+/* ══════════════════════════════════════════════════════════════
+   ONDE COMPRAR — mapa de revendedores
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Barra de busca ── */
+.resellers-search {
+    @apply flex flex-col lg:flex-row gap-2.5 p-3 rounded-xl border border-line bg-bg-elev;
+}
+.resellers-search__form {
+    @apply flex items-center gap-2 flex-1 h-12 px-3.5 rounded-lg border border-line bg-bg
+           focus-within:border-signal focus-within:ring-2 focus-within:ring-signal/15 transition;
+}
+.resellers-search__input {
+    @apply flex-1 min-w-0 bg-transparent border-0 text-[14px] text-ink placeholder:text-ink-faint
+           focus:outline-none focus:ring-0 p-0;
+}
+.resellers-search__geo {
+    @apply inline-flex items-center justify-center gap-2 h-12 px-4 rounded-lg shrink-0
+           border border-signal/40 bg-signal-soft/40 text-signal text-[13px] font-semibold
+           hover:bg-signal hover:text-white hover:border-signal transition
+           disabled:opacity-50 disabled:cursor-not-allowed;
+}
+.resellers-search__radius {
+    @apply h-12 pl-3.5 pr-9 rounded-lg border border-line bg-bg text-[13px] text-ink shrink-0
+           focus:outline-none focus:border-signal focus:ring-2 focus:ring-signal/15 transition;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%238A8B91' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 14px;
+    appearance: none;
+}
+
+/* ── Layout lista + mapa ── */
+.resellers-layout {
+    @apply grid gap-4;
+    grid-template-columns: 1fr;
+}
+@media (min-width: 1024px) {
+    .resellers-layout {
+        grid-template-columns: 380px 1fr;
+        align-items: start;
+    }
+}
+
+.resellers-list {
+    @apply rounded-xl border border-line bg-bg-elev overflow-hidden flex flex-col;
+    max-height: 620px;
+}
+.resellers-list__head {
+    @apply px-4 py-3 border-b border-line bg-bg-sunken shrink-0;
+}
+.resellers-list__scroll {
+    @apply flex-1 overflow-y-auto scrollbar-thin;
+}
+
+/* ── Card do revendedor ── */
+.reseller-card {
+    @apply px-4 py-3.5 border-b border-line-soft cursor-pointer transition-colors;
+}
+.reseller-card:hover { @apply bg-bg-sunken; }
+.reseller-card.is-active {
+    @apply bg-signal-soft/50;
+    box-shadow: inset 3px 0 0 theme('colors.signal.DEFAULT');
+}
+.reseller-card__head { @apply flex items-start gap-2.5; }
+.reseller-card__pin {
+    @apply inline-flex items-center justify-center w-6 h-6 rounded-full shrink-0
+           bg-ink text-white font-mono text-[11px] font-bold;
+}
+.reseller-card.is-active .reseller-card__pin { @apply bg-signal; }
+.reseller-card__name {
+    @apply font-display font-bold text-[14px] tracking-tightish text-ink leading-tight;
+}
+.reseller-card__addr {
+    @apply text-[12px] text-ink-soft leading-snug mt-0.5;
+}
+.reseller-card__dist {
+    @apply font-mono text-[11px] font-bold text-signal shrink-0 whitespace-nowrap;
+}
+.reseller-card__hours {
+    @apply font-mono text-[10px] uppercase tracking-[0.06em] text-ink-faint mt-2 pl-[34px];
+}
+.reseller-card__actions { @apply flex flex-wrap gap-1.5 mt-2.5 pl-[34px]; }
+
+.reseller-btn {
+    @apply inline-flex items-center gap-1.5 h-7 px-2.5 rounded-md
+           border border-line bg-bg text-[11px] font-semibold text-ink-soft
+           hover:border-ink hover:text-ink transition;
+}
+.reseller-btn--wpp {
+    @apply border-whatsapp/40 text-whatsapp bg-whatsapp/10;
+}
+.reseller-btn--wpp:hover { @apply bg-whatsapp text-white border-whatsapp; }
+
+/* ── Mapa ── */
+.resellers-map {
+    @apply relative rounded-xl overflow-hidden border border-line bg-bg-sunken;
+}
+.resellers-map__canvas {
+    height: 420px;
+    width: 100%;
+    z-index: 1;
+    /* Tom de "água" para as áreas fora dos tiles (evita cinza feio no zoom out) */
+    background: #AAD3DF;
+}
+/* Container do Leaflet herda o mesmo fundo */
+.resellers-map .leaflet-container {
+    background: #AAD3DF;
+}
+@media (min-width: 1024px) { .resellers-map__canvas { height: 620px; } }
+
+.resellers-map__loading {
+    @apply absolute inset-0 z-[400] flex items-center justify-center gap-2
+           bg-bg/70 backdrop-blur-sm font-mono text-[11px] uppercase tracking-[0.08em] text-ink;
+}
+
+/* ── Marcador customizado do Leaflet ── */
+.reseller-marker {
+    background: theme('colors.ink.DEFAULT');
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    font-family: theme('fontFamily.mono');
+    font-size: 11px;
+    font-weight: 700;
+    box-shadow: 0 3px 10px -2px rgba(0,0,0,0.4);
+    transition: transform .18s ease;
+}
+.reseller-marker:hover { transform: scale(1.15); }
+.reseller-marker.is-featured {
+    background: theme('colors.accent.DEFAULT');
+}
+
+/* Popup do Leaflet no estilo do site */
+.leaflet-popup-content-wrapper {
+    border-radius: 10px !important;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.35) !important;
+}
+.leaflet-popup-content {
+    margin: 12px 14px !important;
+    font-family: theme('fontFamily.sans');
+    line-height: 1.5;
+}
+.leaflet-container a.leaflet-popup-close-button { color: #8A8B91 !important; }
+
 /* ── Scrollbar hidden utility (chip rows, thumbs) ── */
 .scrollbar-none { scrollbar-width: none; }
 .scrollbar-none::-webkit-scrollbar { display: none; }

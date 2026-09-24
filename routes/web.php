@@ -8,6 +8,7 @@ use App\Http\Controllers\Site\ProductController;
 use App\Http\Controllers\Site\QuoteCartController;
 use App\Http\Controllers\Site\QuoteController;
 use App\Http\Controllers\Site\RepresentativeController;
+use App\Http\Controllers\Site\ResellerController;
 use App\Http\Controllers\Site\TmacBrandController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,11 @@ Route::get('/universo-tmac', [TmacBrandController::class, 'index'])->name('site.
 Route::get('/universo-tmac/{tmacBrand:slug}', [TmacBrandController::class, 'show'])->name('site.tmac-brand');
 
 Route::get('/representantes', [RepresentativeController::class, 'index'])->name('site.representatives');
+
+// Onde comprar — mapa de revendedores
+Route::get('/onde-comprar', [ResellerController::class, 'index'])->name('site.resellers');
+Route::get('/api/revendedores', [ResellerController::class, 'search'])->name('site.resellers.search');
+Route::get('/api/geocode',      [ResellerController::class, 'geocode'])->name('site.geocode');
 
 // Compatibilidade peça → moto (filtros por marca/modelo/ano)
 Route::get('/pecas/{marca}',                  [MotorcyclePartsController::class, 'byMake'])->name('site.parts.make');

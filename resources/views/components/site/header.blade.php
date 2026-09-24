@@ -9,6 +9,7 @@
     $navItems = [
         ['route' => 'site.products',        'label' => 'Produtos'],
         ['route' => 'site.tmac-brands',     'label' => 'Universo TMAC', 'highlight' => true],
+        ['route' => 'site.resellers',       'label' => 'Onde comprar'],
         ['route' => 'site.representatives', 'label' => 'Representantes'],
         ['route' => 'site.page', 'param' => 'quem-somos',  'label' => 'Quem somos'],
         ['route' => 'site.page', 'param' => 'contato',     'label' => 'Contato'],
@@ -148,6 +149,7 @@
                     ['site.home', 'Início'],
                     ['site.products', 'Produtos'],
                     ['site.tmac-brands', 'Universo TMAC'],
+                    ['site.resellers', 'Onde comprar'],
                     ['site.representatives', 'Representantes'],
                     ['site.quote', 'Solicitar cotação'],
                     ['cliente.login', 'Área do Cliente'],

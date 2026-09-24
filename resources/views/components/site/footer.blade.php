@@ -115,6 +115,7 @@
                     ] as $slug => $label)
                         <li><a href="{{ route('site.page', $slug) }}" class="footer-link">{{ $label }}</a></li>
                     @endforeach
+                    <li><a href="{{ route('site.resellers') }}" class="footer-link">Onde comprar</a></li>
                     <li><a href="{{ route('site.representatives') }}" class="footer-link">Representantes</a></li>
                 </ul>
             </div>

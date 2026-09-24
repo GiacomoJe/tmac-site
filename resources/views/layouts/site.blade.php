@@ -22,6 +22,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    @stack('head')
 </head>
 <body class="min-h-screen flex flex-col">
     @if($gtmId = \App\Models\Setting::get('gtm_id'))
@@ -200,5 +201,7 @@
             setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 250); }, 1800);
         };
     </script>
+
+    @stack('scripts')
 </body>
 </html>

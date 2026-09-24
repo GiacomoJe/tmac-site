@@ -457,8 +457,8 @@
     </div>
 
     <div class="container-tmac py-12 md:py-16 relative">
-        <div class="text-center">
-            <div class="section-marker section-marker--lg section-marker--on-dark justify-center inline-flex">
+        <div>
+            <div class="section-marker section-marker--lg section-marker--on-dark">
                 <span class="section-marker__num">03</span>
                 <span class="section-marker__label">Principais categorias</span>
             </div>
@@ -508,8 +508,8 @@
     </div>
 
     <div class="container-tmac py-12 md:py-16 relative">
-        <div class="text-center">
-            <div class="section-marker section-marker--lg justify-center inline-flex">
+        <div>
+            <div class="section-marker section-marker--lg">
                 <span class="section-marker__num">04</span>
                 <span class="section-marker__label">Por que comprar com a TMAC?</span>
             </div>
@@ -521,14 +521,14 @@
         <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3">
             @php
                 $advantages = [
-                    ['box',       'Importação direta',  'Produtos originais com os melhores preços.'],
-                    ['clock',     'Estoque imediato',   'Mais de 12 mil itens prontos para envio.'],
-                    ['headset',   'Atendimento técnico','Suporte especializado para sua loja.'],
-                    ['chart',     'Tabela por volume',  'Condições especiais conforme sua compra.'],
-                    ['plane',     'Envio nacional',     'Entrega para todo o Brasil com agilidade.'],
-                    ['flash',     'Cotação rápida',     'Receba sua tabela sem burocracia.'],
-                    ['users',     'Representantes',     'Atendimento em 26 estados.'],
-                    ['shield',    'Qualidade garantida','Trabalhamos apenas com marcas de confiança.'],
+                    ['globe',     'Conexão Brasil x China', 'Escritório próprio na China e contato 24h com a origem pra qualquer suporte.'],
+                    ['box',       '+ de 4 mil SKUs',        'Um catálogo completo pra abastecer sua loja.'],
+                    ['headset',   'Atendimento humano',     'Gente que entende do mercado e ama moto, pronta pra te ouvir e resolver.'],
+                    ['shield',    'Testes de qualidade',    'Peças testadas no Brasil antes de chegar ao seu balcão.'],
+                    ['truck',     'Envio nacional',         'Entregamos para todo o Brasil.'],
+                    ['flash',     'Cotação facilitada',     'Peça sua cotação de forma simples e sem burocracia.'],
+                    ['users',     'Representantes',         'Atendimento em 26 estados.'],
+                    ['handshake', 'Parceria de verdade',    'Parceria que não termina no pedido: estamos com você em cada etapa.'],
                 ];
             @endphp
             @foreach($advantages as $idx => [$icon, $title, $sub])
@@ -544,10 +544,10 @@
                     <div class="w-10 h-10 rounded-lg {{ $iconBg }} flex items-center justify-center mb-4 relative z-10">
                         @switch($icon)
                             @case('box')     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg> @break
-                            @case('clock')   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> @break
+                            @case('truck')   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> @break
                             @case('headset') <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 14v-2a9 9 0 0 1 18 0v2M3 14v3a2 2 0 0 0 2 2h2v-7H5a2 2 0 0 0-2 2zm18 0v3a2 2 0 0 1-2 2h-2v-7h2a2 2 0 0 1 2 2z"/></svg> @break
-                            @case('chart')   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 3v18h18M7 14l4-4 4 4 5-5"/></svg> @break
-                            @case('plane')   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2 12h20M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z"/></svg> @break
+                            @case('handshake') <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M11 17l2 2a1 1 0 0 0 1.4 0l4.6-4.6a2 2 0 0 0 0-2.8L15 7.6"/><path d="M13 5.6L11.4 4a2 2 0 0 0-2.8 0L3 9.6"/><path d="M2 14l4 4 2.5-2.5M21 3l-4 4M3 3l4 4"/><path d="M8 13l3-3 4 4"/></svg> @break
+                            @case('globe')   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2 12h20M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z"/></svg> @break
                             @case('flash')   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> @break
                             @case('users')   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg> @break
                             @case('shield')  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg> @break

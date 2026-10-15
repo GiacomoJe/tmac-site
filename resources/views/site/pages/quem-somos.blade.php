@@ -141,10 +141,11 @@
 
 {{-- ═══════════ 3. FULL-BLEED IMAGE BREAKER #1 ═══════════ --}}
 <section class="relative bg-ink overflow-hidden" style="height: clamp(320px, 50vh, 520px);">
-    <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=2400&q=75"
-         alt="Detalhe de motor de motocicleta"
+    <img src="{{ asset('storage/images/quem-somos/qs-manifesto.webp') }}"
+         alt="Manifesto TMAC"
          loading="lazy"
-         class="absolute inset-0 w-full h-full object-cover opacity-60">
+         onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=2400&q=75'"
+         class="absolute inset-0 w-full h-full object-cover opacity-70">
 
     <div class="absolute inset-0"
          style="background: linear-gradient(90deg, rgba(15,16,20,0.85) 0%, rgba(15,16,20,0.30) 50%, rgba(15,16,20,0.85) 100%);"></div>
@@ -318,7 +319,7 @@
 
 {{-- ═══════════ 6. FULL-BLEED IMAGE BREAKER #2 — LOGÍSTICA ═══════════ --}}
 <section class="relative bg-ink overflow-hidden" style="height: clamp(280px, 42vh, 440px);">
-    <img src="{{ asset('storage/images/quem-somos/qs-logistica.jpg') }}"
+    <img src="{{ asset('storage/images/quem-somos/qs-logistica.webp') }}"
          alt="Logística TMAC"
          loading="lazy"
          onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=2400&q=75'"
@@ -420,7 +421,7 @@
     <div class="container-tmac py-16 md:py-24 grid lg:grid-cols-12 gap-10 items-center relative">
         <div class="lg:col-span-5">
             <div class="relative rounded-xl overflow-hidden aspect-[4/5] bg-ink">
-                <img src="{{ asset('storage/images/quem-somos/qs-produtos.jpg') }}"
+                <img src="{{ asset('storage/images/quem-somos/qs-produtos.webp') }}"
                      alt="Linha de produtos TMAC"
                      loading="lazy"
                      onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1591537220787-5f7d63d2e1a1?auto=format&fit=crop&w=1200&q=75'"
@@ -508,9 +509,10 @@
 
 {{-- ═══════════ 10. CTA FINAL — FIQUE POR DENTRO ═══════════ --}}
 <section class="relative overflow-hidden bg-accent text-white">
-    <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=2000&q=70"
+    <img src="{{ asset('storage/images/quem-somos/qs-cta.webp') }}"
          alt="" aria-hidden="true" loading="lazy"
-         class="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-multiply pointer-events-none">
+         onerror="this.style.display='none'"
+         class="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-multiply pointer-events-none">
 
     <div class="absolute -top-20 -right-20 w-80 h-80 pointer-events-none"
          style="background: radial-gradient(circle, rgba(0,77,255,0.35), transparent 70%);"></div>

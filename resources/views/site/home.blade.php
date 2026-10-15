@@ -246,7 +246,7 @@
 {{-- ═══════════ 2C. BANDA INSTITUCIONAL — Centro de Distribuição ═══════════ --}}
 <section class="relative bg-ink text-white overflow-hidden">
     {{-- Foto full-bleed industrial (CD TMAC) --}}
-    <img src="{{ asset('storage/images/cd-tmac.webp') }}"
+    <img src="{{ asset('images/cd-tmac.webp') }}"
          alt="Centro de distribuição TMAC" loading="lazy"
          onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=2400&q=70'"
          class="absolute inset-0 w-full h-full object-cover opacity-35">
@@ -647,7 +647,7 @@
     <div class="container-tmac py-12 md:py-16 grid lg:grid-cols-12 gap-6">
         <div class="lg:col-span-5 relative rounded-xl overflow-hidden bg-ink min-h-[320px] flex items-end p-6">
             {{-- Foto de parceria TMAC (lojista + operação) --}}
-            <img src="{{ asset('storage/images/parceria-tmac.webp') }}"
+            <img src="{{ asset('images/parceria-tmac.webp') }}"
                  alt="Parceria TMAC com lojistas em todo o Brasil" loading="lazy"
                  onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1632823469850-2f77dd9c7f93?auto=format&fit=crop&w=1600&q=70'"
                  class="absolute inset-0 w-full h-full object-cover">
@@ -730,7 +730,7 @@
 {{-- ═══════════ 9. CTA FINAL VERMELHO ═══════════ --}}
 <section class="relative overflow-hidden bg-accent text-white">
     {{-- Foto de fundo (sem blend — a arte já vem tratada em azul TMAC) --}}
-    <img src="{{ asset('storage/images/cta-final.webp') }}"
+    <img src="{{ asset('images/cta-final.webp') }}"
          alt="" aria-hidden="true" loading="lazy"
          onerror="this.style.display='none'"
          class="absolute inset-0 w-full h-full object-cover pointer-events-none">

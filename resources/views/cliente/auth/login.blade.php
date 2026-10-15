@@ -4,8 +4,8 @@
 <section class="container-tmac pt-10 pb-16">
     <div class="max-w-sm mx-auto">
         <div class="text-center mb-8">
-            <img src="{{ asset('storage/images/logo-tmac.svg') }}" alt="TMAC Import" class="h-10 mx-auto mb-4"
-                 onerror="this.onerror=null;this.src='{{ asset('storage/images/logo-tmac.png') }}'">
+            <img src="{{ asset('images/logo-tmac.svg') }}" alt="TMAC Import" class="h-10 mx-auto mb-4"
+                 onerror="this.onerror=null;this.src='{{ asset('images/logo-tmac.png') }}'">
             <h1 class="font-display font-extrabold text-xl text-ink">Área do Cliente</h1>
             <p class="text-sm text-ink-soft mt-1">Entre para consultar a tabela de preços por estado e montar seu pedido.</p>
         </div>

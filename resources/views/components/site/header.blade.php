@@ -33,7 +33,7 @@
 
         {{-- Logo --}}
         <a href="{{ route('site.home') }}" class="logo-mark shrink-0">
-            <img src="{{ asset('storage/images/logo-tmac.svg') }}" alt="TMAC Import" class="h-10" onerror="this.onerror=null;this.src='{{ asset('storage/images/logo-tmac.png') }}'">
+            <img src="{{ asset('images/logo-tmac.svg') }}" alt="TMAC Import" class="h-10" onerror="this.onerror=null;this.src='{{ asset('images/logo-tmac.png') }}'">
             <span class="logo-mark__tick"></span>
             <span class="logo-mark__sub">
                 <span>Atacado</span>

@@ -141,7 +141,7 @@
 
 {{-- ═══════════ 3. FULL-BLEED IMAGE BREAKER #1 ═══════════ --}}
 <section class="relative bg-ink overflow-hidden" style="height: clamp(320px, 50vh, 520px);">
-    <img src="{{ asset('storage/images/quem-somos/qs-manifesto.webp') }}"
+    <img src="{{ asset('images/quem-somos/qs-manifesto.webp') }}"
          alt="Manifesto TMAC"
          loading="lazy"
          onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=2400&q=75'"
@@ -319,7 +319,7 @@
 
 {{-- ═══════════ 6. FULL-BLEED IMAGE BREAKER #2 — LOGÍSTICA ═══════════ --}}
 <section class="relative bg-ink overflow-hidden" style="height: clamp(280px, 42vh, 440px);">
-    <img src="{{ asset('storage/images/quem-somos/qs-logistica.webp') }}"
+    <img src="{{ asset('images/quem-somos/qs-logistica.webp') }}"
          alt="Logística TMAC"
          loading="lazy"
          onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=2400&q=75'"
@@ -391,7 +391,7 @@
 
         <div class="lg:col-span-6 order-1 lg:order-2">
             <div class="relative rounded-xl overflow-hidden aspect-[4/3] bg-ink">
-                <img src="{{ asset('storage/images/quem-somos/qs-representantes.jpg') }}"
+                <img src="{{ asset('images/quem-somos/qs-representantes.jpg') }}"
                      alt="Cobertura nacional TMAC"
                      loading="lazy"
                      onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1547549700-bf12d5e5ce8a?auto=format&fit=crop&w=1400&q=75'"
@@ -421,7 +421,7 @@
     <div class="container-tmac py-16 md:py-24 grid lg:grid-cols-12 gap-10 items-center relative">
         <div class="lg:col-span-5">
             <div class="relative rounded-xl overflow-hidden aspect-[4/5] bg-ink">
-                <img src="{{ asset('storage/images/quem-somos/qs-produtos.webp') }}"
+                <img src="{{ asset('images/quem-somos/qs-produtos.webp') }}"
                      alt="Linha de produtos TMAC"
                      loading="lazy"
                      onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1591537220787-5f7d63d2e1a1?auto=format&fit=crop&w=1200&q=75'"
@@ -509,7 +509,7 @@
 
 {{-- ═══════════ 10. CTA FINAL — FIQUE POR DENTRO ═══════════ --}}
 <section class="relative overflow-hidden bg-accent text-white">
-    <img src="{{ asset('storage/images/quem-somos/qs-cta.webp') }}"
+    <img src="{{ asset('images/quem-somos/qs-cta.webp') }}"
          alt="" aria-hidden="true" loading="lazy"
          onerror="this.style.display='none'"
          class="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-multiply pointer-events-none">

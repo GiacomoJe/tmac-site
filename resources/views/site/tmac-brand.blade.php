@@ -16,8 +16,8 @@
      ═══════════════════════════════════════════════════════ --}}
 @php
     // Foto de fundo do hero: usa a cadastrada da marca; se não houver,
-    // cai num banco de imagens locais por tema (ver storage/images/brands/hero/).
-    $heroBg = $brand->image_url ?: asset('storage/images/brands/hero/default.jpg');
+    // cai num banco de imagens locais por tema (ver public/images/brands/hero/).
+    $heroBg = $brand->image_url ?: asset('images/brands/hero/default.jpg');
 @endphp
 <section class="brand-hero">
     <img src="{{ $heroBg }}" alt="" aria-hidden="true" fetchpriority="high"

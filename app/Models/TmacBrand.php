@@ -69,12 +69,30 @@ class TmacBrand extends Model
 
     public function getImageUrlAttribute(): ?string
     {
-        return $this->image_path ? asset('storage/' . $this->image_path) : null;
+        return self::resolveAssetUrl($this->image_path);
     }
 
     public function getLogoUrlAttribute(): ?string
     {
-        return $this->logo_path ? asset('storage/' . $this->logo_path) : null;
+        return self::resolveAssetUrl($this->logo_path);
+    }
+
+    /**
+     * Resolve o caminho da imagem conforme a origem:
+     *  - "images/..."  → asset fixo versionado em public/images (arte do site)
+     *  - demais        → upload do admin, servido via storage/
+     */
+    public static function resolveAssetUrl(?string $path): ?string
+    {
+        if (! $path) return null;
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        return str_starts_with($path, 'images/')
+            ? asset($path)
+            : asset('storage/'.$path);
     }
 
     /** Cor sólida da marca, com fallback baseado no accent_color escolhido. */

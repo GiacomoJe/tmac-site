@@ -9,7 +9,7 @@
 
 {{-- ═══════════ HERO ═══════════ --}}
 <section class="relative bg-ink text-white overflow-hidden" style="min-height: 280px;">
-    <img src="{{ asset('storage/images/parceria-tmac.jpg') }}" alt="" aria-hidden="true"
+    <img src="{{ asset('images/parceria-tmac.webp') }}" alt="" aria-hidden="true"
          onerror="this.style.display='none'"
          class="absolute inset-0 w-full h-full object-cover opacity-25">
     <div class="absolute inset-0"

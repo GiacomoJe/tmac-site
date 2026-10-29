@@ -21,3 +21,8 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# Dumps de banco e pacotes de deploy
+*.sql
+*.sql.gz
+storage-uploads.zip

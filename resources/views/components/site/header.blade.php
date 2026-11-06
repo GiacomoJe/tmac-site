@@ -96,7 +96,7 @@
          class="border-t border-line bg-bg-elev">
         <div class="container-tmac py-3.5">
             <form action="{{ route('site.products') }}" method="GET"
-                  class="search-bar focus-within:border-signal focus-within:ring-2 focus-within:ring-signal/15 transition">
+                  class="search-bar pr-3.5 focus-within:border-signal focus-within:ring-2 focus-within:ring-signal/15 transition">
                 <svg class="w-[18px] h-[18px] text-ink-faint" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
                 <input type="search" name="q" placeholder="Buscar por moto, peça ou part number…" autofocus>
                 <span class="font-mono text-[10px] uppercase tracking-[0.10em] text-ink-faint hidden sm:inline-flex items-center gap-1.5">

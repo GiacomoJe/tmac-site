@@ -39,7 +39,7 @@
             @if($selectedMake)<input type="hidden" name="moto" value="{{ $selectedMake }}">@endif
             @if($selectedModel)<input type="hidden" name="modelo" value="{{ $selectedModel }}">@endif
             @if($selectedYear)<input type="hidden" name="ano" value="{{ $selectedYear }}">@endif
-            <button class="btn-dark btn-sm shrink-0">Buscar</button>
+            <button class="search-bar__btn">Buscar</button>
         </form>
 
         {{-- Botão "Filtros" — só mobile/tablet --}}
@@ -175,7 +175,11 @@
     <livewire:site.quote-cart-summary />
 
     {{-- ═══════ LAYOUT 2 COLUNAS: sidebar + grid ═══════ --}}
-    <div class="mt-6 grid grid-cols-1 lg:grid-cols-[260px,1fr] gap-6">
+    {{-- minmax(0,1fr) e não 1fr: "1fr" equivale a minmax(auto,1fr), e o "auto"
+         faz a coluna crescer até o min-content dos cards. Como o container é
+         centralizado e sobra espaço nas laterais, a coluna vazava pra direita
+         sem gerar scroll horizontal — os cards passavam das barras de cima. --}}
+    <div class="mt-6 grid grid-cols-1 lg:grid-cols-[260px,minmax(0,1fr)] gap-6">
 
         {{-- ── Sidebar desktop ── --}}
         <aside class="hidden lg:block">

@@ -34,7 +34,7 @@ class TmacBrandController extends Controller
         return view('site.tmac-brand', [
             'brand'  => $tmacBrand,
             'others' => TmacBrand::active()->ordered()->where('id', '!=', $tmacBrand->id)->get(),
-            'products' => \App\Models\Product::with('brand')
+            'products' => \App\Models\Product::with(['brand', 'motorcycleModels'])
                 ->active()
                 ->where('tmac_brand_id', $tmacBrand->id)
                 ->orderBy('sort_order')

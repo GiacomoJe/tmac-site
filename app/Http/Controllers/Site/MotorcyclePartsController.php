@@ -22,7 +22,7 @@ class MotorcyclePartsController extends Controller
         // Lista produtos com qualquer fitment dos modelos dessa marca
         $modelIds = $models->pluck('id');
 
-        $products = Product::with('brand')->active()
+        $products = Product::with(['brand', 'motorcycleModels'])->active()
             ->whereHas('fitments', fn ($q) => $q->whereIn('motorcycle_model_id', $modelIds))
             ->orderBy('sort_order')->orderBy('name')
             ->paginate(24)->withQueryString();
@@ -52,7 +52,7 @@ class MotorcyclePartsController extends Controller
             ->where('slug', $modelo)
             ->firstOrFail();
 
-        $products = Product::with('brand')->active()
+        $products = Product::with(['brand', 'motorcycleModels'])->active()
             ->forMotorcycle($model->id)
             ->orderBy('sort_order')->orderBy('name')
             ->paginate(24)->withQueryString();
@@ -85,7 +85,7 @@ class MotorcyclePartsController extends Controller
 
         abort_if($ano < 1950 || $ano > (int) date('Y') + 1, 404);
 
-        $products = Product::with('brand')->active()
+        $products = Product::with(['brand', 'motorcycleModels'])->active()
             ->forMotorcycle($model->id, $ano)
             ->orderBy('sort_order')->orderBy('name')
             ->paginate(24)->withQueryString();

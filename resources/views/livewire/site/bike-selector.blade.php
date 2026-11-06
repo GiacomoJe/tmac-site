@@ -70,7 +70,7 @@
         {{-- CTA azul --}}
         <button type="button" wire:click="findParts"
                 @if(!$makeSlug) disabled @endif
-                class="btn-signal btn-block h-12 font-bold uppercase tracking-[0.04em] text-[13px] disabled:opacity-50 disabled:cursor-not-allowed">
+                class="btn-signal btn-block h-12 self-end relative z-10 font-bold uppercase tracking-[0.04em] text-[13px] disabled:opacity-50 disabled:cursor-not-allowed">
             <span wire:loading.remove wire:target="findParts" class="flex items-center gap-2">
                 Ver peças
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>

@@ -28,7 +28,7 @@ class HomeController extends Controller
             'featuredBrands' => Brand::active()->ordered()->take(12)->get(),
             'tmacBrands' => TmacBrand::active()->featured()->ordered()->take(4)->get(),
             'testimonials' => Testimonial::active()->ordered()->take(3)->get(),
-            'featuredProducts' => Product::with('brand')->active()->featured()->orderBy('sort_order')->take(8)->get(),
+            'featuredProducts' => Product::with(['brand', 'motorcycleModels'])->active()->featured()->orderBy('sort_order')->take(8)->get(),
             'states' => State::orderBy('uf')->get(['id','uf','name']),
         ]);
     }

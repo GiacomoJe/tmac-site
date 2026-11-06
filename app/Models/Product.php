@@ -68,6 +68,28 @@ class Product extends Model
             ->withTimestamps();
     }
 
+    /**
+     * Modelos compatíveis para os chips do card, sem repetição.
+     * Um mesmo modelo aparece várias vezes em motorcycle_fitments quando há
+     * faixas de ano diferentes — no card isso é ruído, então só o nome importa.
+     *
+     * Lembre de dar eager load em 'motorcycleModels' na listagem, senão vira N+1.
+     */
+    public function getFitmentChipsAttribute(): array
+    {
+        if (! $this->relationLoaded('motorcycleModels')) {
+            $this->load('motorcycleModels');
+        }
+
+        return $this->motorcycleModels
+            ->pluck('name')
+            ->map(fn ($n) => trim((string) $n))
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);

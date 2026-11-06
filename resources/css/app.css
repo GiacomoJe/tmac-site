@@ -115,19 +115,30 @@
     .field-hint { @apply mt-1 text-[11px] font-mono text-ink-faint; }
 
     /* ── Search bar ── */
+    /* pr-0 + overflow-hidden: o botão encosta na borda direita da barra, que é a
+       mesma borda do grid de produtos e do painel de filtros. Com padding à
+       direita ele parava ~14px antes e parecia desalinhado com o resto. */
     .search-bar {
-        @apply flex items-center gap-2.5 h-12 px-3.5 rounded-[10px] bg-bg-sunken border border-line;
+        @apply flex items-center gap-2.5 h-12 pl-3.5 pr-0 overflow-hidden
+               rounded-[10px] bg-bg-sunken border border-line;
     }
     .search-bar input {
-        @apply flex-1 bg-transparent border-0 outline-none text-[15px] text-ink
+        @apply flex-1 min-w-0 bg-transparent border-0 outline-none text-[15px] text-ink
                placeholder:text-ink-faint;
+    }
+    .search-bar__btn {
+        @apply shrink-0 h-full px-6 rounded-none bg-ink text-white
+               text-[13px] font-semibold hover:bg-accent transition;
     }
 
     /* ── Card ── */
     .card { @apply bg-bg-elev border border-line rounded-xl overflow-hidden; }
 
     /* ── Product card ── */
-    .p-card { @apply card flex flex-col h-full overflow-hidden; }
+    /* min-w-0: itens de grid têm min-width:auto por padrão, então o conteúdo
+       mais largo de dentro (os chips de moto) empurrava a coluna e estourava
+       o container. Sem isso o card vaza pra fora do quadro. */
+    .p-card { @apply card flex flex-col h-full overflow-hidden min-w-0; }
     .p-card__img {
         /* Altura FIXA — não estica com o grid nem varia com o tamanho do título */
         @apply relative flex items-center justify-center text-ink-faint font-mono text-[10px] uppercase tracking-[0.06em] border-b border-line;
@@ -150,20 +161,46 @@
         padding: 14px;
         mix-blend-mode: multiply;  /* funde o fundo branco do JPG com a textura do card */
     }
+    /* O código é a informação principal do card — é por ele que o lojista pede */
     .p-card__sku {
-        @apply absolute top-2 left-2 font-mono text-[10px] bg-bg text-ink-soft px-1.5 py-0.5 rounded border border-line tracking-[0.02em];
+        @apply absolute top-2 left-2 font-mono font-bold text-[13px] md:text-[14px]
+               bg-ink text-white px-2 py-1 rounded tracking-[0.02em] leading-none
+               shadow-sm z-10;
     }
-    .p-card__body  { @apply p-3 flex flex-col gap-1.5 flex-1; }
+    .p-card__body  { @apply p-3 flex flex-col gap-2 flex-1 min-w-0; }
     .p-card__brand { @apply font-mono text-[10px] uppercase tracking-[0.08em] text-ink-faint; }
+    /* Descrição do produto: texto menor e mais linhas — em peça de moto a diferença
+       entre dois itens está no fim da frase (ano, versão, PAR), então cortar cedo
+       deixa o card inútil. 4 linhas com reticências via CSS. */
     .p-card__title {
-        @apply text-[14px] font-semibold leading-snug line-clamp-2;
+        @apply text-[12.5px] font-medium leading-[1.4] line-clamp-4 text-ink;
         letter-spacing: -0.005em;
-        min-height: 2.6em;   /* reserva espaço de 2 linhas — alinha os cards do grid */
+        min-height: 4.2em;   /* 3 linhas reservadas — alinha os cards do grid */
     }
-    .p-card__meta  { @apply mt-auto pt-2 border-t border-line-soft flex items-center justify-between; }
-    .p-card__ref   { @apply font-mono text-[11px] text-ink-soft; }
+    /* Compatibilidade: chips curtos, uma linha só. Vem de motorcycle_fitments,
+       então mostra o modelo limpo — sem a soup de anos que está no nome do produto. */
+    .p-card__foot { @apply mt-auto flex flex-col gap-2 min-w-0; }
+    .p-card__fit {
+        @apply flex items-center gap-1 min-w-0 overflow-hidden
+               pt-2 border-t border-line-soft text-ink-faint;
+    }
+    .p-card__fit-icon  { @apply w-3.5 h-3.5 shrink-0; }
+    /* Os chips PODEM encolher: em card estreito é melhor cortar o nome do modelo
+       do que empurrar o card pra fora do grid. */
+    .p-card__fit-chip  {
+        @apply min-w-0 max-w-[96px] truncate font-mono text-[10px] uppercase
+               tracking-[0.04em] bg-bg-elev text-ink-soft
+               border border-line rounded px-1.5 py-0.5 leading-none;
+    }
+    .p-card__fit-more  {
+        @apply shrink-0 font-mono text-[10px] text-ink-faint tracking-[0.04em];
+    }
+
     .p-card__add   {
-        @apply w-8 h-8 rounded bg-ink text-white flex items-center justify-center hover:bg-ink/90 transition;
+        @apply w-full h-9 rounded bg-ink text-white
+               flex items-center justify-center gap-1.5
+               font-mono text-[11px] uppercase tracking-[0.06em]
+               hover:bg-accent transition;
     }
 
     /* ── Chip (filtros / categorias) ── */

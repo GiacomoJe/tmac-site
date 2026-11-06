@@ -49,7 +49,7 @@ class ProductController extends Controller
         $modelSlug = $request->string('modelo')->toString();
         $year      = $request->integer('ano') ?: null;
 
-        $products = Product::with(['brand', 'tmacBrand'])
+        $products = Product::with(['brand', 'tmacBrand', 'motorcycleModels'])
             ->active()
             ->search($q ?: null)
             ->when($brandSlugs->isNotEmpty(),

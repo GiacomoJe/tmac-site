@@ -20,7 +20,7 @@ class BrandController extends Controller
 
         $seo->set($brand->meta_title, $brand->meta_description, canonical: route('site.brand', $brand->slug));
 
-        $products = $brand->products()->active()->orderBy('sort_order')->paginate(24);
+        $products = $brand->products()->with('motorcycleModels')->active()->orderBy('sort_order')->paginate(24);
 
         return view('site.brand', compact('brand', 'products'));
     }

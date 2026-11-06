@@ -192,16 +192,14 @@ class QuoteForm extends Component
             ]);
         }
 
-        $representative = $router->assign($request);
+        // Pré-seleciona o representante da UF apenas como SUGESTÃO: ele aparece
+        // já escolhido no modal "Encaminhar" do painel. O envio ao representante
+        // é sempre manual, feito pelo comercial — nunca automático aqui.
+        $router->assign($request);
 
         try {
             Mail::to(config('quote.commercial_email'))
                 ->send(new QuoteRequestSubmitted($request->fresh('items', 'state', 'representative')));
-
-            if ($representative && $representative->email) {
-                Mail::to($representative->email)
-                    ->send(new QuoteRequestSubmitted($request->fresh('items', 'state', 'representative')));
-            }
         } catch (\Throwable $e) {
             logger()->warning('Quote email failed: '.$e->getMessage());
         }

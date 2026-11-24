@@ -39,6 +39,13 @@ class TmacBrandResource extends Resource
                         ->maxLength(140)
                         ->helperText('Deixe em branco para gerar automaticamente.'),
                 ]),
+                Forms\Components\Select::make('parent_id')
+                    ->label('Submarca de')
+                    ->relationship('parent', 'name', fn ($query, $record) => $query->whereNull('parent_id')
+                        ->when($record, fn ($q) => $q->where('id', '!=', $record->id)))
+                    ->placeholder('— É uma marca principal —')
+                    ->helperText('Ex.: LBJ Premium é submarca da LBJ. Submarcas não contam no "Quatro marcas" nem entram na vitrine do Universo TMAC.')
+                    ->columnSpanFull(),
                 Forms\Components\TextInput::make('badge_label')
                     ->label('Etiqueta curta')
                     ->maxLength(60)
@@ -63,7 +70,7 @@ class TmacBrandResource extends Resource
                         ->image()
                         ->disk('public')
                         ->directory('tmac-brands')
-                        ->helperText('Foto editorial da linha (recomendado: 1200×800px).'),
+                        ->helperText('Foto da linha: 1600×1000 px (16:10), JPG ou WebP, até ~400 KB. Deixe o assunto principal no centro e sem textos/logos na imagem — ela é cortada nas bordas e tingida com a cor da marca no topo da página.'),
                     Forms\Components\FileUpload::make('logo_path')
                         ->label('Logo (opcional)')
                         ->image()
@@ -94,6 +101,54 @@ class TmacBrandResource extends Resource
                     ->maxLength(255)
                     ->helperText('URL externa ou interna. Vazio → vai para /universo-tmac/{slug}.'),
             ])->collapsed(),
+
+            Forms\Components\Section::make('Página da marca (/universo-tmac/…)')
+                ->description('Textos da página própria da marca. Campo vazio → o bloco usa o texto padrão ou some. Parágrafos: separe com uma linha em branco.')
+                ->schema([
+                    Forms\Components\Fieldset::make('Topo')->schema([
+                        Forms\Components\TextInput::make('page_content.hero_title')->label('Título (H1)')->maxLength(160)->columnSpanFull(),
+                        Forms\Components\Textarea::make('page_content.hero_subtitle')->label('Subtítulo')->rows(2)->maxLength(400)->columnSpanFull(),
+                        Forms\Components\TextInput::make('page_content.hero_cta')->label('Texto do botão (vai para /cotacao)')->maxLength(80)->placeholder('Solicitar cotação'),
+                    ]),
+                    Forms\Components\Fieldset::make('Proposta')->schema([
+                        Forms\Components\TextInput::make('page_content.about_title')->label('Título')->maxLength(160)->columnSpanFull(),
+                        Forms\Components\Textarea::make('page_content.about_text')->label('Texto')->rows(6)->maxLength(3000)->columnSpanFull(),
+                    ]),
+                    Forms\Components\Fieldset::make('Box "O que você encontra"')->schema([
+                        Forms\Components\TextInput::make('page_content.families_title')->label('Título')->maxLength(160)->columnSpanFull(),
+                        Forms\Components\Textarea::make('page_content.families_intro')->label('Texto de apoio')->rows(2)->maxLength(400)->columnSpanFull(),
+                        Forms\Components\TagsInput::make('page_content.families')
+                            ->label('Famílias de produto')
+                            ->helperText('Cada item vira um atalho para a busca do catálogo. Digite e tecle Enter.')
+                            ->columnSpanFull(),
+                    ]),
+                    Forms\Components\Fieldset::make('Destaque (opcional)')->schema([
+                        Forms\Components\TextInput::make('page_content.highlight_title')->label('Título')->maxLength(160)->columnSpanFull(),
+                        Forms\Components\Textarea::make('page_content.highlight_text')->label('Texto')->rows(3)->maxLength(1000)->columnSpanFull(),
+                    ]),
+                    Forms\Components\Fieldset::make('Diferenciais')->schema([
+                        Forms\Components\TextInput::make('page_content.diffs_title')->label('Título')->maxLength(160)->columnSpanFull(),
+                        Forms\Components\Repeater::make('page_content.diffs')
+                            ->label('Itens')
+                            ->schema([
+                                Forms\Components\TextInput::make('title')->label('Título')->required()->maxLength(120),
+                                Forms\Components\Textarea::make('text')->label('Texto')->rows(2)->required()->maxLength(400),
+                            ])
+                            ->reorderableWithButtons()
+                            ->collapsible()
+                            ->maxItems(8)
+                            ->itemLabel(fn (array $state): ?string => $state['title'] ?? 'Diferencial')
+                            ->addActionLabel('+ Adicionar diferencial')
+                            ->columnSpanFull(),
+                    ]),
+                    Forms\Components\Fieldset::make('Bloco de conversão (final da página)')->schema([
+                        Forms\Components\TextInput::make('page_content.cta_title')->label('Título')->maxLength(160)->columnSpanFull(),
+                        Forms\Components\Textarea::make('page_content.cta_text')->label('Texto')->rows(3)->maxLength(600)->columnSpanFull(),
+                        Forms\Components\TextInput::make('page_content.cta_primary')->label('Botão principal (→ /cotacao)')->maxLength(80),
+                        Forms\Components\TextInput::make('page_content.cta_secondary')->label('Botão secundário (→ Seja distribuidor)')->maxLength(80),
+                    ]),
+                ])
+                ->collapsed(),
 
             Forms\Components\Section::make('SEO')->schema([
                 Forms\Components\TextInput::make('meta_title')->label('Título SEO')->maxLength(160),

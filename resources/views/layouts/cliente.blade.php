@@ -24,6 +24,14 @@
                 <span class="hidden xs:inline text-[11px] font-mono uppercase tracking-mono-up bg-white/15 rounded px-1.5 py-0.5">Área do Cliente</span>
             </a>
 
+            <div class="flex items-center gap-2 min-w-0">
+            {{-- Voltar para o site (sempre visível) --}}
+            <a href="{{ route('site.home') }}"
+               class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-mono-up bg-white/15 hover:bg-white/25 rounded-sm px-3 py-2 transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+                Voltar para o site
+            </a>
+
             @auth('cliente')
                 <div class="flex items-center gap-3 min-w-0">
                     <span class="hidden sm:block text-sm text-white/85 truncate max-w-[220px]">
@@ -37,6 +45,7 @@
                     </form>
                 </div>
             @endauth
+            </div>
         </div>
     </header>
 

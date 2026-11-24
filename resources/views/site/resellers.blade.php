@@ -167,11 +167,7 @@
             <p class="mt-3 text-ink-soft text-[15px] leading-relaxed">
                 Seja um revendedor autorizado TMAC e apareça neste mapa para milhares de motociclistas.
             </p>
-            @php
-                $distUrl = \App\Models\Setting::get('distributor_form_url')
-                    ?: 'https://tsgmrsomo1jj.sg.larksuite.com/share/base/form/shrlgNTTXRvcR6JaDOqBRJnrXDd';
-            @endphp
-            <a href="{{ $distUrl }}" target="_blank" rel="noopener" class="btn-distributor mt-6">
+            <a href="{{ route('site.distributor') }}" class="btn-distributor mt-6">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 6h13v10H3zM16 10h4l1 3v3h-5"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
                 Seja distribuidor
             </a>

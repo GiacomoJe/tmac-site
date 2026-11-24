@@ -13,6 +13,13 @@ class AuthController extends Controller
 {
     public function showLogin(SeoMeta $seo)
     {
+        // Área em construção: mostra aviso + botão de voltar ao site (config/cliente.php)
+        if (! config('cliente.area_enabled')) {
+            $seo->set('Área do Cliente — em construção', 'A nova Área do Cliente TMAC está em construção.');
+
+            return view('cliente.em-construcao');
+        }
+
         if (Auth::guard('cliente')->check()) {
             return redirect()->route('cliente.tabela');
         }
@@ -24,6 +31,10 @@ class AuthController extends Controller
 
     public function login(Request $request): RedirectResponse
     {
+        if (! config('cliente.area_enabled')) {
+            return redirect()->route('cliente.login');
+        }
+
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],

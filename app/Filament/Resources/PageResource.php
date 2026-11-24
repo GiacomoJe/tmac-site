@@ -85,7 +85,8 @@ class PageResource extends Resource
                         ->addActionLabel('+ Adicionar regra'),
                 ])
                 ->collapsed()
-                ->visible(fn ($record) => $record && $record->slug === 'quem-somos'),
+                // Bloco saiu do layout novo do Quem Somos (nov/26) — escondido para não confundir.
+                ->visible(false),
 
             Forms\Components\Section::make('Cards de orientação (só Ouvidoria)')
                 ->description('3 cards no topo da Ouvidoria (Sugestão / Reclamação / Elogio).')

@@ -1,7 +1,15 @@
 @extends('layouts.site')
 
 @section('content')
-<section class="container-tmac pt-4 max-w-4xl">
+@php
+    // WhatsApp do marketing (Painel → Configurações → whatsapp_marketing)
+    $wppMkt     = preg_replace('/\D/', '', \App\Models\Setting::get('whatsapp_marketing', '5511947185865'));
+    $wppMktFmt  = strlen($wppMkt) === 13
+        ? sprintf('+%s %s %s-%s', substr($wppMkt, 0, 2), substr($wppMkt, 2, 2), substr($wppMkt, 4, 5), substr($wppMkt, 9))
+        : $wppMkt;
+    $wppMsg     = rawurlencode('Olá! Vim pelo site da TMAC e não encontrei representante para o meu estado.');
+@endphp
+<section class="container-tmac pt-4 max-w-5xl">
 
     <nav class="crumb">
         <a href="{{ route('site.home') }}">Início</a>
@@ -9,10 +17,32 @@
         <span class="crumb__current">Representantes</span>
     </nav>
 
-    <div class="mt-6">
-        <x-site.eyebrow text="Atendimento regional"/>
-        <h1 class="section-title mt-1.5">Representantes por estado.</h1>
-        <p class="section-sub">Time comercial dedicado em 26 estados + DF. Suporte técnico em peças de moto, atendimento no seu fuso.</p>
+    {{-- Cabeçalho + atalho "Não encontrou seu estado?" lado a lado (no celular, empilha logo abaixo do título) --}}
+    <div class="mt-6 grid md:grid-cols-12 gap-5 md:gap-8 items-start">
+        <div class="md:col-span-7">
+            <x-site.eyebrow text="Atendimento regional"/>
+            <h1 class="section-title mt-1.5">Representantes por estado.</h1>
+            <p class="section-sub">Time comercial dedicado em 26 estados + DF. Suporte técnico em peças de moto, atendimento no seu fuso.</p>
+        </div>
+
+        <aside class="md:col-span-5 card p-4 md:p-5">
+            <x-site.eyebrow num="i" text="Não encontrou seu estado?"/>
+            <p class="mt-2 text-[13px] text-ink-soft leading-relaxed">
+                Atendemos todo o Brasil pela central comercial em São Paulo. Preencha o cadastro ou chame no WhatsApp e encaminhamos para o representante mais próximo.
+            </p>
+            <div class="mt-3 grid sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-2">
+                <a href="{{ route('site.distributor') }}" class="btn-primary btn-sm justify-center"
+                   onclick="window.dataLayer&&dataLayer.push({event:'distributor_form_open',source:'representatives'})">
+                    Preencher cadastro
+                </a>
+                <a href="https://wa.me/{{ $wppMkt }}?text={{ $wppMsg }}" target="_blank" rel="noopener"
+                   onclick="window.dataLayer&&dataLayer.push({event:'whatsapp_click',source:'representatives_marketing'})"
+                   class="btn-whatsapp btn-sm justify-center">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.05 4.91A10 10 0 0 0 4.07 18.2L3 22l3.9-1.02a10 10 0 0 0 12.15-16.07Z"/></svg>
+                    {{ $wppMktFmt }}
+                </a>
+            </div>
+        </aside>
     </div>
 
     {{-- Grid de UFs selecionável --}}
@@ -34,8 +64,14 @@
         <div class="mt-8 p-8 text-center border border-dashed border-line rounded-xl bg-bg-elev">
             @if($uf)
                 <div class="font-display font-bold text-lg text-ink">Nenhum representante para {{ $uf }}</div>
-                <p class="text-sm text-ink-soft mt-2">Atendemos todo o Brasil pela central comercial em São Paulo. Solicite cotação online e nossa equipe encaminha.</p>
-                <a href="{{ route('site.quote') }}" class="btn-primary mt-4 inline-flex">Falar com a central</a>
+                <p class="text-sm text-ink-soft mt-2">Atendemos todo o Brasil pela central comercial em São Paulo. Preencha o cadastro ou chame no WhatsApp que nossa equipe encaminha.</p>
+                <div class="mt-4 flex flex-wrap gap-2 justify-center">
+                    <a href="{{ route('site.distributor') }}" class="btn-primary inline-flex"
+                       onclick="window.dataLayer&&dataLayer.push({event:'distributor_form_open',source:'representatives_empty'})">Preencher cadastro</a>
+                    <a href="https://wa.me/{{ $wppMkt }}?text={{ $wppMsg }}" target="_blank" rel="noopener"
+                       onclick="window.dataLayer&&dataLayer.push({event:'whatsapp_click',source:'representatives_marketing'})"
+                       class="btn-whatsapp inline-flex">WhatsApp {{ $wppMktFmt }}</a>
+                </div>
             @else
                 <p class="text-sm text-ink-soft">Selecione um estado acima para ver os representantes.</p>
             @endif
@@ -85,12 +121,6 @@
         </div>
     @endif
 
-    <div class="mt-10">
-        <x-site.eyebrow num="i" text="Não encontrou seu estado?"/>
-        <p class="mt-2 text-sm text-ink-soft leading-relaxed">
-            Atendemos todo o Brasil pela central comercial em São Paulo. Solicite cotação online e nossa equipe encaminha para o representante mais próximo.
-        </p>
-        <a href="{{ route('site.quote') }}" class="btn-primary btn-block mt-4 max-w-sm">Falar com a central</a>
-    </div>
+    <div class="pb-10"></div>
 </section>
 @endsection

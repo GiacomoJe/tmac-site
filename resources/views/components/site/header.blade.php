@@ -2,9 +2,8 @@
     $current = request()->route()?->getName() ?? '';
     $currentSlug = request()->route('slug') ?? '';
 
-    // Formulário externo de cadastro de distribuidor (editável em Configurações → distributor_form_url)
-    $distributorFormUrl = \App\Models\Setting::get('distributor_form_url')
-        ?: 'https://tsgmrsomo1jj.sg.larksuite.com/share/base/form/shrlgNTTXRvcR6JaDOqBRJnrXDd';
+    // "Seja distribuidor" abre /seja-distribuidor, que embute o formulário do Lark
+    // (URL editável em Configurações → distributor_form_url).
 
     $navItems = [
         ['route' => 'site.products',        'label' => 'Produtos'],
@@ -13,7 +12,9 @@
         ['route' => 'site.representatives', 'label' => 'Representantes'],
         ['route' => 'site.page', 'param' => 'quem-somos',  'label' => 'Quem somos'],
         ['route' => 'site.page', 'param' => 'contato',     'label' => 'Contato'],
-        ['route' => 'cliente.login', 'label' => 'Área do Cliente'],
+        // Área do Cliente: enquanto CLIENTE_AREA_ENABLED=false, aparece desabilitada
+        // (sem link) com o aviso discreto "Em construção" em cinza.
+        ['route' => 'cliente.login', 'label' => 'Área do Cliente', 'disabled' => ! config('cliente.area_enabled')],
     ];
 @endphp
 <header x-data="{ open: false, search: false, scrolled: false }"
@@ -50,17 +51,28 @@
                         ? ($current === $item['route'] && $currentSlug === $item['param'])
                         : str_starts_with($current, $item['route']);
                 @endphp
+                @if(!empty($item['disabled']))
+                    {{-- Sem a classe nav-link (sem sublinhado no hover). O aviso fica preso logo abaixo do texto,
+                         sem mudar o alinhamento dos outros itens do menu. --}}
+                    <span class="relative inline-flex items-center py-2 text-[14px] font-medium text-ink-faint cursor-not-allowed select-none" aria-disabled="true" title="Em construção">
+                        <span class="relative leading-none">
+                            {{ $item['label'] }}
+                            <span class="absolute left-1/2 -translate-x-1/2 top-full mt-[3px] whitespace-nowrap font-mono text-[8.5px] leading-none font-medium uppercase tracking-[0.08em] text-ink-faint/80">Em construção</span>
+                        </span>
+                    </span>
+                @else
                 <a href="{{ $href }}" class="nav-link {{ $active ? 'nav-link--active' : '' }} {{ !empty($item['highlight']) ? 'nav-link--highlight' : '' }}">
                     @if(!empty($item['highlight']))
                         <span class="inline-block w-1.5 h-1.5 rounded-full bg-accent mr-1.5 align-middle"></span>
                     @endif
                     {{ $item['label'] }}
                 </a>
+                @endif
             @endforeach
         </nav>
 
         {{-- CTA Seja Distribuidor (desktop) --}}
-        <a href="{{ $distributorFormUrl }}" target="_blank" rel="noopener"
+        <a href="{{ route('site.distributor') }}"
            onclick="window.dataLayer&&dataLayer.push({event:'distributor_cta',source:'header'})"
            class="btn-distributor hidden lg:inline-flex shrink-0">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -152,7 +164,6 @@
                     ['site.resellers', 'Onde comprar'],
                     ['site.representatives', 'Representantes'],
                     ['site.quote', 'Solicitar cotação'],
-                    ['cliente.login', 'Área do Cliente'],
                 ] as [$route, $label])
                     <a href="{{ route($route) }}"
                        class="group flex items-center justify-between px-4 py-4 border-b border-line-soft font-display font-bold text-[18px] tracking-tightish text-ink hover:bg-bg-sunken hover:pl-5 transition-all duration-200">
@@ -163,6 +174,22 @@
                         <svg class="w-3.5 h-3.5 text-ink-faint group-hover:text-signal group-hover:translate-x-1 transition-all duration-200" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
                     </a>
                 @endforeach
+                @if(config('cliente.area_enabled'))
+                    <a href="{{ route('cliente.login') }}"
+                       class="group flex items-center justify-between px-4 py-4 border-b border-line-soft font-display font-bold text-[18px] tracking-tightish text-ink hover:bg-bg-sunken hover:pl-5 transition-all duration-200">
+                        <span class="flex items-center gap-3">
+                            <span class="w-1 h-5 bg-signal rounded-sm scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-center"></span>
+                            Área do Cliente
+                        </span>
+                        <svg class="w-3.5 h-3.5 text-ink-faint group-hover:text-signal group-hover:translate-x-1 transition-all duration-200" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+                    </a>
+                @else
+                    {{-- Área do Cliente desabilitada enquanto está em construção --}}
+                    <div class="flex items-center justify-between px-4 py-4 border-b border-line-soft cursor-not-allowed select-none" aria-disabled="true">
+                        <span class="font-display font-bold text-[18px] tracking-tightish text-ink-faint">Área do Cliente</span>
+                        <span class="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-ink-faint bg-bg-sunken border border-line rounded-full px-2.5 py-1">Em construção</span>
+                    </div>
+                @endif
                 @foreach([
                     ['quem-somos', 'Quem somos'],
                     ['como-comprar', 'Como comprar'],
@@ -182,7 +209,7 @@
             @php $wppNumber = \App\Models\Setting::get('whatsapp_number'); @endphp
             <div class="p-4 border-t border-line space-y-2">
                 {{-- CTA Seja Distribuidor --}}
-                <a href="{{ $distributorFormUrl }}" target="_blank" rel="noopener"
+                <a href="{{ route('site.distributor') }}"
                    onclick="window.dataLayer&&dataLayer.push({event:'distributor_cta',source:'menu_mobile'})"
                    class="btn-distributor btn-block">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">

@@ -179,6 +179,8 @@
     }
     /* Compatibilidade: chips curtos, uma linha só. Vem de motorcycle_fitments,
        então mostra o modelo limpo — sem a soup de anos que está no nome do produto. */
+    /* Descrição reduzida no card: 2 linhas, reticências via CSS (não corta no meio da palavra). */
+    .p-card__desc  { @apply text-[11.5px] leading-[1.4] text-ink-soft line-clamp-2 -mt-1 break-words; }
     .p-card__foot { @apply mt-auto flex flex-col gap-2 min-w-0; }
     .p-card__fit {
         @apply flex items-center gap-1 min-w-0 overflow-hidden
@@ -910,6 +912,11 @@
     .bike-selector__select:focus {
         background-image: linear-gradient(45deg, transparent 50%, #004DFF 50%), linear-gradient(135deg, #004DFF 50%, transparent 50%);
     }
+    /* Campo de busca livre (sem a seta do select) */
+    .bike-selector__input {
+        @apply h-12 w-full bg-bg border border-line rounded-lg px-3.5 text-[14px] font-medium text-ink placeholder:text-ink-faint
+               focus:outline-none focus:ring-2 focus:ring-signal/20 focus:border-signal transition;
+    }
 
     /* ── Fitment chip (na página do produto) ── */
     .fitment-chip {
@@ -1206,7 +1213,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    min-height: clamp(560px, 82vh, 820px);
+    min-height: clamp(460px, 68vh, 680px);
     background: #0F1014;
     color: #fff;
     overflow: hidden;
@@ -1349,8 +1356,53 @@
     overflow: hidden;
     scroll-margin-top: 80px;
 }
+/* Faixa só na cor da marca (sem metade com foto) */
+.uni-band--solid { min-height: clamp(380px, 52vh, 560px); }
+
+/* TMAC — marca principal: tudo centralizado, foto ao fundo tingida de vermelho */
+.uni-band--main .uni-band__content {
+    z-index: 1;
+    justify-content: center;
+    text-align: center;
+}
+.uni-band--main .uni-band__inner { max-width: 62ch; margin: 0 auto; }
+.uni-band--main .uni-band__eyebrow { justify-content: center; }
+.uni-band--main .uni-band__brand { display: flex; justify-content: center; }
+.uni-band--main .uni-band__logo { height: clamp(52px, 7vw, 92px); object-position: center; }
+.uni-band--main .uni-band__actions { justify-content: center; }
+.uni-band--main .uni-band__bignum { left: 50%; right: auto; transform: translateX(-50%); }
+.uni-band__mainbadge {
+    @apply inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-5
+           font-mono text-[10px] uppercase tracking-[0.12em] font-semibold border;
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.30);
+    color: var(--fg);
+}
+/* Foto de fundo: textura da foto, mas na cor da marca (mesma técnica do topo das páginas de marca) */
+.uni-band__mainbg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.40;
+    mix-blend-mode: luminosity;
+    filter: contrast(1.15) saturate(0.3);
+    -webkit-mask-image: radial-gradient(ellipse 60% 75% at 50% 50%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.6) 55%, #000 100%);
+    mask-image: radial-gradient(ellipse 60% 75% at 50% 50%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.6) 55%, #000 100%);
+    pointer-events: none;
+}
+.uni-band__mainwash {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 55% 70% at 50% 50%, var(--c) 0%, transparent 75%),
+        radial-gradient(ellipse 120% 120% at 50% 50%, transparent 45%, rgba(0,0,0,0.28) 100%);
+}
 @media (min-width: 1024px) {
     .uni-band { grid-template-columns: 1.05fr 1fr; }
+    .uni-band.uni-band--solid { grid-template-columns: 1fr; }
     .uni-band--reverse .uni-band__content { order: 2; }
     .uni-band--reverse .uni-band__media   { order: 1; }
 }
@@ -1532,15 +1584,15 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    /* Compacto — não rouba espaço dos produtos */
-    min-height: 380px;
+    /* Compacto — não rouba espaço dos produtos (reduzido no ajuste de nov/26) */
+    min-height: 260px;
     background: var(--c);
     color: var(--fg);
     overflow: hidden;
     text-align: center;
 }
-@media (min-width: 768px) { .brand-hero { min-height: 440px; } }
-@media (min-width: 1280px) { .brand-hero { min-height: 500px; } }
+@media (min-width: 768px) { .brand-hero { min-height: 300px; } }
+@media (min-width: 1280px) { .brand-hero { min-height: 340px; } }
 /* Foto de fundo — dessaturada e fundida com a cor da marca.
    luminosity mantém a TEXTURA da foto mas adota a cor do fundo. */
 .brand-hero__bg {
@@ -1605,7 +1657,7 @@
 
 .brand-hero__badge {
     @apply inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full
-           font-mono text-[10px] uppercase tracking-[0.12em] font-semibold mb-7
+           font-mono text-[10px] uppercase tracking-[0.12em] font-semibold mb-4
            backdrop-blur border;
     background: rgba(255,255,255,0.14);
     border-color: rgba(255,255,255,0.28);
@@ -1619,8 +1671,8 @@
 
 /* Logo centralizado e grande — protagonista absoluto do hero */
 .brand-hero__logo {
-    height: clamp(72px, 13vw, 168px);
-    max-width: min(88vw, 720px);
+    height: clamp(60px, 10vw, 128px);
+    max-width: min(88vw, 620px);
     object-fit: contain;
     filter:
         drop-shadow(0 2px 0 rgba(0,0,0,0.12))
@@ -1658,14 +1710,14 @@
     letter-spacing: -0.028em;
     color: var(--fg);
     max-width: 32ch;
-    margin: 1.5rem auto 0;
+    margin: 0.75rem auto 0;
     text-shadow: 0 4px 18px rgba(0,0,0,0.32);
     animation: brand-logo-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
 }
-/* Barra de acento centralizada acima da tagline */
+/* Barra de acento acima da tagline — removida a pedido do cliente (ajuste nov/26) */
 .brand-hero__tagline::before {
-    content: '';
-    display: block;
+    content: none;
+    display: none;
     width: 52px;
     height: 4px;
     border-radius: 2px;
@@ -1676,7 +1728,7 @@
 
 /* Contador de produtos — pílula centralizada abaixo */
 .brand-hero__count {
-    @apply inline-flex items-center gap-3 mt-8 pl-4 pr-5 py-2.5 rounded-full
+    @apply inline-flex items-center gap-3 mt-5 pl-4 pr-5 py-2.5 rounded-full
            backdrop-blur border transition-all duration-200;
     background: rgba(255,255,255,0.12);
     border-color: rgba(255,255,255,0.25);
@@ -1850,6 +1902,107 @@
     box-shadow: 0 10px 24px -10px rgba(0,0,0,0.45);
 }
 
+/* ── PÁGINA DA MARCA: textos novos (ajuste nov/26) ─────────── */
+.brand-hero__title {
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    font-size: clamp(22px, 3.4vw, 40px);
+    line-height: 1.04;
+    letter-spacing: -0.032em;
+    color: var(--fg);
+    max-width: 24ch;
+    margin: 0.9rem auto 0;
+    text-shadow: 0 4px 18px rgba(0,0,0,0.30);
+}
+.brand-hero__sub {
+    font-size: clamp(14px, 1.5vw, 17px);
+    line-height: 1.55;
+    color: var(--fg);
+    opacity: 0.88;
+    max-width: 60ch;
+    margin: 0.6rem auto 0;
+}
+.brand-hero__cta {
+    @apply inline-flex items-center gap-2 h-11 px-5 rounded-lg
+           font-bold text-[13px] uppercase tracking-[0.03em] transition-all duration-200;
+    background: var(--fg);
+    color: var(--c);
+    box-shadow: 0 10px 26px -12px rgba(0,0,0,0.55);
+}
+.brand-hero__cta:hover { transform: translateY(-2px); }
+
+.brand-section-title {
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    font-size: clamp(24px, 3.4vw, 40px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    color: theme('colors.ink.DEFAULT');
+    margin-top: 0.9rem;
+    max-width: 22ch;
+}
+
+.brand-families {
+    @apply rounded-2xl p-5 md:p-8 bg-bg-elev border;
+    border-color: color-mix(in srgb, var(--c) 28%, transparent);
+    background-image: linear-gradient(135deg, color-mix(in srgb, var(--c) 7%, transparent), transparent 55%);
+}
+.brand-family-chip {
+    @apply inline-flex items-center gap-1.5 h-10 px-4 rounded-full border bg-bg
+           text-[13px] font-semibold text-ink transition-all duration-200;
+    border-color: color-mix(in srgb, var(--c) 35%, transparent);
+}
+.brand-family-chip:hover {
+    background: var(--c);
+    color: var(--fg);
+    border-color: var(--c);
+}
+
+.brand-diff {
+    @apply relative rounded-xl bg-bg-elev border border-line p-5 overflow-hidden;
+}
+.brand-diff::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--c);
+}
+.brand-diff__num {
+    @apply font-mono text-[11px] font-bold;
+    color: var(--c);
+}
+.brand-diff__title {
+    @apply mt-2 font-display font-extrabold text-[16px] leading-tight text-ink;
+    letter-spacing: -0.02em;
+}
+.brand-diff__text { @apply mt-2 text-[13.5px] leading-relaxed text-ink-soft; }
+
+.brand-convert {
+    position: relative;
+    overflow: hidden;
+    background: var(--c);
+    color: var(--fg);
+}
+.brand-convert::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+        115deg, transparent, transparent 50px,
+        rgba(255,255,255,0.4) 50px, rgba(255,255,255,0.4) 51px
+    );
+}
+.brand-convert__ghost {
+    @apply inline-flex items-center gap-2 h-11 px-5 rounded-lg shrink-0 border
+           font-bold text-[13px] uppercase tracking-[0.03em] transition-all duration-200;
+    border-color: color-mix(in srgb, var(--fg) 55%, transparent);
+    color: var(--fg);
+}
+.brand-convert__ghost:hover { background: color-mix(in srgb, var(--fg) 14%, transparent); }
+
 /* ── OUTRAS MARCAS ──────────────────────────────────────────── */
 .brand-others {
     @apply grid gap-2.5;
@@ -1908,7 +2061,9 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    aspect-ratio: 3 / 4;
+    /* Altura mínima fixa (sem proporção 3/4, que cortava a última linha pela metade).
+       Cards da mesma linha ficam com a mesma altura. */
+    min-height: 280px;
     padding: 1.5rem 1.5rem 1.25rem;
     border-radius: 12px;
     overflow: hidden;
@@ -1979,7 +2134,48 @@
     color: var(--brand-fg);
     opacity: 0.92;
     margin: 0;
+    margin-bottom: 1rem;
+    /* Corta em linhas inteiras com "…" — nunca uma linha pela metade.
+       O texto completo aparece no hover (.tmac-brand-card__full). */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+    align-self: flex-start;
 }
+
+/* Painel com a descrição completa: cobre o card ao passar o mouse / focar */
+.tmac-brand-card__full {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.25rem 1.25rem 3.75rem;
+    background: var(--brand-dark, #1A1B1F);
+    color: var(--brand-fg, #FFFFFF);
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+.tmac-brand-card__full p { margin: 0; }
+.tmac-brand-card__full-name {
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    font-size: 15px;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+@media (hover: hover) {
+    .tmac-brand-card:hover .tmac-brand-card__full,
+    .tmac-brand-card:focus-visible .tmac-brand-card__full { opacity: 1; visibility: visible; }
+}
+/* Rodapé (etiqueta + seta) continua visível por cima do painel */
+.tmac-brand-card__foot { position: relative; z-index: 3; }
 @media (min-width: 768px) {
     .tmac-brand-card__desc { font-size: 14px; }
 }

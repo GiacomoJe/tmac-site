@@ -13,8 +13,9 @@ class PageController extends Controller
         abort_unless($page->is_active, 404);
 
         $seo->set(
-            $page->meta_title,
-            $page->meta_description,
+            // Corrigido: o model usa seo_title/seo_description (meta_* não existem → título vazio)
+            $page->seo_title ?: "{$page->title} — TMAC Import",
+            $page->seo_description ?: \Illuminate\Support\Str::limit((string) $page->hero_description, 155),
             canonical: route('site.page', $page->slug),
         );
 

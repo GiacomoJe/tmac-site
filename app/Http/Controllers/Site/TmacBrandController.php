@@ -12,12 +12,15 @@ class TmacBrandController extends Controller
     {
         $seo->set(
             'Universo TMAC — Nossas marcas próprias',
-            'Conheça as linhas próprias TMAC: motor, premium, acessórios e iluminação. Linhas desenvolvidas para o motociclista brasileiro.',
+            'Quatro marcas próprias — TMAC, Corami, Atrox e LBJ — com mais de 4 mil SKUs em estoque para lojistas, oficinas e distribuidores com CNPJ ativo.',
             canonical: route('site.tmac-brands'),
         );
 
         return view('site.tmac-brands', [
-            'brands' => TmacBrand::active()->ordered()->get(),
+            // Vitrine: só marcas principais; submarcas (LBJ Premium) aparecem dentro da marca-mãe.
+            'brands' => TmacBrand::active()->topLevel()->ordered()
+                ->with(['children' => fn ($q) => $q->active()->ordered()])
+                ->get(),
         ]);
     }
 
@@ -34,6 +37,7 @@ class TmacBrandController extends Controller
         return view('site.tmac-brand', [
             'brand'  => $tmacBrand,
             'others' => TmacBrand::active()->ordered()->where('id', '!=', $tmacBrand->id)->get(),
+            'subBrands' => $tmacBrand->children()->active()->ordered()->get(),
             'products' => \App\Models\Product::with(['brand', 'motorcycleModels'])
                 ->active()
                 ->where('tmac_brand_id', $tmacBrand->id)

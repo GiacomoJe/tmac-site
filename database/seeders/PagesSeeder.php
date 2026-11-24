@@ -41,7 +41,7 @@ class PagesSeeder extends Seeder
             [
                 'slug' => 'contato',
                 'title' => 'Contato',
-                'content' => '<p>Entre em contato com nosso time comercial.</p>',
+                'content' => null,
                 'seo_title' => 'Contato — TMAC Import',
                 'seo_description' => 'Fale com a TMAC Import: telefone, e-mail, WhatsApp e representantes regionais.',
             ],
@@ -55,7 +55,7 @@ class PagesSeeder extends Seeder
         ];
 
         foreach ($pages as $page) {
-            Page::updateOrCreate(['slug' => $page['slug']], $page);
+            Page::firstOrCreate(['slug' => $page['slug']], $page); // não sobrescreve textos editados no painel
         }
     }
 }

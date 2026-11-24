@@ -25,6 +25,9 @@ Route::get('/universo-tmac/{tmacBrand:slug}', [TmacBrandController::class, 'show
 
 Route::get('/representantes', [RepresentativeController::class, 'index'])->name('site.representatives');
 
+// Seja distribuidor — formulário do Lark embutido no site
+Route::get('/seja-distribuidor', \App\Http\Controllers\Site\DistributorController::class)->name('site.distributor');
+
 // Onde comprar — mapa de revendedores
 Route::get('/onde-comprar', [ResellerController::class, 'index'])->name('site.resellers');
 Route::get('/api/revendedores', [ResellerController::class, 'search'])->name('site.resellers.search');

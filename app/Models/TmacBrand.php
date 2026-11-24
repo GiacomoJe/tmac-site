@@ -20,7 +20,7 @@ class TmacBrand extends Model
     ];
 
     protected $fillable = [
-        'name', 'slug', 'badge_label', 'tagline', 'description',
+        'parent_id', 'name', 'slug', 'badge_label', 'tagline', 'description', 'page_content',
         'image_path', 'logo_path', 'accent_color', 'brand_color', 'text_theme', 'link_url',
         'sort_order', 'is_active', 'is_featured',
         'meta_title', 'meta_description',
@@ -29,6 +29,7 @@ class TmacBrand extends Model
     protected $casts = [
         'is_active'   => 'boolean',
         'is_featured' => 'boolean',
+        'page_content' => 'array',
         'sort_order'  => 'integer',
     ];
 
@@ -39,6 +40,32 @@ class TmacBrand extends Model
                 $brand->slug = Str::slug($brand->name);
             }
         });
+    }
+
+    /** Marca "mãe" (ex.: LBJ é a mãe da LBJ Premium). */
+    public function parent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    /** Submarcas (ex.: LBJ Premium). */
+    public function children(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
+    /** Só marcas principais (sem submarcas) — usadas na contagem "Quatro marcas". */
+    public function scopeTopLevel(Builder $q): Builder
+    {
+        return $q->whereNull('parent_id');
+    }
+
+    /** Lê um campo dos textos da página da marca (page_content), com fallback. */
+    public function content(string $key, mixed $fallback = null): mixed
+    {
+        $value = data_get($this->page_content ?? [], $key);
+
+        return ($value === null || $value === '' || $value === []) ? $fallback : $value;
     }
 
     public function scopeActive(Builder $q): Builder
@@ -69,7 +96,17 @@ class TmacBrand extends Model
 
     public function getImageUrlAttribute(): ?string
     {
-        return self::resolveAssetUrl($this->image_path);
+        if ($this->image_path) {
+            return self::resolveAssetUrl($this->image_path);
+        }
+
+        // Sem foto cadastrada no painel: usa a foto padrão versionada da marca, se existir
+        // (public/images/brands/{slug}/foto.webp). Assim a foto aparece mesmo antes do migrate.
+        if ($this->slug && is_file(public_path("images/brands/{$this->slug}/foto.webp"))) {
+            return asset("images/brands/{$this->slug}/foto.webp");
+        }
+
+        return null;
     }
 
     public function getLogoUrlAttribute(): ?string

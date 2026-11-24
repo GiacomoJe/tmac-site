@@ -93,7 +93,7 @@ class TmacBrandsSeeder extends Seeder
         ];
 
         foreach ($items as $data) {
-            TmacBrand::updateOrCreate(
+            TmacBrand::firstOrCreate( // não sobrescreve textos editados no painel
                 ['slug' => $data['slug']],
                 array_merge($data, ['is_active' => true]),
             );

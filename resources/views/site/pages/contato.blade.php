@@ -7,10 +7,15 @@
     $email   = \App\Models\Setting::get('contact_email');
     $wpp     = \App\Models\Setting::get('whatsapp_number');
     $address = \App\Models\Setting::get('address');
+    // Exibição amigável do WhatsApp: 5511947185865 → +55 11 94718-5865
+    $wppDigits = preg_replace('/\D/', '', (string) $wpp);
+    $wppFmt = strlen($wppDigits) === 13
+        ? sprintf('+%s %s %s-%s', substr($wppDigits, 0, 2), substr($wppDigits, 2, 2), substr($wppDigits, 4, 5), substr($wppDigits, 9))
+        : $wpp;
 @endphp
 
 {{-- ═══════════ 1. HERO ═══════════ --}}
-<section class="relative bg-ink text-white overflow-hidden" style="min-height: clamp(360px, 50vh, 520px);">
+<section class="relative bg-ink text-white overflow-hidden flex flex-col" style="min-height: clamp(360px, 50vh, 520px);">
     @php $heroImg = $page?->hero_image ? asset('storage/' . $page->hero_image) : 'https://images.unsplash.com/photo-1632823469850-2f77dd9c7f93?auto=format&fit=crop&w=2400&q=70'; @endphp
     <img src="{{ $heroImg }}"
          alt="{{ $page->title ?? 'Contato — TMAC Import' }}"
@@ -33,7 +38,8 @@
         </div>
     </nav>
 
-    <div class="container-tmac absolute bottom-0 left-1/2 -translate-x-1/2 right-0 z-10 pb-10 md:pb-14">
+    {{-- No fluxo normal: o banner cresce se o título editado no painel for longo --}}
+    <div class="container-tmac relative z-10 mt-auto pt-10 md:pt-14 pb-10 md:pb-14">
         <div class="flex items-center gap-3 mb-5 flex-wrap">
             <span class="speed-badge">
                 <span class="speed-badge__dot"></span>
@@ -64,7 +70,7 @@
     <div class="container-tmac py-8 md:py-10">
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
             @if($wpp)
-                <a href="https://wa.me/{{ $wpp }}" target="_blank" rel="noopener"
+                <a href="https://wa.me/{{ $wppDigits }}" target="_blank" rel="noopener"
                    onclick="window.dataLayer&&dataLayer.push({event:'whatsapp_click',source:'contact'})"
                    class="group card p-4 flex items-center gap-3 hover:border-whatsapp transition">
                     <div class="w-11 h-11 rounded-lg bg-whatsapp text-white flex items-center justify-center flex-shrink-0">
@@ -72,13 +78,13 @@
                     </div>
                     <div class="min-w-0">
                         <div class="font-mono text-[10px] uppercase tracking-[0.08em] text-ink-faint">WhatsApp</div>
-                        <div class="font-semibold text-[13px] truncate">{{ $wpp }}</div>
+                        <div class="font-semibold text-[13px] truncate">{{ $wppFmt }}</div>
                     </div>
                 </a>
             @endif
 
             @if($phone)
-                <a href="tel:{{ $phone }}" class="group card p-4 flex items-center gap-3 hover:border-ink/40 transition">
+                <a href="tel:+{{ preg_replace('/\D/', '', $phone) }}" class="group card p-4 flex items-center gap-3 hover:border-ink/40 transition">
                     <div class="w-11 h-11 rounded-lg bg-ink text-white flex items-center justify-center flex-shrink-0">
                         <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
                     </div>
@@ -108,7 +114,7 @@
                     </div>
                     <div class="min-w-0">
                         <div class="font-mono text-[10px] uppercase tracking-[0.08em] text-ink-faint">Endereço</div>
-                        <div class="font-semibold text-[13px] truncate">{{ $address }}</div>
+                        <div class="font-semibold text-[13px] leading-snug">{{ $address }}</div>
                     </div>
                 </div>
             @endif

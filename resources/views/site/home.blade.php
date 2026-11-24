@@ -303,6 +303,20 @@
 
 {{-- ═══════════ 2D. UNIVERSO TMAC — LINHAS PRÓPRIAS ═══════════ --}}
 @if($tmacBrands->isNotEmpty())
+@php
+    // Título conta só as marcas principais (submarcas como LBJ Premium têm card, mas não contam).
+    $qtdMarcas  = $tmacBrands->whereNull('parent_id')->count() ?: $tmacBrands->count();
+    $qtdCards   = $tmacBrands->count();
+    $marcasExt  = [1=>'Uma',2=>'Duas',3=>'Três',4=>'Quatro',5=>'Cinco',6=>'Seis'][$qtdMarcas] ?? $qtdMarcas;
+    // Cards compactos, todos numa linha no desktop. A descrição é cortada com "…"
+    // e aparece inteira ao passar o mouse (ver .tmac-brand-card__full).
+    $brandGrid  = match (true) {
+        $qtdCards >= 6 => 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-6',
+        $qtdCards === 5 => 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-5',
+        $qtdCards === 3 => 'grid-cols-2 lg:grid-cols-3',
+        default => 'grid-cols-2 lg:grid-cols-4',
+    };
+@endphp
 <section class="relative bg-bg overflow-hidden">
     {{-- Faixa diagonal sutil de fundo --}}
     <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -322,8 +336,8 @@
                     <span class="section-marker__label">Universo TMAC · Linhas próprias</span>
                 </div>
                 <h2 class="font-display font-black text-[30px] md:text-[46px] leading-[0.95] tracking-tightest text-ink mt-4 uppercase">
-                    Quatro marcas.<br>
-                    Quatro caminhos.<br>
+                    {{ $marcasExt }} {{ $qtdMarcas === 1 ? 'marca' : 'marcas' }}.<br>
+                    {{ $marcasExt }} {{ $qtdMarcas === 1 ? 'caminho' : 'caminhos' }}.<br>
                     <span class="text-accent text-[22px] md:text-[32px] inline-block mt-1">Uma só paixão e um único universo.</span>
                 </h2>
                 <p class="mt-4 text-ink-soft text-[15px] md:text-[17px] leading-relaxed max-w-[56ch]">
@@ -339,7 +353,7 @@
         </div>
 
         {{-- Grid de linhas (cards SÓLIDOS na cor da marca, estilo brand-blocks) --}}
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="grid {{ $brandGrid }} gap-3">
             @foreach($tmacBrands as $idx => $tb)
                 @php
                     $bg = $tb->resolved_brand_color;
@@ -370,8 +384,15 @@
 
                     {{-- Descrição --}}
                     <p class="tmac-brand-card__desc">
-                        {{ \Illuminate\Support\Str::limit($tb->description, 130) }}
+                        {{ $tb->description }}
                     </p>
+
+
+                    {{-- Descrição completa ao passar o mouse (ou focar com teclado) --}}
+                    <div class="tmac-brand-card__full" aria-hidden="true">
+                        <span class="tmac-brand-card__full-name">{{ $tb->name }}</span>
+                        <p>{{ $tb->description }}</p>
+                    </div>
 
                     {{-- Footer: badge + arrow --}}
                     <div class="tmac-brand-card__foot">
@@ -433,6 +454,9 @@
                         <h3 class="p-card__title">
                             <a href="{{ route('site.product', $product->slug) }}" class="hover:text-accent transition">{{ $product->name }}</a>
                         </h3>
+                        @if($product->short_description)
+                            <p class="p-card__desc" title="{{ $product->short_description }}">{{ $product->short_description }}</p>
+                        @endif
                         @if($product->brand)<div class="p-card__brand">{{ $product->brand->name }}</div>@endif
                         <button type="button"
                                 onclick="TMAC.addToQuote({{ $product->id }}, 1, { sku: '{{ $product->sku }}' })"
@@ -642,90 +666,40 @@
     </div>
 </section>
 
-{{-- ═══════════ 8. SOCIAL PROOF / DEPOIMENTOS ═══════════ --}}
+{{-- ═══════════ 8. SOCIAL PROOF / DEPOIMENTOS ═══════════
+     Bloco "Em números" removido a pedido do cliente (números não auditados).
+     A seção só aparece quando há depoimentos reais cadastrados no painel
+     (Painel → Depoimentos) — sem textos de demonstração no ar. --}}
+@if(($testimonials ?? collect())->isNotEmpty())
 <section class="bg-bg-sunken">
-    <div class="container-tmac py-12 md:py-16 grid lg:grid-cols-12 gap-6">
-        <div class="lg:col-span-5 relative rounded-xl overflow-hidden bg-ink min-h-[320px] flex items-end p-6">
-            {{-- Foto de parceria TMAC (lojista + operação) --}}
-            <img src="{{ asset('images/parceria-tmac.webp') }}"
-                 alt="Parceria TMAC com lojistas em todo o Brasil" loading="lazy"
-                 onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1632823469850-2f77dd9c7f93?auto=format&fit=crop&w=1600&q=70'"
-                 class="absolute inset-0 w-full h-full object-cover">
-
-            {{-- Overlay escuro + acento vermelho --}}
-            <div class="absolute inset-0"
-                 style="background: linear-gradient(160deg, rgba(15,16,20,0.92) 0%, rgba(26,27,31,0.55) 45%, rgba(42,20,23,0.85) 100%);"></div>
-
-            {{-- Sticker no canto superior --}}
-            <div class="absolute top-4 left-4 right-4 flex items-start justify-between gap-3 z-10">
-                <span class="speed-badge bg-white/[0.08] border-white/15 text-white">
-                    <span class="speed-badge__dot"></span>
-                    Em números
-                </span>
-                <span class="font-mono text-[10px] uppercase tracking-[0.10em] text-white/55">
-                    06 · TMAC
-                </span>
-            </div>
-
-            <div class="grid grid-cols-1 gap-3 w-full relative z-10">
-                <div class="bg-accent text-white rounded-lg px-4 py-3 shadow-lg">
-                    <div class="font-display font-black text-[26px] leading-none tracking-tighter">+12 mil</div>
-                    <div class="text-[10px] font-mono uppercase tracking-[0.08em] text-white/80 mt-1">SKUs em estoque</div>
-                </div>
-                <div class="bg-white/[0.08] backdrop-blur border border-white/15 text-white rounded-lg px-4 py-3">
-                    <div class="font-display font-black text-[22px] leading-none tracking-tighter">+3,2k</div>
-                    <div class="text-[10px] font-mono uppercase tracking-[0.08em] text-white/65 mt-1">Lojistas ativos</div>
-                </div>
-                <div class="bg-white/[0.08] backdrop-blur border border-white/15 text-white rounded-lg px-4 py-3">
-                    <div class="font-display font-black text-[22px] leading-none tracking-tighter">26</div>
-                    <div class="text-[10px] font-mono uppercase tracking-[0.08em] text-white/65 mt-1">Estados atendidos</div>
-                </div>
-            </div>
+    <div class="container-tmac py-12 md:py-16">
+        <div class="section-marker section-marker--lg">
+            <span class="section-marker__num">06</span>
+            <span class="section-marker__label">Quem confia, recomenda</span>
         </div>
+        <h2 class="font-display font-black text-[28px] md:text-[36px] leading-[1] tracking-tightest text-ink mt-3">
+            Parceria que gera <span class="text-signal">resultados</span>.
+        </h2>
 
-        <div class="lg:col-span-7">
-            <div class="section-marker section-marker--lg">
-                <span class="section-marker__num">06</span>
-                <span class="section-marker__label">Quem confia, recomenda</span>
-            </div>
-            <h2 class="font-display font-black text-[28px] md:text-[36px] leading-[1] tracking-tightest text-ink mt-3">
-                Parceria que gera <span class="text-signal">resultados</span>.
-            </h2>
-
-            <div class="mt-6 grid sm:grid-cols-3 gap-3">
-                @php
-                    // Prioriza depoimentos cadastrados no admin; se nenhum, usa fallback demo (para não deixar seção vazia).
-                    $items = ($testimonials ?? collect())->isNotEmpty()
-                        ? $testimonials->map(fn ($t) => [
-                            'name'   => $t->name,
-                            'role'   => $t->role,
-                            'quote'  => $t->quote,
-                            'rating' => $t->rating,
-                        ])->all()
-                        : [
-                            ['name' => 'João Silva',    'role' => 'Auto Peças Silva — SP', 'quote' => '"A TMAC é nossa principal fornecedora. Produtos de qualidade e atendimento sempre rápido."', 'rating' => 5],
-                            ['name' => 'Carlos Santos', 'role' => 'Motos Center — MG',     'quote' => '"Variedade incrível de produtos e preços muito competitivos. Recomendo!"',                     'rating' => 5],
-                            ['name' => 'Roberto Lima',  'role' => 'Racing Parts — PR',     'quote' => '"Atendimento técnico excelente e entrega sempre dentro do prazo."',                          'rating' => 5],
-                        ];
-                @endphp
-                @foreach($items as $item)
-                    <div class="card p-4">
-                        <div class="flex gap-0.5 text-warn mb-2">
-                            @for($s = 0; $s < ($item['rating'] ?? 5); $s++)<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 22l-6-4-6 4 1.5-8.5L2 9h7z"/></svg>@endfor
-                        </div>
-                        <p class="text-[13px] text-ink-soft leading-relaxed">{{ $item['quote'] }}</p>
-                        <div class="mt-3 pt-3 border-t border-line-soft">
-                            <div class="font-display font-bold text-[13px] tracking-tightish">{{ $item['name'] }}</div>
-                            @if(!empty($item['role']))
-                                <div class="font-mono text-[10px] uppercase tracking-[0.06em] text-ink-faint mt-0.5">{{ $item['role'] }}</div>
-                            @endif
-                        </div>
+        <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            @foreach($testimonials as $t)
+                <div class="card p-4">
+                    <div class="flex gap-0.5 text-warn mb-2">
+                        @for($s = 0; $s < ($t->rating ?? 5); $s++)<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 22l-6-4-6 4 1.5-8.5L2 9h7z"/></svg>@endfor
                     </div>
-                @endforeach
-            </div>
+                    <p class="text-[13px] text-ink-soft leading-relaxed">{{ $t->quote }}</p>
+                    <div class="mt-3 pt-3 border-t border-line-soft">
+                        <div class="font-display font-bold text-[13px] tracking-tightish">{{ $t->name }}</div>
+                        @if($t->role)
+                            <div class="font-mono text-[10px] uppercase tracking-[0.06em] text-ink-faint mt-0.5">{{ $t->role }}</div>
+                        @endif
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
 </section>
+@endif
 
 {{-- ═══════════ 9. CTA FINAL VERMELHO ═══════════ --}}
 <section class="relative overflow-hidden bg-accent text-white">

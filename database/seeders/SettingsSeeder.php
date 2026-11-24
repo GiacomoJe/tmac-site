@@ -11,11 +11,12 @@ class SettingsSeeder extends Seeder
     {
         $items = [
             // Contato
-            ['contact_phone', '', 'contact', 'Telefone principal'],
-            ['contact_email', 'comercial@tmacimport.com.br', 'contact', 'E-mail comercial'],
-            ['whatsapp_number', '5511999999999', 'contact', 'WhatsApp (E.164)'],
+            ['contact_phone', '+55 11 98904-1153', 'contact', 'Telefone principal'],
+            ['contact_email', 'sac@tmacimport.com.br', 'contact', 'E-mail de contato'],
+            ['whatsapp_number', '5511947185865', 'contact', 'WhatsApp (E.164)'],
+            ['whatsapp_marketing', '5511947185865', 'contact', 'WhatsApp do marketing (página Representantes)'],
             ['whatsapp_default_message', 'Olá, gostaria de mais informações sobre os produtos da TMAC.', 'contact', 'Mensagem padrão WhatsApp'],
-            ['address', '', 'contact', 'Endereço'],
+            ['address', 'Alameda Santos, 771 - Jardim Paulista, São Paulo - SP, 01419-001', 'contact', 'Endereço'],
             ['feedback_email', 'ouvidoria@tmacimport.com.br', 'contact', 'E-mail da ouvidoria (sugestões/reclamações). Vazio → usa o comercial.'],
             ['distributor_form_url', 'https://tsgmrsomo1jj.sg.larksuite.com/share/base/form/shrlgNTTXRvcR6JaDOqBRJnrXDd', 'contact', 'URL do formulário "Seja distribuidor" (botão do menu)'],
 

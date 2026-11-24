@@ -33,7 +33,29 @@
         </div>
     </div>
 
-    <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-3">
+    {{-- Busca livre por nome / código (SKU) — envia para /produtos?q= --}}
+    <form action="{{ route('site.products') }}" method="GET" role="search"
+          class="mt-6 relative z-10 flex gap-2"
+          onsubmit="window.dataLayer&&dataLayer.push({event:'search',source:'home_bike_selector',search_term:this.q.value})">
+        <label class="bike-selector__field flex-1">
+            <span class="bike-selector__label">Buscar peça</span>
+            <input type="search" name="q" required minlength="2" autocomplete="off" enterkeyhint="search"
+                   placeholder="Nome da peça ou código (ex.: cabo de acelerador, C1004)"
+                   class="bike-selector__input">
+        </label>
+        <button type="submit" class="btn-dark h-12 self-end px-5 font-bold uppercase tracking-[0.04em] text-[13px]" aria-label="Buscar">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <span class="hidden sm:inline">Buscar</span>
+        </button>
+    </form>
+
+    <div class="mt-4 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.10em] text-ink-faint">
+        <span class="h-px flex-1 bg-line-soft"></span>
+        ou filtre pela sua moto
+        <span class="h-px flex-1 bg-line-soft"></span>
+    </div>
+
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-4 gap-3">
         {{-- Marca --}}
         <label class="bike-selector__field">
             <span class="bike-selector__label">Marca</span>
@@ -81,16 +103,6 @@
 
     {{-- Rodapé com spec strip (info de painel) --}}
     <div class="mt-5 pt-4 border-t border-line-soft flex items-center justify-between flex-wrap gap-3 relative z-10">
-        <div class="spec-strip">
-            <span class="spec-strip__val">+150</span>
-            <span>MODELOS</span>
-            <span class="spec-strip__sep"></span>
-            <span class="spec-strip__val">12K+</span>
-            <span>PEÇAS</span>
-            <span class="spec-strip__sep"></span>
-            <span class="spec-strip__val">26</span>
-            <span>ESTADOS</span>
-        </div>
         <div class="font-mono text-[10px] uppercase tracking-[0.10em] text-ink-faint">
             <span class="inline-flex items-center gap-1.5">
                 <span class="w-1.5 h-1.5 bg-signal rounded-full" style="animation: tmac-pulse 1.8s ease-in-out infinite"></span>

@@ -16,6 +16,11 @@
             <a href="{{ route('site.product', $product->slug) }}" class="hover:text-accent transition">{{ $product->name }}</a>
         </h3>
 
+        {{-- Descrição reduzida (ex.: aplicação / modelos). Cortada em 2 linhas via CSS. --}}
+        @if($product->short_description)
+            <p class="p-card__desc" title="{{ $product->short_description }}">{{ $product->short_description }}</p>
+        @endif
+
         @php $motos = $product->fitment_chips; @endphp
         <div class="p-card__foot">
         @if($motos)

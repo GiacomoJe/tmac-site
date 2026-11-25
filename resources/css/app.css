@@ -1360,16 +1360,20 @@
 .uni-band--solid { min-height: clamp(380px, 52vh, 560px); }
 
 /* TMAC — marca principal: tudo centralizado, foto ao fundo tingida de vermelho */
-.uni-band--main .uni-band__content {
-    z-index: 1;
+/* Todas as marcas: textos centralizados, no mesmo padrão da TMAC (pedido do cliente) */
+.uni-band .uni-band__content {
     justify-content: center;
     text-align: center;
 }
-.uni-band--main .uni-band__inner { max-width: 62ch; margin: 0 auto; }
-.uni-band--main .uni-band__eyebrow { justify-content: center; }
-.uni-band--main .uni-band__brand { display: flex; justify-content: center; }
-.uni-band--main .uni-band__logo { height: clamp(52px, 7vw, 92px); object-position: center; }
-.uni-band--main .uni-band__actions { justify-content: center; }
+.uni-band .uni-band__inner { margin: 0 auto; }
+.uni-band .uni-band__eyebrow { justify-content: center; }
+.uni-band .uni-band__brand { display: flex; justify-content: center; }
+.uni-band .uni-band__logo { object-position: center; }
+.uni-band .uni-band__actions { justify-content: center; }
+.uni-band__subbrands { justify-content: center; }
+.uni-band--main .uni-band__content { z-index: 1; }
+.uni-band--main .uni-band__inner { max-width: 62ch; }
+.uni-band--main .uni-band__logo { height: clamp(52px, 7vw, 92px); }
 .uni-band--main .uni-band__bignum { left: 50%; right: auto; transform: translateX(-50%); }
 .uni-band__mainbadge {
     @apply inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-5

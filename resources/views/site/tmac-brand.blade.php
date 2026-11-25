@@ -14,6 +14,13 @@
 @php
     // Textos da página (Painel → Universo TMAC → editar → "Página da marca").
     $heroTitle    = $brand->content('hero_title');
+    // O logo já mostra o nome da marca: remove o "MARCA:" / "MARCA –" do início do título.
+    if ($heroTitle) {
+        $semMarca = preg_replace('/^\s*'.preg_quote($brand->name, '/').'\s*[:\-–—|]\s*/iu', '', $heroTitle);
+        if ($semMarca !== '' && $semMarca !== $heroTitle) {
+            $heroTitle = mb_strtoupper(mb_substr($semMarca, 0, 1)).mb_substr($semMarca, 1);
+        }
+    }
     $heroSubtitle = $brand->content('hero_subtitle', $heroTitle ? null : $brand->tagline);
     $heroCta      = $brand->content('hero_cta', "Solicitar cotação da linha {$brand->name}");
     $aboutTitle   = $brand->content('about_title');
@@ -50,7 +57,6 @@
          onerror="this.style.display='none'">
     <div class="brand-hero__wash" aria-hidden="true"></div>
     <div class="brand-hero__texture" aria-hidden="true"></div>
-    <span class="brand-hero__watermark" aria-hidden="true">{{ $brand->name }}</span>
 
     <div class="container-tmac relative z-10 pt-3.5">
         <div class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.10em]"

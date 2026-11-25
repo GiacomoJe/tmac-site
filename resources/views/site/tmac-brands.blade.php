@@ -105,7 +105,9 @@
         $num     = str_pad($i + 1, 2, '0', STR_PAD_LEFT);
         // TMAC (marca principal): faixa inteira no vermelho, conteúdo centralizado e a foto
         // ao fundo tingida na cor da marca — sem a metade azulada (pedido do cliente).
-        $solid   = $brand->slug === 'tmac';
+        // Todas as marcas seguem o mesmo padrão: faixa inteira na cor, conteúdo centralizado no banner.
+        $solid   = true;
+        $isMain  = $brand->slug === 'tmac';
     @endphp
 
     <section id="marca-{{ $brand->slug }}"
@@ -123,7 +125,7 @@
             <span class="uni-band__bignum" aria-hidden="true">{{ $num }}</span>
 
             <div class="uni-band__inner">
-                @if($solid)
+                @if($isMain)
                     <div class="uni-band__mainbadge">Marca principal</div>
                 @endif
                 <div class="uni-band__eyebrow">
@@ -163,7 +165,7 @@
 
                 {{-- Submarcas (ex.: LBJ Premium dentro da LBJ) --}}
                 @if($brand->children->isNotEmpty())
-                    <div class="mt-5 flex flex-wrap items-center gap-2">
+                    <div class="uni-band__subbrands mt-5 flex flex-wrap items-center gap-2">
                         <span class="font-mono text-[10px] uppercase tracking-[0.12em] opacity-70">Submarca</span>
                         @foreach($brand->children as $child)
                             <a href="{{ route('site.tmac-brand', $child->slug) }}" class="uni-btn uni-btn--ghost !h-9 !text-[12px]">

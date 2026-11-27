@@ -158,6 +158,46 @@
         </div>
     </div>
 
+    {{-- Lojas online (e-commerce): fora do mapa, com link direto --}}
+    @if($online->isNotEmpty())
+    <div class="border-t border-line">
+        <div class="container-tmac py-10 md:py-12">
+            <div class="section-marker">
+                <span class="section-marker__num">{{ $online->count() }}</span>
+                <span class="section-marker__label">Lojas online</span>
+            </div>
+            <h2 class="mt-3 font-display font-black text-[24px] md:text-[32px] leading-tight tracking-tightest text-ink uppercase">
+                Prefere comprar <span class="text-signal">online</span>?
+            </h2>
+            <p class="mt-2 text-ink-soft text-[15px] leading-relaxed max-w-[56ch]">
+                Estas lojas vendem produtos das nossas linhas pela internet e entregam no Brasil todo.
+            </p>
+
+            <ul class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                @foreach($online as $loja)
+                    @php $host = preg_replace('/^www\./', '', (string) parse_url($loja->website, PHP_URL_HOST)); @endphp
+                    <li>
+                        <a href="{{ $loja->website }}" target="_blank" rel="noopener nofollow"
+                           class="card flex items-center justify-between gap-3 px-4 py-3.5 hover:border-signal transition"
+                           onclick="window.dataLayer&&dataLayer.push({event:'reseller_online_click',reseller:@js($loja->name)})">
+                            <span class="min-w-0">
+                                <span class="block font-display font-extrabold text-[15px] tracking-tightish text-ink truncate">{{ $loja->name }}</span>
+                                <span class="block font-mono text-[10px] uppercase tracking-[0.08em] text-ink-faint truncate">
+                                    {{ str_contains($host, 'mercadolivre') ? 'Mercado Livre' : $host }}
+                                </span>
+                            </span>
+                            <span class="shrink-0 inline-flex items-center gap-1 text-[12px] font-semibold text-signal">
+                                Visitar loja
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                            </span>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+    @endif
+
     {{-- CTA para lojistas --}}
     <div class="bg-bg-sunken border-t border-line">
         <div class="container-tmac py-10 md:py-14 text-center max-w-2xl mx-auto">

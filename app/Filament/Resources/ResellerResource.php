@@ -31,6 +31,7 @@ class ResellerResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         $semGeo = static::getModel()::where('is_active', true)
+            ->where('is_online', false)
             ->where(fn ($q) => $q->whereNull('latitude')->orWhereNull('longitude'))
             ->count();
 
@@ -58,6 +59,11 @@ class ResellerResource extends Resource
                     ->columnSpan(2),
                 Forms\Components\TextInput::make('company_name')->label('Razão social')->maxLength(160),
                 Forms\Components\TextInput::make('cnpj')->label('CNPJ')->maxLength(20),
+                Forms\Components\Toggle::make('is_online')
+                    ->label('Loja online (e-commerce)')
+                    ->helperText('Ex.: Mercado Livre. Não vai para o mapa: aparece na lista "Compre online" com o link do campo Site (em Contato).')
+                    ->live()
+                    ->columnSpan(2),
             ])->columns(2),
 
             Forms\Components\Section::make('Endereço')
@@ -104,7 +110,10 @@ class ResellerResource extends Resource
                     Forms\Components\Grid::make(4)->schema([
                         Forms\Components\TextInput::make('complement')->label('Complemento')->maxLength(100),
                         Forms\Components\TextInput::make('neighborhood')->label('Bairro')->maxLength(120),
-                        Forms\Components\TextInput::make('city')->label('Cidade')->required()->maxLength(140),
+                        Forms\Components\TextInput::make('city')->label('Cidade')
+                            ->required(fn (Forms\Get $get) => ! $get('is_online'))
+                            ->dehydrateStateUsing(fn ($state) => $state ?? '')
+                            ->maxLength(140),
                         Forms\Components\Select::make('state_id')
                             ->label('Estado')
                             ->options(State::orderBy('name')->pluck('name', 'id'))

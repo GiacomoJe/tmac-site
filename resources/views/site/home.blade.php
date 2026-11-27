@@ -147,7 +147,7 @@
         </div>
 
         <p class="mt-5 text-white/75 text-[15px] md:text-[17px] leading-relaxed max-w-[44ch]">
-            Mais de 12 mil itens em estoque para entrega em todo o Brasil. Atendimento exclusivo CNPJ com tabela escalonada por volume.
+            Mais de 4 mil SKUs em estoque para entrega em todo o Brasil. Atendimento exclusivo CNPJ com tabela escalonada por volume.
         </p>
 
         {{-- Feature pills (fixas) --}}
@@ -376,7 +376,7 @@
                     {{-- Logo / Nome no topo --}}
                     <div class="tmac-brand-card__head">
                         @if($tb->logo_url)
-                            <img src="{{ $tb->logo_url }}" alt="{{ $tb->name }}" class="h-9 object-contain object-left {{ $tb->text_theme === 'light' ? 'brightness-0 invert' : '' }}">
+                            <img src="{{ $tb->logo_url }}" alt="{{ $tb->name }}" class="h-9 object-contain object-left {{ $tb->logo_invert ? 'brightness-0 invert' : '' }}">
                         @else
                             <span class="tmac-brand-card__name">{{ $tb->name }}</span>
                         @endif

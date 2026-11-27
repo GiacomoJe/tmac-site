@@ -113,7 +113,7 @@
                 <input type="search" name="q" placeholder="Buscar por moto, peça ou part number…" autofocus>
                 <span class="font-mono text-[10px] uppercase tracking-[0.10em] text-ink-faint hidden sm:inline-flex items-center gap-1.5">
                     <span class="w-1 h-1 bg-signal rounded-full"></span>
-                    12k+ peças
+                    +4 mil SKUs
                 </span>
                 <button type="submit" class="hidden sm:inline-flex items-center gap-1.5 ml-2 h-8 px-3 rounded-md bg-ink text-white text-[12px] font-semibold hover:bg-signal transition">
                     Buscar

@@ -109,9 +109,32 @@ class TmacBrand extends Model
         return null;
     }
 
+    /** Marcas cujo logo é exibido sempre nas cores originais (sem o filtro que deixa tudo branco). */
+    public const LOGO_SEM_FILTRO = ['lbj', 'lbj-premium'];
+
     public function getLogoUrlAttribute(): ?string
     {
+        // LBJ / LBJ Premium: enquanto o painel apontar para o logo antigo (ou nenhum),
+        // usa o logo novo enviado pelo cliente.
+        if (in_array($this->slug, self::LOGO_SEM_FILTRO, true)
+            && (! $this->logo_path || str_ends_with($this->logo_path, '/logo-white.svg'))
+            && is_file(public_path("images/brands/{$this->slug}/logo-original.svg"))) {
+            return asset("images/brands/{$this->slug}/logo-original.svg");
+        }
+
         return self::resolveAssetUrl($this->logo_path);
+    }
+
+    /**
+     * Logos com texto claro recebem um filtro que os pinta de branco. LBJ, LBJ Premium
+     * e arquivos com "logo-original" no nome ficam sempre nas cores originais
+     * (branco com contorno preto), mesmo se trocarem o logo pelo painel.
+     */
+    public function getLogoInvertAttribute(): bool
+    {
+        return $this->text_theme === 'light'
+            && ! in_array($this->slug, self::LOGO_SEM_FILTRO, true)
+            && ! str_contains((string) $this->logo_path, 'logo-original');
     }
 
     /**

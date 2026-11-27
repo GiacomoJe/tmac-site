@@ -116,6 +116,8 @@ class ProductResource extends Resource
             Forms\Components\Section::make('Exibição & SEO')->schema([
                 Forms\Components\Toggle::make('is_active')->label('Ativo')->default(true),
                 Forms\Components\Toggle::make('is_featured')->label('Em destaque')->default(false),
+                Forms\Components\Toggle::make('is_launch')->label('Lançamento')->default(false)
+                    ->helperText('Mostra o selo "Lançamento" no card do produto.'),
                 Forms\Components\TextInput::make('sort_order')->label('Ordem')->numeric()->default(0),
                 Forms\Components\TextInput::make('seo_title')->label('SEO Title')->maxLength(180),
                 Forms\Components\Textarea::make('seo_description')->label('SEO Description')->rows(2)->maxLength(255),
@@ -140,6 +142,7 @@ class ProductResource extends Resource
                 Tables\Filters\SelectFilter::make('tmac_brand_id')->relationship('tmacBrand', 'name')->label('Linha TMAC'),
                 Tables\Filters\TernaryFilter::make('is_active')->label('Ativo'),
                 Tables\Filters\TernaryFilter::make('is_featured')->label('Em destaque'),
+                Tables\Filters\TernaryFilter::make('is_launch')->label('Lançamento'),
             ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([

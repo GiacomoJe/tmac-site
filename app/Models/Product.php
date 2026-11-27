@@ -19,13 +19,14 @@ class Product extends Model
     protected $fillable = [
         'brand_id', 'tmac_brand_id', 'sku', 'quote_price', 'name', 'slug',
         'short_description', 'description', 'specifications',
-        'main_image', 'is_featured', 'is_active', 'sort_order',
+        'main_image', 'is_featured', 'is_launch', 'is_active', 'sort_order',
         'seo_title', 'seo_description',
     ];
 
     protected $casts = [
         'specifications' => 'array',
         'is_featured' => 'boolean',
+        'is_launch' => 'boolean',
         'is_active' => 'boolean',
         'sort_order' => 'integer',
         'quote_price' => 'decimal:2',

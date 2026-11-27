@@ -157,8 +157,10 @@
         'corami' => 'Linha com destaque no segmento de moto, desenvolvida para atender mecânicos e motociclistas que precisam de componentes internos de motor e peças técnicas confiáveis.',
         'atrox'  => 'Visual esportivo aliado à resistência, com destaque especial para a linha de bauletos ATROX.',
         'lbj'    => 'Focada em quem busca acabamento superior, máxima qualidade e maior durabilidade em cada peça.',
+        'lbj-premium' => 'O padrão máximo em motopeças: acabamento superior, resistência e durabilidade elevada para os clientes mais exigentes.',
     ];
-    $portfolio = \App\Models\TmacBrand::active()->topLevel()->ordered()->get();
+    // Inclui as submarcas (ex.: LBJ Premium ganha card próprio logo após a LBJ).
+    $portfolio = \App\Models\TmacBrand::active()->ordered()->get();
     $portGrid = match (true) {
         $portfolio->count() >= 5 => 'sm:grid-cols-2 lg:grid-cols-5',
         $portfolio->count() === 3 => 'sm:grid-cols-3',
@@ -177,7 +179,7 @@
                 <span class="section-marker__label">Portfólio e marcas próprias</span>
             </div>
             <h2 class="font-display font-black text-[28px] md:text-[42px] leading-[0.98] tracking-tightest mt-3">
-                Mais de 12 mil itens em estoque para o seu <span class="text-signal">negócio</span>.
+                Mais de 4 mil SKUs em estoque para o seu <span class="text-signal">negócio</span>.
             </h2>
             <p class="mt-4 text-white/70 text-[15px] md:text-[16px] leading-relaxed">
                 Nosso catálogo reúne mais de 4 mil SKUs em estoque, divididos entre a marca principal e nossas linhas próprias, pensadas para atender diferentes perfis de clientes na sua região:
@@ -192,7 +194,7 @@
                     <div class="tmac-brand-card__texture"></div>
                     <div class="tmac-brand-card__head">
                         @if($tb->logo_url)
-                            <img src="{{ $tb->logo_url }}" alt="{{ $tb->name }}" loading="lazy" class="h-9 object-contain object-left {{ $tb->text_theme === 'light' ? 'brightness-0 invert' : '' }}">
+                            <img src="{{ $tb->logo_url }}" alt="{{ $tb->name }}" loading="lazy" class="h-9 object-contain object-left {{ $tb->logo_invert ? 'brightness-0 invert' : '' }}">
                         @else
                             <span class="tmac-brand-card__name">{{ $tb->name }}</span>
                         @endif

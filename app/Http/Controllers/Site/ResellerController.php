@@ -23,6 +23,9 @@ class ResellerController extends Controller
         return view('site.resellers', [
             'states' => State::orderBy('name')->get(['id', 'uf', 'name']),
             'total'  => Reseller::active()->geocoded()->count(),
+            'online' => Reseller::active()->online()->whereNotNull('website')
+                ->orderByDesc('is_featured')->orderBy('sort_order')->orderBy('name')
+                ->get(['id', 'name', 'website', 'is_featured']),
         ]);
     }
 

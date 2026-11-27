@@ -60,11 +60,19 @@
 
         {{-- Índice de navegação rápida --}}
         <div class="mt-10 flex flex-wrap gap-2">
-            @foreach($brands as $i => $b)
+            @php $jumpN = 0; @endphp
+            @foreach($brands as $b)
                 <a href="#marca-{{ $b->slug }}" class="uni-jump" style="--c: {{ $b->resolved_brand_color }};">
-                    <span class="uni-jump__num">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                    <span class="uni-jump__num">{{ str_pad(++$jumpN, 2, '0', STR_PAD_LEFT) }}</span>
                     <span class="uni-jump__name">{{ $b->name }}</span>
                 </a>
+                {{-- Submarcas (ex.: LBJ Premium) logo após a marca-mãe, levando à página própria --}}
+                @foreach($b->children as $child)
+                    <a href="{{ $child->link_url ?: route('site.tmac-brand', $child->slug) }}" class="uni-jump" style="--c: {{ $child->resolved_brand_color }};">
+                        <span class="uni-jump__num">{{ str_pad(++$jumpN, 2, '0', STR_PAD_LEFT) }}</span>
+                        <span class="uni-jump__name">{{ $child->name }}</span>
+                    </a>
+                @endforeach
             @endforeach
         </div>
     </div>
@@ -137,7 +145,7 @@
                 <div class="uni-band__brand">
                     @if($brand->logo_url)
                         <img src="{{ $brand->logo_url }}" alt="{{ $brand->name }}"
-                             class="uni-band__logo {{ $brand->text_theme === 'light' ? 'is-light' : '' }}">
+                             class="uni-band__logo {{ $brand->logo_invert ? 'is-light' : '' }}">
                     @else
                         <span class="uni-band__name">{{ $brand->name }}</span>
                     @endif

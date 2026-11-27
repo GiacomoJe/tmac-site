@@ -18,7 +18,7 @@ class Reseller extends Model
         'latitude', 'longitude',
         'phone', 'whatsapp', 'email', 'website', 'instagram',
         'opening_hours', 'notes', 'tmac_brands',
-        'is_active', 'is_featured', 'sort_order',
+        'is_active', 'is_featured', 'is_online', 'sort_order',
     ];
 
     protected $casts = [
@@ -27,6 +27,7 @@ class Reseller extends Model
         'tmac_brands'  => 'array',
         'is_active'    => 'boolean',
         'is_featured'  => 'boolean',
+        'is_online'    => 'boolean',
         'sort_order'   => 'integer',
     ];
 
@@ -53,6 +54,12 @@ class Reseller extends Model
     public function scopeActive(Builder $q): Builder
     {
         return $q->where('is_active', true);
+    }
+
+    /** Lojas virtuais (Mercado Livre, site próprio): não vão para o mapa. */
+    public function scopeOnline(Builder $q): Builder
+    {
+        return $q->where('is_online', true);
     }
 
     public function scopeGeocoded(Builder $q): Builder

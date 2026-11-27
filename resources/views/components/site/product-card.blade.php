@@ -3,6 +3,9 @@
 <article class="p-card">
     <a href="{{ route('site.product', $product->slug) }}" class="p-card__img block">
         <span class="p-card__sku">{{ $product->sku }}</span>
+        @if($product->is_launch)
+            <span class="p-card__launch">Lançamento</span>
+        @endif
         @if($product->main_image)
             <img src="{{ asset('storage/'.$product->main_image) }}"
                  alt="{{ $product->name }}" loading="lazy" decoding="async">

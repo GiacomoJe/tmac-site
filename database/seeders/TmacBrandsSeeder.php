@@ -48,17 +48,17 @@ class TmacBrandsSeeder extends Seeder
             [
                 'name'         => 'LBJ',
                 'slug'         => 'lbj',
-                'badge_label'  => 'Premium',
+                'badge_label'  => 'Qualidade superior',
                 'tagline'      => 'O melhor em cada detalhe',
-                'description'  => 'Linha premium para quem busca o melhor em cada detalhe. Componentes diferenciados com acabamento superior e durabilidade reforçada, voltada para mercado de alta cilindrada e clientes exigentes.',
+                'description'  => 'Linha para quem busca o melhor em cada detalhe. Componentes diferenciados com acabamento superior e durabilidade reforçada, voltada para mercado de alta cilindrada e clientes exigentes.',
                 'brand_color'  => '#00814F',  // verde LBJ oficial (Pantone 2422 C)
                 'text_theme'   => 'light',
                 'accent_color' => 'whatsapp',
                 'logo_path'    => 'images/brands/lbj/logo-white.svg',
                 'sort_order'   => 20,
                 'is_featured'  => true,
-                'meta_title'   => 'LBJ — Linha premium TMAC',
-                'meta_description' => 'LBJ: linha premium TMAC. Componentes de alto padrão para motociclistas exigentes.',
+                'meta_title'   => 'LBJ — Qualidade superior TMAC',
+                'meta_description' => 'LBJ: qualidade superior TMAC. Componentes de alto padrão para motociclistas exigentes.',
             ],
             [
                 'name'         => 'Atrox',

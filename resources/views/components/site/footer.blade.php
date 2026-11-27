@@ -30,7 +30,7 @@
                     A gente <span class="text-accent">resolve</span>.
                 </h2>
                 <p class="mt-3 text-white/70 text-[14px] md:text-[15px] leading-relaxed max-w-[52ch]">
-                    Mais de 12 mil itens em estoque, condições especiais por volume e logística para todo o Brasil. Solicite sua tabela atacadista em minutos.
+                    Mais de 4 mil SKUs em estoque, condições especiais por volume e logística para todo o Brasil. Solicite sua tabela atacadista em minutos.
                 </p>
             </div>
             <div class="md:col-span-5 flex flex-col gap-2.5">
@@ -194,7 +194,7 @@
     <div class="border-t border-white/10 relative">
         <div class="container-tmac py-5 grid grid-cols-3 md:grid-cols-4 gap-4 text-center md:text-left">
             <div class="flex md:items-center gap-2 flex-col md:flex-row">
-                <span class="font-display font-black text-[20px] md:text-[24px] tracking-tighter leading-none">12k+</span>
+                <span class="font-display font-black text-[20px] md:text-[24px] tracking-tighter leading-none">+4 mil</span>
                 <span class="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.08em] text-white/45 leading-tight">SKUs</span>
             </div>
             <div class="flex md:items-center gap-2 flex-col md:flex-row">

@@ -31,6 +31,7 @@
     $hlTitle      = $brand->content('highlight_title');
     $hlText       = $brand->content('highlight_text');
     $diffsTitle   = $brand->content('diffs_title');
+    $diffsIntro   = $brand->content('diffs_intro');
     $diffs        = array_values(array_filter((array) $brand->content('diffs', []), fn ($d) => ! empty($d['title'])));
     $ctaTitle     = $brand->content('cta_title', "Abasteça sua loja com a linha {$brand->name}.");
     $ctaText      = $brand->content('cta_text', 'Atendimento exclusivo para empresas com CNPJ ativo em todo o Brasil. Monte sua cotação e receba sua tabela personalizada.');
@@ -82,7 +83,7 @@
         {{-- Logo grande e centralizado --}}
         @if($brand->logo_url)
             <img src="{{ $brand->logo_url }}" alt="{{ $brand->name }}"
-                 class="brand-hero__logo {{ $isLightText ? 'is-light' : '' }}">
+                 class="brand-hero__logo {{ $brand->logo_invert ? 'is-light' : '' }}">
         @elseif(! $heroTitle)
             <h1 class="brand-hero__name">{{ $brand->name }}</h1>
         @else
@@ -178,11 +179,23 @@
 
             <ul class="mt-5 flex flex-wrap gap-2">
                 @foreach($families as $fam)
+                    @php
+                        // "Kit transmissão – em breve": vira chip sem link, com selo "Em breve"
+                        $emBreve = (bool) preg_match('/\s*[\-–—(]?\s*em breve\s*\)?\s*$/iu', $fam);
+                        $famNome = $emBreve ? trim(preg_replace('/\s*[\-–—(]?\s*em breve\s*\)?\s*$/iu', '', $fam)) : $fam;
+                    @endphp
                     <li>
-                        <a href="{{ route('site.products', ['q' => $fam]) }}" class="brand-family-chip">
-                            {{ $fam }}
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                        </a>
+                        @if($emBreve)
+                            <span class="brand-family-chip brand-family-chip--soon">
+                                {{ $famNome }}
+                                <span class="brand-family-chip__soon">Em breve</span>
+                            </span>
+                        @else
+                            <a href="{{ route('site.products', ['q' => $famNome]) }}" class="brand-family-chip">
+                                {{ $famNome }}
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                            </a>
+                        @endif
                     </li>
                 @endforeach
             </ul>
@@ -224,6 +237,10 @@
 
         @if($diffsTitle)
             <h{{ $hlTitle ? '3' : '2' }} class="brand-section-title {{ $hlTitle ? '!text-[20px] md:!text-[24px] !mt-10' : '' }}">{{ $diffsTitle }}</h{{ $hlTitle ? '3' : '2' }}>
+        @endif
+
+        @if($diffsIntro)
+            <p class="mt-3 text-[15px] md:text-[16px] leading-relaxed text-ink-soft max-w-[62ch]">{{ $diffsIntro }}</p>
         @endif
 
         @if($diffs)
@@ -351,7 +368,7 @@
                     <div class="brand-others__body">
                         @if($o->logo_url)
                             <img src="{{ $o->logo_url }}" alt="{{ $o->name }}"
-                                 class="brand-others__logo {{ $o->text_theme === 'light' ? 'is-light' : '' }}">
+                                 class="brand-others__logo {{ $o->logo_invert ? 'is-light' : '' }}">
                         @else
                             <span class="brand-others__name">{{ $o->name }}</span>
                         @endif

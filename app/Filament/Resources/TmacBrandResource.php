@@ -49,7 +49,7 @@ class TmacBrandResource extends Resource
                 Forms\Components\TextInput::make('badge_label')
                     ->label('Etiqueta curta')
                     ->maxLength(60)
-                    ->placeholder('Ex: Motor, Premium, Acessórios')
+                    ->placeholder('Ex: Motor, Acessórios')
                     ->helperText('Aparece nos cards do site.'),
                 Forms\Components\TextInput::make('tagline')
                     ->label('Chamada')
@@ -119,7 +119,7 @@ class TmacBrandResource extends Resource
                         Forms\Components\Textarea::make('page_content.families_intro')->label('Texto de apoio')->rows(2)->maxLength(400)->columnSpanFull(),
                         Forms\Components\TagsInput::make('page_content.families')
                             ->label('Famílias de produto')
-                            ->helperText('Cada item vira um atalho para a busca do catálogo. Digite e tecle Enter.')
+                            ->helperText('Cada item vira um atalho para a busca do catálogo. Digite e tecle Enter. Termine com "– em breve" para mostrar o item sem link, com selo "Em breve".')
                             ->columnSpanFull(),
                     ]),
                     Forms\Components\Fieldset::make('Destaque (opcional)')->schema([
@@ -128,6 +128,7 @@ class TmacBrandResource extends Resource
                     ]),
                     Forms\Components\Fieldset::make('Diferenciais')->schema([
                         Forms\Components\TextInput::make('page_content.diffs_title')->label('Título')->maxLength(160)->columnSpanFull(),
+                        Forms\Components\Textarea::make('page_content.diffs_intro')->label('Texto de apoio (opcional)')->rows(2)->maxLength(400)->columnSpanFull(),
                         Forms\Components\Repeater::make('page_content.diffs')
                             ->label('Itens')
                             ->schema([
